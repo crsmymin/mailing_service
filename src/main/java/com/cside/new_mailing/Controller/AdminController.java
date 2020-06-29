@@ -69,7 +69,7 @@ public class AdminController {
  
         } catch (Exception e) {
             e.printStackTrace();
-            model.addAttribute("message", "이메일 발송 실패..."); // 이메일 발송이 실패되었다는 메시지를 출력
+            model.addAttribute("message", "이메일 발송 실패."); // 이메일 발송이 실패되었다는 메시지를 출력
         }
         return "cms/send_bill"; // 실패했으므로 다시 write jsp 페이지로 이동함
 	}
