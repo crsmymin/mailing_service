@@ -72,9 +72,5 @@ hs_err_pid*
 # front lib
 node_modules/
 dist/
-/target/
-target/
-/classes/
-.class
 
 .DS_Store
