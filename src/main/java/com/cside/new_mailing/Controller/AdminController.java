@@ -29,7 +29,7 @@ public class AdminController {
 
 	@RequestMapping(value = "/")
 	public String main() {
-		return "cms/login";
+		return "/index";
 	}
 
 	@RequestMapping(value = "/admin")

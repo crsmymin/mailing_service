@@ -1,0 +1,98 @@
+.receiver-management {
+  .box {
+    .top-line {
+      strong {
+        font-size: 1.2rem;
+        line-height: 35px;
+        font-weight: 400;
+      }
+      input {
+        padding: 7px 8px;
+        &#searchGroupInput,
+        &#searchMemberInput {
+          width: 250px;
+          border: 1px solid $main-color;
+          border-radius: 5px;
+          box-shadow: 2px 2px 0 0 $main-color;
+          outline: none;
+        }
+      }
+    }
+    table {
+      width: 100%;
+      box-shadow: 0px 3px 3px -2px rgba(0, 0, 0, 0.2),
+      0px 3px 4px 0px rgba(0, 0, 0, 0.14),
+      0px 1px 8px 0px rgba(0, 0, 0, 0.12);
+    }
+    &.group {
+      width: 100%;
+      margin: 0 0 35px 0;
+      table {
+        th {
+          width: 47.5%;
+          &:nth-child(1) {
+            border-left: 0;
+            width: 5%;  
+          }
+        }
+        td {  
+          width: 47.5%;
+          padding: 10px 5px;
+          font-size: .9rem;
+          a {
+            color: #333;
+            font-size: .9rem;
+          }
+          &:nth-child(1) {
+            border-left: 0;
+            width: 5%;
+          }
+        }
+      }
+    }
+    &.member {
+      width: 100%;
+      table {
+        th {
+          &:nth-child(1) {
+            border-left: 0;
+            width: 5%;
+          }
+          &:nth-child(2) {
+            width: 15%;
+          }
+          &:nth-child(3) {
+            width: 28%;
+          }
+          &:nth-child(4) {
+            width: 20%;
+          }
+          &:nth-child(5) {
+            width: 32%;
+          }
+        }
+        td {
+          width: 23.75%;
+          padding: 10px 5px;
+          font-size: .9rem;
+          &:nth-child(1) {
+            border-left: 0;
+            width: 5%;
+          }
+          &:nth-child(2) {
+            width: 15%;
+          }
+          &:nth-child(3) {
+            width: 28%;
+          }
+          &:nth-child(4) {
+            width: 20%;
+          }
+          &:nth-child(5) {
+            width: 32%;
+          }
+        }
+      }
+    }
+  }
+}

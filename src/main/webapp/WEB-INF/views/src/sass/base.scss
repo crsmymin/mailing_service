@@ -1,0 +1,288 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&display=swap');
+
+
+// common
+* {
+  box-sizing: border-box;
+  font-size: 1rem;
+  font-family: 'Noto Sans KR',
+  sans-serif;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+ul,
+ol,
+li,
+article,
+section,
+dl,
+dd,
+dt,
+figure {
+  margin: 0;
+  padding: 0;
+}
+
+ul,
+ol,
+li {
+  list-style-type: none;
+}
+
+section {
+  display: block;
+  width: 100%;
+  background-color: #fff;
+}
+
+input[type='text'] {
+  padding: 0;
+  margin: 0;
+  background-color: transparent;
+  border: 1px solid #ddd;
+}
+
+select {
+  padding: 0;
+  margin: 0;
+  background-color: transparent;
+  border: 1px solid #ddd;
+}
+
+img {
+  vertical-align: bottom;
+  max-width: 100%;
+  border: 0;
+  outline: none;
+}
+
+table {
+  border-spacing: 0;
+}
+
+label {
+  display: inline-block;
+}
+
+textarea {
+  width: 100%;
+  resize: none;
+  border-radius: 5px;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  -ms-border-radius: 5px;
+  -o-border-radius: 5px;
+}
+
+button {
+  outline: none;
+  border: 0;
+  cursor: pointer;
+}
+
+a {
+  text-decoration: none;
+}
+
+// variables
+$main-color : cornflowerblue;
+
+// ui
+#app {
+  &.mail {
+    nav {
+      .mail {
+        a {
+          color: #fff;
+          background-color: cornflowerblue;
+        }
+      }
+    }
+  }
+  &.contents {
+    nav {
+      .contents {
+        a {
+          color: #fff;
+          background-color: cornflowerblue;
+        }
+      }
+    }
+  }
+  &.receiver {
+    nav {
+      .receiver {
+        a {
+          color: #fff;
+          background-color: cornflowerblue;
+        }
+      }
+    }
+  }
+}
+.container {
+  margin: 0 auto 0 230px;
+  .content {
+    width: 1060px;
+    padding: 30px 30px 100px;
+    margin: 55px auto 0;
+    .page-title {
+      margin: 0 0 25px;
+      font-size: 1.35rem;
+      text-align: center;
+      font-weight: normal;
+    }
+    .top-line {
+      margin: 0 0 15px;
+      a {
+        margin: 0 0 0 6px;
+      }
+      button {
+        margin: 0 0 0 6px;
+      }
+    }
+  }
+}
+.box {
+  table {
+    th {
+      padding: 10px 0;
+      border-bottom: 1px solid #ccc;
+      background-color: $main-color;
+      color: #fff;
+    }
+    td {
+      padding: 15px 5px;
+      border-bottom: 1px solid #ccc;
+      text-align: center;
+      font-size: .9rem;
+    }
+  }
+}
+
+.flex-cont {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+.fl {
+  float: left;
+}
+
+.fr {
+  float: right;
+}
+
+.cf::after {
+  display: block;
+  content: "";
+  clear: both;
+}
+
+.col-2 {
+  width: calc(100% / 2)
+}
+
+.col-3 {
+  width: calc(100% / 3)
+}
+
+.col-4 {
+  width: calc(100% / 4)
+}
+
+.col-5 {
+  width: calc(100% / 5)
+}
+
+.col-6 {
+  width: calc(100% / 6)
+}
+
+.col-7 {
+  width: calc(100% / 7)
+}
+
+.col-8 {
+  width: calc(100% / 8)
+}
+
+.col-9 {
+  width: calc(100% / 9)
+}
+
+.col-10 {
+  width: calc(100% / 10)
+}
+
+.col-11 {
+  width: calc(100% / 11)
+}
+
+.col-12 {
+  width: calc(100% / 12)
+}
+
+.btn {
+  padding: 9px 28px 10px;
+  color: #fef4e9;
+  font-size: .85rem;
+  border-radius: 10px;
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  -ms-border-radius: 10px;
+  -o-border-radius: 10px;
+  -webkit-box-shadow: 0 1px 2px rgba(0, 0, 0, .2);
+  -moz-box-shadow: 0 1px 2px rgba(0, 0, 0, .2);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, .2);
+  text-shadow: 0 1px 1px rgba(0, 0, 0, .3);
+}
+
+.btn-save {
+  color: #e8f0de;
+  border: solid 1px #538312;
+  background: #64991e;
+  background: -webkit-gradient(linear, left top, left bottom, from(#7db72f), to(#4e7d0e));
+  background: -moz-linear-gradient(top, #7db72f, #4e7d0e);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#7db72f', endColorstr='#4e7d0e');
+}
+
+.btn-add {
+  color: #d9eef7;
+  border: solid 1px #0076a3;
+  background: #0095cd;
+  background: -webkit-gradient(linear, left top, left bottom, from(#00adee), to(#0078a5));
+  background: -moz-linear-gradient(top, #00adee, #0078a5);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#00adee', endColorstr='#0078a5');
+}
+
+.btn-send {
+  color: #fef4e9 !important;
+  border: solid 1px #da7c0c;
+  background: #f78d1d;
+  background: -webkit-gradient(linear, left top, left bottom, from(#faa51a), to(#f47a20));
+  background: -moz-linear-gradient(top, #faa51a, #f47a20);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#faa51a', endColorstr='#f47a20');
+}
+
+.btn-del {
+  color: #fae7e9;
+  border: solid 1px #b73948;
+  background: #da5867;
+  background: -webkit-gradient(linear, left top, left bottom, from(#f16c7c), to(#bf404f));
+  background: -moz-linear-gradient(top, #f16c7c, #bf404f);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#f16c7c', endColorstr='#bf404f');
+}

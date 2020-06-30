@@ -1,0 +1,212 @@
+// list
+.list-mail-send {
+  .box {
+    table {
+      width: 100%;
+      box-shadow: 0px 3px 3px -2px rgba(0, 0, 0, 0.2),
+        0px 3px 4px 0px rgba(0, 0, 0, 0.14),
+        0px 1px 8px 0px rgba(0, 0, 0, 0.12);
+      th {
+        &:nth-child(1) {
+          border-left: 0;
+          width: 5%;
+        }
+        &:nth-child(2) {
+          width: 45%;
+        }
+        &:nth-child(3) {
+          width: 10%;
+        }
+        &:nth-child(4) {
+          width: 16%;
+        }
+        &:nth-child(5) {
+          width: 8%;
+        }
+        &:nth-child(6) {
+          width: 8%;
+        }
+        &:nth-child(7) {
+          width: 8%;
+        }
+      }
+      td {
+        a {
+          color: #333;
+          &:hover {
+            color: $main-color;
+          }
+        }
+        &:nth-child(1) {
+          border-left: 0;
+          width: 5%;
+        }
+        &:nth-child(2) {
+          width: 45%;
+        }
+        &:nth-child(3) {
+          width: 10%;
+        }
+        &:nth-child(4) {
+          width: 16%;
+        }
+        &:nth-child(5) {
+          color: forestgreen;
+          width: 8%;
+        }
+        &:nth-child(6) {
+          color: blue;
+          width: 8%;
+        }
+        &:nth-child(7) {
+          color: red;
+          width: 8%;
+        }
+      }
+    }
+  }
+}
+
+// view
+.view-mail-send {
+  .box {
+    &.state-send {
+      margin: 0 0 25px;
+      ul {
+        li {
+          &.title {
+            padding: 0 0 10px;
+            margin: 0 0 15px;
+            font-size: 1rem;
+            border-bottom: 1px solid lightgrey;
+            em {
+              padding: 0 0 0 5px;
+              font-size: 1.2rem;
+              color: #333;
+              font-style: normal;
+            }
+          }
+          &.date {
+            margin: 0 0 5px;
+            em {
+              padding: 0 0 0 5px;
+              color: #333;
+              font-style: normal;
+            }
+          }
+          &.result {
+            margin: 0 0 5px;
+            span {
+              display: inline-block;
+              margin: 0 15px 0 0;
+              color: #333;
+              em {
+                font-style: normal;
+                font-weight: 500;
+              }
+              &:nth-child(2){
+                em {
+                  color: blue;
+                }
+              }
+              &:nth-child(3){
+                em {
+                  color: red;
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+    table {
+      width: 100%;
+      box-shadow: 0px 3px 3px -2px rgba(0, 0, 0, 0.2),
+      0px 3px 4px 0px rgba(0, 0, 0, 0.14),
+      0px 1px 8px 0px rgba(0, 0, 0, 0.12);
+      th {
+        &:nth-child(1) {
+          width: 45%;
+        }
+        &:nth-child(2) {
+          width: 15%;
+        }
+        &:nth-child(3) {
+          width: 20%;
+        }
+        &:nth-child(4) {
+          width: 20%;
+        }
+      }
+      td {
+        &:nth-child(1) {
+          width: 45%;
+        }
+        &:nth-child(2) {
+          width: 15%;
+        }
+        &:nth-child(3) {
+          width: 20%;
+        }
+        &:nth-child(4) {
+          width: 20%;
+        }
+      }
+    }
+  }
+}
+
+// create
+.create-mail-send {
+  form {
+    label {
+      width: 100%;
+      margin: 0 0 15px;
+      input[type="text"] {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        -webkit-border-radius: 5px;
+        -moz-border-radius: 5px;
+        -ms-border-radius: 5px;
+        -o-border-radius: 5px;
+      }
+    }
+    textarea {
+      border: 1px solid #ccc;
+      height: 450px;
+      padding: 25px;
+    }
+    .receiver-area {
+      label {
+        input {
+          width: 90%;
+        }
+        button {
+          margin: 3px 0 0 15px;
+        }
+      }
+    }
+    .content-title-area {
+      margin: 0 0 15px;
+      font-size: 1.1rem;
+      strong {
+        font-size: 1.2rem;
+        color: $main-color;
+      }
+    }
+    .option-area {
+      strong {
+        margin: 0 10px 0 0;
+      }
+      label {
+        width: 10%;
+        cursor: pointer;
+      }
+      select {
+        width: 20%;
+      }
+    }
+  }
+}

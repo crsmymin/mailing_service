@@ -1,0 +1,78 @@
+// list 
+.list-mail-content {
+  .box {
+    table {
+      width: 100%;
+      box-shadow: 0px 3px 3px -2px rgba(0, 0, 0, 0.2),
+      0px 3px 4px 0px rgba(0, 0, 0, 0.14),
+      0px 1px 8px 0px rgba(0, 0, 0, 0.12);
+      th {
+        &:nth-child(1) {
+          border-left: 0;
+          width: 5%;
+        }
+        &:nth-child(2) {
+          width: 55%;
+        }
+        &:nth-child(3) {
+          width: 20%;
+        }
+        &:nth-child(4) {
+          width: 20%;
+        }
+      }
+      td {
+        a {
+          color: #333;
+          &:hover {
+            color: $main-color;
+          }
+        }
+        &:nth-child(1) {
+          border-left: 0;
+          width: 5%;
+        }
+        &:nth-child(2) {
+          width: 55%;
+        }
+        &:nth-child(3) {
+          width: 20%;
+        }
+        &:nth-child(4) {
+          width: 20%;
+        }
+      }
+    }
+  }
+}
+
+// create 
+.create-mail-content {
+  form {
+    label {
+      width: 100%;
+      margin: 0 0 15px;
+      &[for="direct"] {
+
+      }
+      &[for="booked"] {
+
+      }
+      input[type="text"] {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        -webkit-border-radius: 5px;
+        -moz-border-radius: 5px;
+        -ms-border-radius: 5px;
+        -o-border-radius: 5px;
+      }
+    }
+    textarea {
+      border: 1px solid #ccc;   
+      height: 450px;
+      padding: 25px;
+    }
+  }
+}
