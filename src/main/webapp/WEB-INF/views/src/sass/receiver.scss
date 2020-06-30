@@ -23,29 +23,50 @@
       box-shadow: 0px 3px 3px -2px rgba(0, 0, 0, 0.2),
       0px 3px 4px 0px rgba(0, 0, 0, 0.14),
       0px 1px 8px 0px rgba(0, 0, 0, 0.12);
+      td {
+        input {
+          padding: 5px;
+          border: 0;
+          text-align: center;
+          font-size: .9rem;
+          border: 1px solid #ccc;
+          border-radius: 5px;
+          -webkit-border-radius: 5px;
+          -moz-border-radius: 5px;
+          -ms-border-radius: 5px;
+          -o-border-radius: 5px;
+        }
+        select {
+          padding: 5px;
+          text-align: center;
+          font-size: .9rem;
+          border: 1px solid #ccc;
+          border-radius: 5px;
+          -webkit-border-radius: 5px;
+          -moz-border-radius: 5px;
+          -ms-border-radius: 5px;
+          -o-border-radius: 5px;
+        }
+      }
     }
     &.group {
       width: 100%;
       margin: 0 0 35px 0;
       table {
         th {
-          width: 47.5%;
+          width: 45%;
           &:nth-child(1) {
             border-left: 0;
-            width: 5%;  
+            width: 10%;  
           }
         }
         td {  
-          width: 47.5%;
+          width: 45%;
           padding: 10px 5px;
           font-size: .9rem;
-          a {
-            color: #333;
-            font-size: .9rem;
-          }
           &:nth-child(1) {
             border-left: 0;
-            width: 5%;
+            width: 10%;
           }
         }
       }
@@ -56,19 +77,19 @@
         th {
           &:nth-child(1) {
             border-left: 0;
-            width: 5%;
+            width: 10%;
           }
           &:nth-child(2) {
             width: 15%;
           }
           &:nth-child(3) {
-            width: 28%;
+            width: 30%;
           }
           &:nth-child(4) {
-            width: 20%;
+            width: 25%;
           }
           &:nth-child(5) {
-            width: 32%;
+            width: 20%;
           }
         }
         td {
@@ -77,19 +98,19 @@
           font-size: .9rem;
           &:nth-child(1) {
             border-left: 0;
-            width: 5%;
+            width: 10%;
           }
           &:nth-child(2) {
             width: 15%;
           }
           &:nth-child(3) {
-            width: 28%;
+            width: 30%;
           }
           &:nth-child(4) {
-            width: 20%;
+            width: 25%;
           }
           &:nth-child(5) {
-            width: 32%;
+            width: 20%;
           }
         }
       }
