@@ -139,7 +139,12 @@
 			<artifactId>javax.mail</artifactId>
 			<version>1.5.6</version>
 		</dependency>
-
+	    <!--  Gson: Java to Json conversion -->
+	    <dependency>
+		    <groupId>com.google.code.gson</groupId>
+		    <artifactId>gson</artifactId>
+		    <version>2.2.2</version>
+		</dependency>
 	</dependencies>
 	<build>
 		<plugins>
@@ -178,7 +183,7 @@
 				<artifactId>tomcat-maven-plugin</artifactId>
 				<version>1.1</version>
 				<configuration>
-					<url>http://13.125.87.153:8080/manager/text</url>
+					<url>http://13.209.6.204:8080/manager/text</url>
 					<path>/</path>
 					<username>ccadmin</username>
 					<password>ccadmin1234!</password>

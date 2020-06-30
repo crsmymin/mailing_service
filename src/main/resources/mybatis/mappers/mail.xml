@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mail">
+	<select id="getSendList" parameterType="String" resultType="SendListVO">
+               <![CDATA[
+                       SELECT send_list_id,
+						    send_subject,
+						    contents_id,
+						    send_datetime,
+						    req_date,
+						    send_status
+						FROM reverse_mail.mail_send_list
+               ]]>
+     </select>
+     <select id="getSendResultList" parameterType="String" resultType="SendResultVO">
+               <![CDATA[
+                       SELECT send_result_id,
+						    send_list_id,
+						    send_mail,
+						    send_date,
+						    send_result_yn,
+						    send_mail_check_yn,
+						    send_mail_check_date,
+						    reject_date
+						FROM reverse_mail.mail_send_result
+               ]]>
+     </select>
+</mapper>

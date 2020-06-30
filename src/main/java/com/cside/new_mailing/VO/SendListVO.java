@@ -1,0 +1,50 @@
+package com.cside.new_mailing.VO;
+
+public class SendListVO {
+	private String send_subject;
+	private String send_list_id;
+	private String contents_id;
+	private String send_datetime;
+	private String req_date;
+	private String send_status;
+	
+	public String getSend_subject() {
+		return send_subject;
+	}
+	public void setSend_subject(String send_subject) {
+		this.send_subject = send_subject;
+	}
+	public String getSend_list_id() {
+		return send_list_id;
+	}
+	public void setSend_list_id(String send_list_id) {
+		this.send_list_id = send_list_id;
+	}
+	public String getContents_id() {
+		return contents_id;
+	}
+	public void setContents_id(String contents_id) {
+		this.contents_id = contents_id;
+	}
+	public String getSend_datetime() {
+		return send_datetime;
+	}
+	public void setSend_datetime(String send_datetime) {
+		this.send_datetime = send_datetime;
+	}
+	public String getReq_date() {
+		return req_date;
+	}
+	public void setReq_date(String req_date) {
+		this.req_date = req_date;
+	}
+	public String getSend_status() {
+		return send_status;
+	}
+	public void setSend_status(String send_status) {
+		this.send_status = send_status;
+	}
+	
+	
+	
+}

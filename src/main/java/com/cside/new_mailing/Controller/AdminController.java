@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 
 import com.cside.new_mailing.Service.AdminService;
-import com.cside.new_mailing.Service.EmailService;
+import com.cside.new_mailing.Service.MailService;
 import com.cside.new_mailing.VO.AdminVO;
 import com.cside.new_mailing.VO.EmailVO;
 
@@ -25,7 +25,7 @@ public class AdminController {
 	private AdminService adminService;
 
 	@Autowired
-	private EmailService mailService;
+	private MailService mailService;
 
 	@RequestMapping(value = "/")
 	public String main() {

@@ -5,7 +5,7 @@
 <meta charset="UTF-8">
 <link rel="stylesheet" href="assets/css/admin.css">
 <link rel="icon" type="image/png"  href="assets/fbc.ico"/>
-<title>KT Promotion ADMIN</title>
+<title>Reverse Cinema ADMIN</title>
 <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.js"></script> 
 <script type="text/javascript">
 $(document).ready(function(){
