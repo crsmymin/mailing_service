@@ -1,5 +1,7 @@
 package com.cside.new_mailing.Service;
 
+import java.util.List;
+
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMessage.RecipientType;
@@ -10,12 +12,17 @@ import org.springframework.stereotype.Service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.cside.new_mailing.DAO.MailDAO;
 import com.cside.new_mailing.VO.EmailVO;
+import com.cside.new_mailing.VO.SendListVO;
+import com.cside.new_mailing.VO.SendResultVO;
 
 @Service
-public class EmailService {
+public class MailService {
 	@Autowired
 	JavaMailSender mailSender;
+	@Autowired
+	private MailDAO mailDAO;
 	
     public void sendMail(EmailVO vo) {
         try {
@@ -55,4 +62,36 @@ public class EmailService {
             e.printStackTrace();
         }
     }
+    
+    public List<MailDAO> getSendList(String value){
+    	return mailDAO.getSendList(value);
+	}
+    
+    public List<MailDAO> getSendResultList(String value){
+		return mailDAO.getSendResultList(value);
+	}
+	
+	public boolean insertSendMail(SendListVO vo){
+		
+		return mailDAO.insertSendMail(vo);
+	}
+	
+	public boolean insertSendResult(SendResultVO vo){
+		
+		return mailDAO.insertSendResult(vo);
+	}
+	
+	public boolean updateMailList(SendListVO vo){
+		
+		return mailDAO.updateMailList(vo);
+	}
+	public boolean updateResultList(SendResultVO vo){
+		
+		return mailDAO.updateResultList(vo);
+	}
+	
+	public boolean deleteMailList(String send_list_id){
+		
+		return mailDAO.deleteMailList(send_list_id);
+	}
 }

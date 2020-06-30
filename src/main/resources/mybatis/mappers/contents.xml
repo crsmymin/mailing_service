@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="contents">
+	<select id="getContentsList" parameterType="String" resultType="ContentsVO">
+               <![CDATA[
+                       SELECT contents_id,
+						    contents_name,
+						    contents_send_yn,
+						    req_date,
+						    delete_date,
+						    contens_html
+						FROM reverse_mail.mail_contents
+						  
+               ]]>
+     </select>
+     
+     <insert id="insertContents" useGeneratedKeys="true" keyProperty="contents_id" >
+     
+     			INSERT INTO reverse_mail.mail_contents
+						(contents_name,
+						contents_send_yn,
+						contens_html)
+						VALUES	
+              <foreach item="item" collection="list" separator=",">
+			    (#{item.contents_name}, #{item.contents_send_yn}, #{item.contens_html})
+			  </foreach>
+     </insert>
+     
+     <update id="updateContents" parameterType="ContentsVO" >
+	  update reverse_mail.mail_contents set
+	    contents_name = #{contents_name},
+	    contents_send_yn = #{contents_send_yn},
+	    contens_html = #{contens_html}
+	  where contents_id = #{contents_id}
+	</update>
+	
+	<update id="deleteContents" parameterType="String" >
+	  update reverse_mail.mail_contents set
+	    delete_date = #{delete_date}
+	  where contents_id = #{contents_id}
+	</update>
+     
+</mapper>

@@ -3,10 +3,19 @@
 <!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd">
 <configuration>
         <typeAliases>
-               <typeAlias alias="adminvo" type="com.cside.new_mailing.VO.AdminVO"></typeAlias>
+               <typeAlias alias="AdminVO" type="com.cside.new_mailing.VO.AdminVO"></typeAlias>
+               <typeAlias alias="ContentsVO" type="com.cside.new_mailing.VO.ContentsVO"></typeAlias>
+               <typeAlias alias="GroupVO" type="com.cside.new_mailing.VO.GroupVO"></typeAlias>
+               <typeAlias alias="MemberVO" type="com.cside.new_mailing.VO.MemberVO"></typeAlias>
+               <typeAlias alias="SendListVO" type="com.cside.new_mailing.VO.SendListVO"></typeAlias>
+               <typeAlias alias="SendResultVO" type="com.cside.new_mailing.VO.SendResultVO"></typeAlias>
+               
         </typeAliases> 
 
         <mappers>
                <mapper resource="mybatis/mappers/admin.xml"/>
+               <mapper resource="mybatis/mappers/contents.xml"/>
+               <mapper resource="mybatis/mappers/member.xml"/>
+               <mapper resource="mybatis/mappers/mail.xml"/>
         </mappers>
 </configuration>
