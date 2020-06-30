@@ -29,4 +29,15 @@ public class MailController {
 		
 		 return json;
     }    
+	
+	@RequestMapping("/SendResultSearch.do")
+    public String SendResultSearch(String value){
+        List<MailDAO> list = mailService.getSendResultList(value);
+		
+		String json = new Gson().toJson(list );
+		
+		System.out.println(json);
+		
+		 return json;
+    } 
 }

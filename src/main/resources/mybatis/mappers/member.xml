@@ -10,13 +10,14 @@
 						    req_date,
 						    delet_date,
 						    (select count(*) from mail_member as m where g.group_id = m.group_id) AS member_cnt
-						FROM reverse_mail.mail_group
+						FROM reverse_mail.mail_group g
                ]]>
      </select>
      <select id="getMemberList" parameterType="String" resultType="MemberVO">
                <![CDATA[
                        SELECT member_id,
 						    group_id,
+						    (select group_name from mail_group as g where g.group_id = m.group_id) AS group_name,
 						    member_name,
 						    member_mail,
 						    req_date,
