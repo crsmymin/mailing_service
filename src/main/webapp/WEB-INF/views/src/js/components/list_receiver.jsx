@@ -109,7 +109,7 @@ function Reciever(props) {
                 {props.posts.map(
                   (posts, index) =>
                     <tr key={index}>
-                      <td>삭제 <input type="checkbox" name="chkGroup" id={"chkGroup" + (index + 1)} /></td>
+                      <td><input type="checkbox" name="chkGroup" id={"chkGroup" + (index + 1)} /></td>
                       <td><input type="text" defaultValue="bitbucket" /></td>
                       <td>1</td>
                     </tr>
@@ -158,15 +158,15 @@ function Reciever(props) {
                 {props.posts.map(
                   (posts, index) =>
                     <tr key={index}>
-                      <td>삭제 <input type="checkbox" name="chkMember" id={"chkMember" + (index + 1)} /></td>
-                      <td><input type="text" defaultValue="John Doe" /></td>
-                      <td><input type="text" defaultValue={posts.email} /></td>
+                      <td><input type="checkbox" name="chkMember" id={"chkMember" + (index + 1)} /></td>
+                      <td><input type="text" defaultValue={posts.member_name} /></td>
+                      <td><input type="text" defaultValue={posts.member_mail} /></td>
                       <td>
                         <select name="">
-                          <option>bitbucket</option>
+                          <option>{posts.group_name}</option>
                         </select>
                       </td>
-                      <td>2020.06.23</td>
+                      <td>{posts.rejection_date}</td>
                     </tr>
                 )}
               </tbody>

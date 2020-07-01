@@ -10,8 +10,13 @@
 						    contents_id,
 						    send_datetime,
 						    req_date,
-						    send_status
-						FROM reverse_mail.mail_send_list
+						    send_status,
+                            (select count(*) from mail_send_result As r where r.send_list_id=l.send_list_id ) as send_cnt,
+                            (select count(*) from mail_send_result As r where r.send_list_id=l.send_list_id and send_result_yn='y') as send_succ_cnt,
+                            (select count(*) from mail_send_result As r where r.send_list_id=l.send_list_id and send_result_yn='n' ) as send_fail_cnt,
+                            (select count(*) from mail_send_result As r where r.send_list_id=l.send_list_id and send_mail_check_yn='y' ) as mail_check,
+                            (select count(*) from mail_send_result As r where r.send_list_id=l.send_list_id and send_mail_check_date is not null) as mail_reject
+						FROM reverse_mail.mail_send_list l
                ]]>
      </select>
      <select id="getSendResultList" parameterType="String" resultType="SendResultVO">
