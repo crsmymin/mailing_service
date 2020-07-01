@@ -14,16 +14,18 @@
                ]]>
      </select>
      <select id="getMemberList" parameterType="String" resultType="MemberVO">
-               <![CDATA[
-                       SELECT member_id,
-						    group_id,
-						    (select group_name from mail_group as g where g.group_id = m.group_id) AS group_name,
-						    member_name,
-						    member_mail,
-						    req_date,
-						    delete_date,
-						    rejection_date
-						FROM reverse_mail.mail_member m
-               ]]>
+           SELECT member_id,
+		    group_id,
+		    (select group_name from mail_group as g where g.group_id = m.group_id) AS group_name,
+		    member_name,
+		    member_mail,
+		    req_date,
+		    delete_date,
+		    rejection_date
+		FROM reverse_mail.mail_member m
+		WHERE 1=1
+		<if test='value != null'>
+			AND (member_name like CONCAT('%',#{0},'%') OR member_mail like CONCAT('%',#{0},'%'))
+		</if>
      </select>
 </mapper>

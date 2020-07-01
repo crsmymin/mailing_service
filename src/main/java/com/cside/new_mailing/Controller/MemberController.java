@@ -1,6 +1,9 @@
 package com.cside.new_mailing.Controller;
 
+import java.io.UnsupportedEncodingException;
 import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -23,7 +26,8 @@ public class MemberController {
 	
 	@RequestMapping(value = "/GroupSearch.do", method = RequestMethod.GET, produces = "application/json; charset=utf8")
 	@ResponseBody
-	public String groupSearchList(String value){
+	public String groupSearchList(HttpServletRequest request){
+		String value=request.getParameter("searchValue");
         List<GroupVO> list = memberService.getGroupList(value);
 		
 		String json = new Gson().toJson(list );
@@ -33,7 +37,16 @@ public class MemberController {
 
 	@RequestMapping(value = "/MemberSearch.do", method = RequestMethod.GET, produces = "application/json; charset=utf8")
 	@ResponseBody
-    public String memberSearchList(String value){
+    public String memberSearchList(HttpServletRequest request){
+		
+		String value=request.getParameter("searchValue");
+		if(value != null)
+			try {
+				value = new String(value.getBytes("8859_1"), "utf8");
+			} catch (UnsupportedEncodingException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
         List<MemberVO> list = memberService.getMemberList(value);
 		
 		String json = new Gson().toJson(list );

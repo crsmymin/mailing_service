@@ -20,6 +20,20 @@ public class MailController {
 	@Autowired
 	private MailService mailService;
 
+	@RequestMapping(value = "/create_mail")
+	public String create_mail() {
+		return "/create_mail";
+	}
+
+	@RequestMapping(value = "/list_mail")
+	public String list_mail() {
+		return "/list_mail";
+	}
+
+	@RequestMapping(value = "/view_mail")
+	public String view_mail() {
+		return "/view_mail";
+	}
 	
 	@RequestMapping(value = "/SendMailSearch.do", method = RequestMethod.GET, produces = "application/json; charset=utf8")
 	@ResponseBody
