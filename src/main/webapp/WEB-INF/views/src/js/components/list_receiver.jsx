@@ -1,4 +1,5 @@
 import React, { Fragment, useState, useEffect } from "react";
+import axios from "axios";
 
 function Reciever(props) {
   
@@ -78,6 +79,24 @@ function Reciever(props) {
     
   }
   
+  const membrtSearch = (e) =>{
+    if(e.key === "Enter"){
+      axios({
+      method: 'get',
+      url: '/MemberSearch.do',
+      params: { searchValue:  document.getElementById("searchMemberInput").value},
+      headers: { 'Content-Type': 'application/json; charset=utf-8' }
+    })
+      .then(res => {
+        const data = res.data;
+        console.log(data)
+        setPosts(data);
+      })
+      .catch(error => {
+        console.log(error)
+      })
+    }
+  }
   useEffect(() => {
     console.log(isCheck);
     console.log(isAllCheck);
@@ -150,7 +169,7 @@ function Reciever(props) {
               <button type="button" className="btn btn-add" onClick={addMember}>추가</button>
               <button type="button" className="btn btn-save" onClick={saveMember}>저장</button>
             </div>
-            <input id="searchMemberInput" className="fr" type="text" placeholder="멤버 검색" />
+            <input id="searchMemberInput" className="fr" type="text" placeholder="검색" onKeyPress={membrtSearch}/>
           </div>
           <form>
             <table>

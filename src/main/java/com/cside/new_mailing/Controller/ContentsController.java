@@ -19,6 +19,20 @@ public class ContentsController {
 	@Autowired
 	private ContentsService contentsService;
 
+	@RequestMapping(value = "/list_content")
+	public String list_content() {
+		return "/list_content";
+	}
+	
+	@RequestMapping(value = "/create_content")
+	public String create_content() {
+		return "/create_content";
+	}
+	
+	@RequestMapping(value = "/view_content")
+	public String view_content() {
+		return "/view_content";
+	}
 	
 	@RequestMapping(value = "/ContentsSearch.do" , method = RequestMethod.GET, produces = "application/json; charset=utf8")
 	@ResponseBody
