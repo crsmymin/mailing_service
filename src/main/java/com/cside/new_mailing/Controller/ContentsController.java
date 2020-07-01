@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.cside.new_mailing.DAO.ContentsDAO;
 import com.cside.new_mailing.Service.ContentsService;
+import com.cside.new_mailing.VO.ContentsVO;
 import com.google.gson.Gson;
 
 @Controller
@@ -41,6 +42,13 @@ public class ContentsController {
 		List<ContentsDAO> list = contentsService.getContentsList(value);
 		String json = new Gson().toJson(list );
 		return json;
-    }    
+    }   
 
+	@RequestMapping(value = "/ContentsInsert.do" , method = RequestMethod.POST, produces = "application/json; charset=utf8")
+	@ResponseBody
+    public String ContentsInsert(ContentsVO vo){
+        
+		boolean a = contentsService.insertContents(vo);
+		return "";
+    } 
 }

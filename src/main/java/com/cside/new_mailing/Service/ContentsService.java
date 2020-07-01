@@ -18,8 +18,8 @@ public class ContentsService {
     	return contentsDAO.getContentsList(value);
 	}
     
-    public boolean insertContents(List<ContentsDAO> list){
-		return contentsDAO.insertContents(list);
+    public boolean insertContents(ContentsVO vo){
+		return contentsDAO.insertContents(vo);
 	}
 	
 	public boolean updateContents(ContentsVO vo){
