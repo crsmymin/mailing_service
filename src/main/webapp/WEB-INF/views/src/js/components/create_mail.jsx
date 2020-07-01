@@ -32,16 +32,14 @@ function Create(props) {
               </strong>
               <label htmlFor="direct" className="fl">
                 즉시발송
-                <input type="radio" name="sendOption" id="direct"/>
+                <input type="radio" name="sendOption" id="direct" defaultChecked="checked"/>
               </label>
               <label htmlFor="booked" className="fl">
                 예약발송
                 <input type="radio" name="sendOption" id="booked" />
               </label>
-              <select name="bookedTime" id="bookedTime" className="fl" disabled>
-                <option value="">00:00</option>
+              <select name="bookedTime" id="bookedTime" className="fl" disabled="disabled">
                 <option value="">01:00</option>
-                <option value="">02:00</option>
               </select>
             </div>
             <div className="btn-wrap fr">

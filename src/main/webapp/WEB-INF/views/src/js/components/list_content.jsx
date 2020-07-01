@@ -11,13 +11,13 @@ function List(props) {
           <div className="top-line cf">
             <div className="btn-wrap fr">
               <a href="/create_content.html" className="btn btn-add">추가</a>
-              <button className="btn btn-del">삭제</button>
+              <button type="button" className="btn btn-save">저장</button>
             </div>
           </div>
           <table>
             <thead>
               <tr>
-                <th><input type="checkbox" name="chkAllContent" id="chkAllContent"/></th>
+                <th>삭제 <input type="checkbox" name="chkAllContent" id="chkAllContent"/></th>
                 <th>컨텐츠 명</th>
                 <th>등록일</th>
                 <th>메일 발송</th>
@@ -25,7 +25,7 @@ function List(props) {
             </thead>
             <tbody>
               <tr>
-                <td><input type="checkbox" name="chkContent" id="chkContent" /></td>
+                <td>삭제 <input type="checkbox" name="chkContent" id="chkContent"/></td>
                 <td><a href="/view_content.html">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ratione eveniet, consequatur eos iure officia</a></td>
                 <td>2020.06.25</td>
                 <td>
