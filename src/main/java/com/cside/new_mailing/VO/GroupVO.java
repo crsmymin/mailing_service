@@ -6,6 +6,8 @@ public class GroupVO {
 	private String req_date;
 	private String delet_date;
 	
+	private String member_cnt;
+	
 	public String getGroup_id() {
 		return group_id;
 	}
@@ -29,6 +31,12 @@ public class GroupVO {
 	}
 	public void setDelet_date(String delet_date) {
 		this.delet_date = delet_date;
+	}
+	public String getMember_cnt() {
+		return member_cnt;
+	}
+	public void setMember_cnt(String member_cnt) {
+		this.member_cnt = member_cnt;
 	}
 	
 }

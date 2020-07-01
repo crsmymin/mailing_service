@@ -8,6 +8,13 @@ public class SendListVO {
 	private String req_date;
 	private String send_status;
 	
+
+	private String send_cnt;
+	private String send_succ_cnt;
+	private String send_fail_cnt;
+	private String mail_check;
+	private String mail_reject;
+	
 	public String getSend_subject() {
 		return send_subject;
 	}
@@ -43,6 +50,36 @@ public class SendListVO {
 	}
 	public void setSend_status(String send_status) {
 		this.send_status = send_status;
+	}
+	public String getSend_cnt() {
+		return send_cnt;
+	}
+	public void setSend_cnt(String send_cnt) {
+		this.send_cnt = send_cnt;
+	}
+	public String getSend_succ_cnt() {
+		return send_succ_cnt;
+	}
+	public void setSend_succ_cnt(String send_succ_cnt) {
+		this.send_succ_cnt = send_succ_cnt;
+	}
+	public String getSend_fail_cnt() {
+		return send_fail_cnt;
+	}
+	public void setSend_fail_cnt(String send_fail_cnt) {
+		this.send_fail_cnt = send_fail_cnt;
+	}
+	public String getMail_check() {
+		return mail_check;
+	}
+	public void setMail_check(String mail_check) {
+		this.mail_check = mail_check;
+	}
+	public String getMail_reject() {
+		return mail_reject;
+	}
+	public void setMail_reject(String mail_reject) {
+		this.mail_reject = mail_reject;
 	}
 	
 	

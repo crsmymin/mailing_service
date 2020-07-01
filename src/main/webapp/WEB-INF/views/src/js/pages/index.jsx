@@ -13,7 +13,8 @@ function App(props) {
   const _getTestApi = () => {
     axios({
       method: 'get',
-      url: 'https://jsonplaceholder.typicode.com/posts/1/comments'
+      //url: 'https://jsonplaceholder.typicode.com/posts/1/comments'
+      url: '/MemberSearch.do'
     })
       .then(res => {
         const data = res.data;

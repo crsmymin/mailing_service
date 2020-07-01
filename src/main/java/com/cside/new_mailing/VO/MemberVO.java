@@ -8,6 +8,8 @@ public class MemberVO {
 	private String req_date;
 	private String delete_date;
 	private String rejection_date;
+
+	private String group_name;
 	
 	public String getMember_id() {
 		return member_id;
@@ -50,6 +52,12 @@ public class MemberVO {
 	}
 	public void setRejection_date(String rejection_date) {
 		this.rejection_date = rejection_date;
+	}
+	public String getGroup_name() {
+		return group_name;
+	}
+	public void setGroup_name(String group_name) {
+		this.group_name = group_name;
 	}
 	
 	
