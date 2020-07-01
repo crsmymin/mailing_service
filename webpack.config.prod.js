@@ -10,9 +10,9 @@ module.exports = {
       'react',
       'react-dom'
     ],
-    index: "./src/main/webapp/WEB-INF/src/views/index.js",
-    content: "./src/main/webapp/WEB-INF/src/views/content.js",
-    mail: "./src/main/webapp/WEB-INF/src/views/mail.js"
+    index: "./src/main/webapp/WEB-INF/views/src/index.js",
+    content: "./src/main/webapp/WEB-INF/views/src/content.js",
+    mail: "./src/main/webapp/WEB-INF/views/src/mail.js"
   },
   output: {
     filename: '[name].bundle.js',
