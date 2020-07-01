@@ -10,6 +10,20 @@ function App(props) {
   
   const [posts, setPosts] = useState([]);
 
+  const _getMember = () => {
+    axios({
+      method: 'get',
+      url: 'http://localhost:8080/MemberSearch.do'
+    })
+    .then(res => {
+      const data = res.data
+      console.log(data);
+    })
+    .catch(error => {
+      console.log(error)
+    })
+  }
+
   const _getTestApi = () => {
     axios({
       method: 'get',
@@ -27,7 +41,7 @@ function App(props) {
 
   useEffect(() => {
     _getTestApi();
-
+    _getMember();
   }, [])
 
   return (
