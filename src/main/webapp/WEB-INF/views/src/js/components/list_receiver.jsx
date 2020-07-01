@@ -5,67 +5,78 @@ function Reciever(props) {
   
   const [memberRows, setMemberRows] = useState([]);
   const [groupRows, setGroupRows] = useState([]);
-  
-  const changeTextG = id => e => {
-    const {
-      target: {value}
-    } = e;
+  const [isCheck, setIsCheck] =useState(false);
+  const [isAllCheck, setIsAllCheck] =useState(false);
+  const [name, setName] = useState();
+
+  const inputGroup = id => e => {
+    const { target: {value}} = e;
     const tempRows = groupRows.map(row=> {
-      if(row.id === id + 1) {
-        row["group"] = value;
+      if(row.id === id + 1) { 
+        row["group"] = value; 
       }
       return row;
     })
     setGroupRows(tempRows);
-    console.log(tempRows);
   }  
 
-  const changeTextM = id => e => {
-    const {
-      target: { value }
-    } = e;
+  const inputName = id => e => {
+    const { target: { value }} = e;
     const tempRows = memberRows.map(row => {
       if (row.id === id + 1) {
-        row["member"] = value;
+        row["name"] = value;
       }
       return row;
     })
     setMemberRows(tempRows);
-  }  
+  }
+  
+  const inputEmail = id => e => {
+    const { target: { value } } = e;
+    const tempRows = memberRows.map(row => {
+      if (row.id === id + 1) {
+        row["email"] = value;
+      }
+      return row;
+    })
+    setMemberRows(tempRows);
+  }
+
+  const selectGroup = id => e => {
+    const { target: { value } } = e;
+    const tempRows = memberRows.map(row => {
+      if (row.id === id + 1) {
+        row["group"] = value;
+      }
+      return row;
+    })
+    setMemberRows(tempRows);
+  }
 
   const addGroup = () => {
-    console.log("add group row")
-    let data = {
+    const data = {
       id: groupRows.length + 1,
-      name: ""
+      group: ""
     }
     setGroupRows([...groupRows, data]);
   }
 
   const addMember = () => {
-    console.log("add member row")
-    let data = {
+    const data = {
       id: memberRows.length + 1,
       name: "",
       email: "",
-      group: "",
+      group: "1",
     }
     setMemberRows([...memberRows, data]);
   }
 
   const saveGroup = () => {
-    // let tbl = document.getElementById("groupTbl");
-    // let rows = document.getElementById("groupTbl").getElementsByTagName("tr");
-    // for(let i=0; i < rows; i++) {
-    //   if (tbl.rows[i].cells[1].children[0].value == " ") {
-    //     alert("그룹명은 필수입니다.");
-    //     return false;
-    //   }
-    // }
+    
   }
 
   const saveMember = () => {
-    let rows = document.getElementById("groupTbl").getElementsByTagName("tr");
+    
   }
   
   const membrtSearch = (e) =>{
@@ -87,6 +98,8 @@ function Reciever(props) {
     }
   }
   useEffect(() => {
+    console.log(isCheck);
+    console.log(isAllCheck);
   },[])
   
   return (
@@ -105,13 +118,18 @@ function Reciever(props) {
               <button type="button" className="btn btn-add" onClick={addGroup}>추가</button>
               <button type="button" className="btn btn-save" onClick={saveGroup}>저장</button>
             </div>
-            <input id="searchGroupInput" className="fr" type="text" placeholder="그룹 검색" />
           </div>
           <form>
             <table>
               <thead>
                 <tr>
-                  <th>삭제 <input type="checkbox" name="chkAllGroup" id="chkAllGroup" /></th>
+                  <th>
+                    삭제 
+                    <input type="checkbox" 
+                    name="chkAllGroup" 
+                    id="chkAllGroup" 
+                    />
+                  </th>
                   <th>그룹명</th>
                   <th>멤버수</th>
                 </tr>
@@ -120,16 +138,21 @@ function Reciever(props) {
                 {groupRows.map((d, index) => (
                   <tr key={index}>
                     <td></td>
-                    <td><input type="text" defaultValue={d.name} onChange={changeTextG(index)} /></td>
+                    <td><input type="text" defaultValue={d.name} onChange={inputGroup(index)} /></td>
                     <td></td>
                   </tr>
                 ))}
-                {props.posts.map(
-                  (posts, index) =>
+                {props.groups.map(
+                  (groups, index) =>
                     <tr key={index}>
-                      <td><input type="checkbox" name="chkGroup" id={"chkGroup" + (index + 1)} /></td>
-                      <td><input type="text" defaultValue="bitbucket" /></td>
-                      <td>1</td>
+                      <td>
+                        <input type="checkbox" 
+                        name="chkGroup" 
+                        id={"chkGroup" + (index + 1)} 
+                        />
+                      </td>
+                      <td><input type="text" defaultValue={groups.group_name} /></td>
+                      <td>{groups.member_cnt}</td>
                     </tr>
                 )}
               </tbody>
@@ -152,7 +175,13 @@ function Reciever(props) {
             <table>
               <thead>
                 <tr>
-                  <th>삭제 <input type="checkbox" name="chkAllMember" id="chkAllMember" /></th>
+                  <th>
+                    삭제 
+                    <input 
+                    type="checkbox" 
+                    name="chkAllMember" 
+                    id="chkAllMember" />
+                  </th>
                   <th>이름</th>
                   <th>메일주소</th>
                   <th>그룹</th>
@@ -163,28 +192,39 @@ function Reciever(props) {
                 {memberRows.map((d, index) => (
                   <tr key={index}>
                     <td></td>
-                    <td><input type="text" defaultValue={d.name} onChange={changeTextM(index)} /></td>
-                    <td><input type="text" defaultValue={d.email} onChange={changeTextM(index)} /></td>
+                    <td><input type="text" defaultValue={d.name} onChange={inputName(index)} /></td>
+                    <td><input type="text" defaultValue={d.email} onChange={inputEmail(index)} /></td>
                     <td>
-                      <select name="" id="">
-                        <option>bitbucket</option>
+                      <select name="" onChange={selectGroup(index)}>
+                        {props.groups.map(
+                          (groups, index) =>
+                            <option key={index} value={groups.group_id}>{groups.group_name}</option>
+                        )}
                       </select>
                     </td>
                     <td></td>
                   </tr>
                 ))}
-                {props.posts.map(
-                  (posts, index) =>
+                {props.members.map(
+                  (members, index) =>
                     <tr key={index}>
-                      <td><input type="checkbox" name="chkMember" id={"chkMember" + (index + 1)} /></td>
-                      <td><input type="text" defaultValue={posts.member_name} /></td>
-                      <td><input type="text" defaultValue={posts.member_mail} /></td>
                       <td>
-                        <select name="">
-                          <option>{posts.group_name}</option>
+                        <input 
+                        type="checkbox" 
+                        name="chkMember" 
+                        id={"chkMember" + (index + 1)} />
+                      </td>
+                      <td><input type="text" defaultValue={members.member_name} /></td>
+                      <td><input type="text" defaultValue={members.member_mail} /></td>
+                      <td>
+                        <select name="" defaultValue={members.group_id}>
+                          {props.groups.map(
+                            (groups, index) => 
+                            <option key={index} value={groups.group_id}>{groups.group_name}</option>
+                          )}
                         </select>
                       </td>
-                      <td>{posts.rejection_date}</td>
+                      <td>{members.rejection_date}</td>
                     </tr>
                 )}
               </tbody>

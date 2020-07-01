@@ -25,17 +25,17 @@ function ContentCreate(props) {
 
 function ContentList(props) {
 
-  const [posts, setPosts] = useState([]);
+  const [contents, setContents] = useState([]);
 
-  const _getTestApi = () => {
+  const _getContents = () => {
     axios({
       method: 'get',
-      url: 'https://jsonplaceholder.typicode.com/users/1/todos',
+      url: '/ContentsSearch.do'
     })
       .then(res => {
-        const data = res.data;
-        console.log(data)
-        setPosts(data);
+        const data = res.data
+        console.log(data);
+        setContents(data);
       })
       .catch(error => {
         console.log(error)
@@ -50,7 +50,7 @@ function ContentList(props) {
     <div className="container">
       <Nav />
       <div className="content">
-        <List posts={posts} />
+        <List contents={contents} />
       </div>
     </div>
   )

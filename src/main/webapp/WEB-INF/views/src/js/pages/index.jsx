@@ -8,18 +8,33 @@ import Receiver from '../components/list_receiver.jsx'
 
 function App(props) {
   
-  const [posts, setPosts] = useState([]);
-
-  const _getTestApi = () => {
+  const [members, setMembers] = useState([]);
+  const [groups, setGroups] = useState([]);
+  
+  const _getMember = () => {
     axios({
       method: 'get',
-      //url: 'https://jsonplaceholder.typicode.com/posts/1/comments'
       url: '/MemberSearch.do'
+    })
+    .then(res => {
+      const data = res.data
+      console.log(data);
+      setMembers(data);
+    })
+    .catch(error => {
+      console.log(error)
+    })
+  }
+
+  const _getGroup = () => {
+    axios({
+      method: 'get',
+      url: '/GroupSearch.do'
     })
       .then(res => {
         const data = res.data;
         console.log(data)
-        setPosts(data);
+        setGroups(data);
       })
       .catch(error => {
         console.log(error)
@@ -27,15 +42,15 @@ function App(props) {
   }
 
   useEffect(() => {
-    _getTestApi();
-
+    _getMember();
+    _getGroup();
   }, [])
 
   return (
     <div className="container">
       <Nav />
       <div className="content">
-        <Receiver posts={posts} />
+        <Receiver groups={groups} members={members}/>
       </div>
     </div>
   )
