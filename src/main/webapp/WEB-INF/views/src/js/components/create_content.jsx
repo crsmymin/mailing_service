@@ -23,10 +23,10 @@ function Create(props) {
     
     axios({
       method: 'post',
-      url :'http://localhost:8011/api/create/create_content.php',
+      url :'/ContentsInsert.do',
       data: {
-        title : title,
-        content : content
+        contents_name : title,
+        contens_html : content
       }
     })
     .then(res => {

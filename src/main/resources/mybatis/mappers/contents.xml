@@ -22,9 +22,7 @@
 						(contents_name,
 						contens_html)
 						VALUES	
-              <foreach item="item" collection="list" separator=",">
-			    (#{item.contents_name}, #{item.contens_html})
-			  </foreach>
+              			(#{contents_name}, #{contens_html})
      </insert>
      
      <update id="updateContents" parameterType="ContentsVO" >
