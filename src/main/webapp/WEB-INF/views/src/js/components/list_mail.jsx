@@ -28,7 +28,7 @@ function List(props) {
             <tbody>
               <tr>
                 <td>삭제 <input type="checkbox" name="chkSend" id="" /></td>
-                <td><a href="/view_mail.html">AWS Unboxing 온라인 세미나에 초대합니다!</a></td>
+                <td><a href="/view_mail">AWS Unboxing 온라인 세미나에 초대합니다!</a></td>
                 <td>발송 완료</td>
                 <td>2020.06.25 04:30</td>
                 <td>124</td>
@@ -37,7 +37,7 @@ function List(props) {
               </tr>
               <tr>
                 <td>삭제 <input type="checkbox" name="chkSend" id="" /></td>
-                <td><a href="/view_mail.html">AWS Unboxing 온라인 세미나에 초대합니다!</a></td>
+                <td><a href="/view_mail">AWS Unboxing 온라인 세미나에 초대합니다!</a></td>
                 <td>발송 대기</td>
                 <td>-</td>
                 <td>-</td>
