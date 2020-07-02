@@ -57,11 +57,46 @@ function ContentList(props) {
 }
 
 function ContentView(props) {
+
+  const [contentsId, setContentsId] = useState()
+  const [contentsName, setContentsName] = useState()
+  const [contentsHtml, setContentsHtml] = useState()
+
+  const _getContentsView = () => {
+    const id = location.search.split("=")[1];
+    console.log(id);
+    axios({
+      method: 'get',
+      url: '/ContentsSearch.do',
+      params : {
+        id : id,
+      }
+    })
+    .then(res => {
+      const data = res.data
+      console.log(data);
+      setContentsId(data[0].contents_id);
+      setContentsName(data[0].contents_name);
+      setContentsHtml(data[0].contents_html);
+    })
+    .catch(error => {
+      console.log(error)
+    })
+  }
+
+  useEffect(() => {
+    _getContentsView();
+  }, [])
+
   return (
     <div className="container">
       <Nav />
       <div className="content">
-        <View />
+        <View 
+        contentsId={contentsId}
+        contentsName={contentsName}
+        contentsHtml={contentsHtml}
+        />
       </div>
     </div>
   )

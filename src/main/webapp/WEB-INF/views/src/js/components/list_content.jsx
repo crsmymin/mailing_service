@@ -24,12 +24,13 @@ function List(props) {
               </tr>
             </thead>
             <tbody>
-              {props.contents.map(
-                (contents,index) =>
+              {props.contents
+                .sort((a,b) => b.contents_id - a.contents_id)
+                .map((contents,index) =>
                 <tr key={index}>
                   <td>삭제 <input type="checkbox" name="chkContent" id="chkContent"/></td>
-                  <td><a href="/view_content">{contents.contents_name}</a></td>
-                    <td>{contents.req_date}</td>
+                  <td><a href={"/view_content?id=" + contents.contents_id}>{contents.contents_name}</a></td>
+                    <td>{contents.req_date.split(" ")[0]}</td>
                   <td>
                     <a href="/create_mail" className="btn btn-send">발송</a>
                   </td>

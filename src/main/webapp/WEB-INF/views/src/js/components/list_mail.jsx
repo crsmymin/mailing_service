@@ -43,7 +43,7 @@ function List(props) {
                     id="" />
                   </td>
                   <td><a href="/view_mail.html">{mailList.send_subject}</a></td>
-                  {(mailList.mail_check > 0 ?
+                  {(mailList.mail_check.toString() > 0 ?
                     (<td>발송완료</td>)
                       : (<td>발송대기</td>)
                   )}

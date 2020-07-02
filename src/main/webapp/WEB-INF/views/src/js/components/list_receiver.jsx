@@ -192,7 +192,6 @@ function Reciever(props) {
                     <td></td>
                     <td><input type="text" defaultValue={d.name} onChange={inputName(index)} /></td>
                     <td><input type="text" defaultValue={d.email} onChange={inputEmail(index)} /></td>
-                    
                     <td></td>
                   </tr>
                 ))}
@@ -207,7 +206,6 @@ function Reciever(props) {
                       </td>
                       <td><input type="text" defaultValue={members.member_name} /></td>
                       <td><input type="text" defaultValue={members.member_mail} /></td>
-                      
                       <td>{members.rejection_date}</td>
                     </tr>
                 )}

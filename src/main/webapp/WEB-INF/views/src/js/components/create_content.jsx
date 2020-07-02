@@ -31,13 +31,13 @@ function Create(props) {
     })
     .then(res => {
       const data = res.data;
-      console.log(data)
+      console.log(data);
+      alert("저장되었습니다.");
+      location.href="/list_content"
     })
     .catch(error => {
       console.log(error)
     })
-
-    alert('title is : ' + title + ', content is:' + content);
 
     setTitle('');
     setContent('');
