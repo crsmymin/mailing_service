@@ -25,11 +25,11 @@ public class ContentsDAO {
 	
 	public boolean updateContents(ContentsVO vo){
 		int count = sqlSession.update("contents.updateContents",vo);
-		return count == 1;
+		return count >= 1;
 	}
 	
 	public boolean deleteContents(String contents_id){
 		int count = sqlSession.update("contents.deleteContents",contents_id);
-		return count == 1;
+		return count >= 1;
 	}
 }

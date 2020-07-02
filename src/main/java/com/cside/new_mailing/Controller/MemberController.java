@@ -7,11 +7,13 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.cside.new_mailing.Service.MemberService;
+import com.cside.new_mailing.VO.ContentsVO;
 import com.cside.new_mailing.VO.GroupVO;
 import com.cside.new_mailing.VO.MemberVO;
 import com.google.gson.Gson;
@@ -34,7 +36,17 @@ public class MemberController {
 		
 		return json;
     }    
-
+	
+	@RequestMapping(value = "/GroupInsert.do" , method = RequestMethod.POST, produces = "application/json; charset=utf8")
+	@ResponseBody
+	public String GroupInsert(@RequestBody GroupVO vo){
+		
+		boolean a = memberService.insertGroup(vo.getGroup_name());
+		System.out.println("insertContents : "+a);
+		
+		return Boolean.toString(a);
+    }
+	
 	@RequestMapping(value = "/MemberSearch.do", method = RequestMethod.GET, produces = "application/json; charset=utf8")
 	@ResponseBody
     public String memberSearchList(HttpServletRequest request){

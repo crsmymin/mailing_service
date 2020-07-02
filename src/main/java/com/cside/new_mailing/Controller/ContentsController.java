@@ -76,5 +76,15 @@ public class ContentsController {
 		System.out.println("updateContents : "+a);
 		
 		return Boolean.toString(a);
-    } 
+    }
+	
+	@RequestMapping(value = "/ContentsDelete.do" , method = RequestMethod.GET, produces = "application/json; charset=utf8")
+	@ResponseBody
+    public String ContentsDelete(HttpServletRequest request){
+		String id=request.getParameter("id");
+		boolean a = contentsService.deleteContents(id);
+		System.out.println("deleteContents : "+a);
+		
+		return Boolean.toString(a);
+    }
 }
