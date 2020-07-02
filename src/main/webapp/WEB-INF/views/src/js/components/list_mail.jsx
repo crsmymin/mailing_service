@@ -16,7 +16,13 @@ function List(props) {
           <table>
             <thead>
               <tr>
-                <th>삭제 <input type="checkbox" name="chkAllSend" id="chkAllSend" /></th>
+                <th>
+                  삭제 
+                  <input 
+                  type="checkbox" 
+                  name="chkAllSend" 
+                  id="chkAllSend" 
+                  /></th>
                 <th>메일제목</th>
                 <th>상태</th>
                 <th>발송일시</th>
@@ -26,24 +32,27 @@ function List(props) {
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <td>삭제 <input type="checkbox" name="chkSend" id="" /></td>
-                <td><a href="/view_mail.html">AWS Unboxing 온라인 세미나에 초대합니다!</a></td>
-                <td>발송 완료</td>
-                <td>2020.06.25 04:30</td>
-                <td>124</td>
-                <td>122</td>
-                <td>2</td>
-              </tr>
-              <tr>
-                <td>삭제 <input type="checkbox" name="chkSend" id="" /></td>
-                <td><a href="/view_mail.html">AWS Unboxing 온라인 세미나에 초대합니다!</a></td>
-                <td>발송 대기</td>
-                <td>-</td>
-                <td>-</td>
-                <td>-</td>
-                <td>-</td>
-              </tr>
+              {props.mailList.map(
+                (mailList, index) =>
+                <tr key={index}>
+                  <td>
+                    삭제 
+                    <input 
+                    type="checkbox" 
+                    name="chkSend" 
+                    id="" />
+                  </td>
+                  <td><a href="/view_mail.html">{mailList.send_subject}</a></td>
+                  {(mailList.mail_check > 0 ?
+                    (<td>발송완료</td>)
+                      : (<td>발송대기</td>)
+                  )}
+                  <td>{mailList.send_datetime}</td>
+                  <td>{mailList.send_cnt}</td>
+                  <td>{mailList.send_succ_cnt}</td>
+                  <td>{mailList.send_fail_cnt}</td>
+                </tr>
+              )}
             </tbody>
           </table>
         </div>

@@ -43,7 +43,7 @@ function ContentList(props) {
   }
 
   useEffect(() => {
-    _getTestApi();
+    _getContents();
   }, [])
 
   return (

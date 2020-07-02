@@ -24,11 +24,33 @@ function MailCreate(props) {
 }
 
 function MailList(props) {
+
+  const [mailList, setMailList] = useState([])
+
+  const _getMailList = () => {
+    axios({
+      method: 'get',
+      url: '/SendMailSearch.do'
+    })
+      .then(res => {
+        const data = res.data
+        console.log(data);
+        setMailList(data);
+      })
+      .catch(error => {
+        console.log(error)
+      })
+  }
+
+  useEffect(() => {
+    _getMailList()
+  }, [])
+
   return (
     <div className="container">
       <Nav />
       <div className="content">
-        <List />
+        <List mailList={mailList}/>
       </div>
     </div>
   )
