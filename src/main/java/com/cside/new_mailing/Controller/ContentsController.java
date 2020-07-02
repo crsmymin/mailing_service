@@ -9,7 +9,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.cside.new_mailing.DAO.ContentsDAO;
 import com.cside.new_mailing.Service.ContentsService;
@@ -33,9 +35,17 @@ public class ContentsController {
 		return "/create_content";
 	}
 	
-	@RequestMapping(value = "/view_content")
-	public String view_content() {
-		return "/view_content";
+	@RequestMapping(value = "/view_content" )
+	@ResponseBody
+	public ModelAndView view_content(@RequestParam(value = "id", required = false) String id) {
+		ModelAndView mav = new ModelAndView();
+		if(id != null) {
+			List<ContentsDAO> list = contentsService.getContentsList(id);
+			String json = new Gson().toJson(list );
+			mav.addObject("data", json);
+		}
+		mav.setViewName("view_content");
+		return mav;
 	}
 	
 	@RequestMapping(value = "/ContentsSearch.do" , method = RequestMethod.GET, produces = "application/json; charset=utf8")

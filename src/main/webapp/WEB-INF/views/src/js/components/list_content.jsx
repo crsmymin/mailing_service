@@ -28,10 +28,10 @@ function List(props) {
                 (contents,index) =>
                 <tr key={index}>
                   <td>삭제 <input type="checkbox" name="chkContent" id="chkContent"/></td>
-                  <td><a href="/view_content.html">{contents.contents_name}</a></td>
+                  <td><a href="/view_content">{contents.contents_name}</a></td>
                     <td>{contents.req_date}</td>
                   <td>
-                    <a href="/create_mail.html" className="btn btn-send">발송</a>
+                    <a href="/create_mail" className="btn btn-send">발송</a>
                   </td>
                 </tr>  
               )}
