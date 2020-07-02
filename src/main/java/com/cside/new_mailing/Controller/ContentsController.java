@@ -50,9 +50,9 @@ public class ContentsController {
 	
 	@RequestMapping(value = "/ContentsSearch.do" , method = RequestMethod.GET, produces = "application/json; charset=utf8")
 	@ResponseBody
-    public String contentsSearchList(String value){
+    public String contentsSearchList(@RequestParam(value = "id", required = false) String id){
         
-		List<ContentsDAO> list = contentsService.getContentsList(value);
+		List<ContentsDAO> list = contentsService.getContentsList(id);
 		String json = new Gson().toJson(list );
 		return json;
     }   

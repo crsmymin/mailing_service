@@ -1,6 +1,7 @@
 import React, { Fragment, useState, useEffect } from "react";
 import axios from "axios";
 
+
 function Reciever(props) {
   
   const [memberRows, setMemberRows] = useState([]);
@@ -125,10 +126,6 @@ function Reciever(props) {
                 <tr>
                   <th>
                     삭제 
-                    <input type="checkbox" 
-                    name="chkAllGroup" 
-                    id="chkAllGroup" 
-                    />
                   </th>
                   <th>그룹명</th>
                   <th>멤버수</th>
