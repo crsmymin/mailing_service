@@ -18,8 +18,8 @@ public class ContentsDAO {
 		return list;
 	}
 	
-	public boolean insertContents(List<ContentsDAO> list){
-		int count = sqlSession.insert("contents.insertContents", list);
+	public boolean insertContents(ContentsVO vo){
+		int count = sqlSession.insert("contents.insertContents", vo);
 		return count == 1;
 	}
 	

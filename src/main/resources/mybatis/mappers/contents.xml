@@ -20,11 +20,10 @@
      
      			INSERT INTO reverse_mail.mail_contents
 						(contents_name,
-						contents_send_yn,
 						contens_html)
 						VALUES	
               <foreach item="item" collection="list" separator=",">
-			    (#{item.contents_name}, #{item.contents_send_yn}, #{item.contens_html})
+			    (#{item.contents_name}, #{item.contens_html})
 			  </foreach>
      </insert>
      
