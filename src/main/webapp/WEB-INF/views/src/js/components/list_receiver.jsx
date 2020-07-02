@@ -129,6 +129,7 @@ function Reciever(props) {
                   </th>
                   <th>그룹명</th>
                   <th>멤버수</th>
+                  <th>status</th>
                 </tr>
               </thead>
               <tbody id="groupTbl">
@@ -137,6 +138,7 @@ function Reciever(props) {
                     <td></td>
                     <td><input type="text" defaultValue={d.name} onChange={inputGroup(index)} /></td>
                     <td></td>
+                    <td>i</td>
                   </tr>
                 ))}
                 {props.groups.map(

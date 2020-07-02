@@ -6,7 +6,7 @@ public class ContentsVO {
 	private String contents_send_yn;
 	private String req_date;
 	private String delete_date;
-	private String contens_html;
+	private String contents_html;
 	
 	public String getContents_id() {
 		return contents_id;
@@ -38,11 +38,11 @@ public class ContentsVO {
 	public void setDelete_date(String delete_date) {
 		this.delete_date = delete_date;
 	}
-	public String getContens_html() {
-		return contens_html;
+	public String getContents_html() {
+		return contents_html;
 	}
-	public void setContens_html(String contens_html) {
-		this.contens_html = contens_html;
+	public void setContents_html(String contents_html) {
+		this.contents_html = contents_html;
 	}
 	
 	
