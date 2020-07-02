@@ -184,7 +184,6 @@ function Reciever(props) {
                   </th>
                   <th>이름</th>
                   <th>메일주소</th>
-                  <th>그룹</th>
                   <th>수신거부일</th>
                 </tr>
               </thead>
@@ -194,14 +193,7 @@ function Reciever(props) {
                     <td></td>
                     <td><input type="text" defaultValue={d.name} onChange={inputName(index)} /></td>
                     <td><input type="text" defaultValue={d.email} onChange={inputEmail(index)} /></td>
-                    <td>
-                      <select name="" onChange={selectGroup(index)}>
-                        {props.groups.map(
-                          (groups, index) =>
-                            <option key={index} value={groups.group_id}>{groups.group_name}</option>
-                        )}
-                      </select>
-                    </td>
+                    
                     <td></td>
                   </tr>
                 ))}
@@ -216,14 +208,7 @@ function Reciever(props) {
                       </td>
                       <td><input type="text" defaultValue={members.member_name} /></td>
                       <td><input type="text" defaultValue={members.member_mail} /></td>
-                      <td>
-                        <select name="" defaultValue={members.group_id}>
-                          {props.groups.map(
-                            (groups, index) => 
-                            <option key={index} value={groups.group_id}>{groups.group_name}</option>
-                          )}
-                        </select>
-                      </td>
+                      
                       <td>{members.rejection_date}</td>
                     </tr>
                 )}

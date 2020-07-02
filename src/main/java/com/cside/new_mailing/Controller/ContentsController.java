@@ -48,7 +48,8 @@ public class ContentsController {
     }   
 
 	@RequestMapping(value = "/ContentsInsert.do" , method = RequestMethod.POST, produces = "application/json; charset=utf8")
-    public String ContentsInsert(@RequestBody ContentsVO vo,HttpServletRequest request){
+	@ResponseBody
+	public String ContentsInsert(@RequestBody ContentsVO vo){
 		
 		boolean a = contentsService.insertContents(vo);
 		System.out.println("insertContents : "+a);
@@ -58,7 +59,7 @@ public class ContentsController {
 	
 	@RequestMapping(value = "/ContentsUpdate.do" , method = RequestMethod.POST, produces = "application/json; charset=utf8")
 	@ResponseBody
-    public String ContentsUpdate(ContentsVO vo){
+    public String ContentsUpdate(@RequestBody ContentsVO vo){
         
 		boolean a = contentsService.updateContents(vo);
 		System.out.println("updateContents : "+a);
