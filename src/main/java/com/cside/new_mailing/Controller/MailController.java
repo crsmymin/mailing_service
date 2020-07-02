@@ -4,12 +4,15 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.cside.new_mailing.DAO.MailDAO;
 import com.cside.new_mailing.Service.MailService;
+import com.cside.new_mailing.VO.ContentsVO;
+import com.cside.new_mailing.VO.SendListVO;
 import com.google.gson.Gson;
 
 
@@ -44,6 +47,16 @@ public class MailController {
 		
 		return json;
     }    
+	
+	@RequestMapping(value = "/SendMailInsert.do" , method = RequestMethod.POST, produces = "application/json; charset=utf8")
+	@ResponseBody
+	public String ContentsInsert(@RequestBody SendListVO vo){
+		
+		boolean a = mailService.insertSendMail(vo);
+		System.out.println("insertContents : "+a);
+		
+		return Boolean.toString(a);
+    }
 	
 	@RequestMapping(value = "/SendResultSearch.do" , method = RequestMethod.GET, produces = "application/json; charset=utf8")
 	@ResponseBody
