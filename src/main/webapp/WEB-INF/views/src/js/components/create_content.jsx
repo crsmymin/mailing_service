@@ -23,10 +23,13 @@ function Create(props) {
     
     axios({
       method: 'post',
-      url :'http://localhost:8011/api/create/create_content.php',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      url:'/ContentsInsert.do',
       data: {
-        title : title,
-        content : content
+        contents_name : title,
+        contents_html : content
       }
     })
     .then(res => {
@@ -37,12 +40,14 @@ function Create(props) {
       console.log(error)
     })
 
+    alert('title is : ' + title + ', content is:' + content);
+
     setTitle('');
     setContent('');
   }
   
   useEffect(() => {
-    let title_val
+    
   })
 
   return (
