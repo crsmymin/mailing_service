@@ -23,13 +23,10 @@ function Create(props) {
     
     axios({
       method: 'post',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      url:'/ContentsInsert.do',
+      url :'/ContentsInsert.do',
       data: {
         contents_name : title,
-        contents_html : content
+        contens_html : content
       }
     })
     .then(res => {
