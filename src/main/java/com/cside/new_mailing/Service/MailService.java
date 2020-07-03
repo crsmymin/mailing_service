@@ -94,4 +94,9 @@ public class MailService {
 		
 		return mailDAO.deleteMailList(send_list_id);
 	}
+	
+	public boolean deleteSendResult(String send_id){
+		
+		return mailDAO.deleteSendResult(send_id);
+	}
 }

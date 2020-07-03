@@ -62,10 +62,10 @@ public class ContentsController {
 	@ResponseBody
 	public String ContentsInsert(@RequestBody ContentsVO vo){
 		
-		boolean a = contentsService.insertContents(vo);
-		System.out.println("insertContents : "+a);
-		
-		return Boolean.toString(a);
+		String a = contentsService.insertContents(vo);
+		System.out.println("insertContents : "+vo.getContents_id());
+		boolean b =  Integer.parseInt(vo.getContents_id())>=1 ;
+		return Boolean.toString(b);
     } 
 	
 	@RequestMapping(value = "/ContentsUpdate.do" , method = RequestMethod.POST, produces = "application/json; charset=utf8")

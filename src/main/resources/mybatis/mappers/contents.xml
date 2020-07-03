@@ -18,7 +18,7 @@
 				</if> 
      </select>
      
-     <insert id="insertContents" useGeneratedKeys="true" keyProperty="contents_id" >
+     <insert id="insertContents" useGeneratedKeys="true" keyProperty="contents_id" parameterType="ContentsVO">
      
      			INSERT INTO reverse_mail.mail_contents
 						(contents_name,

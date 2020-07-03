@@ -18,9 +18,10 @@ public class ContentsDAO {
 		return list;
 	}
 	
-	public boolean insertContents(ContentsVO vo){
-		int count = sqlSession.insert("contents.insertContents", vo);
-		return count == 1;
+	public String insertContents(ContentsVO vo){
+		sqlSession.insert("contents.insertContents", vo);
+		String con_id=vo.getContents_id();
+		return con_id;
 	}
 	
 	public boolean updateContents(ContentsVO vo){

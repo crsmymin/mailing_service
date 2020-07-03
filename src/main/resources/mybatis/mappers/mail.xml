@@ -19,7 +19,17 @@
 						FROM reverse_mail.mail_send_list l
                ]]>
      </select>
-     <select id="getSendResultList" parameterType="String" resultType="SendResultVO">
+     
+     <insert id="insertSendMail" useGeneratedKeys="true" keyProperty="send_list_id" parameterType="SendListVO">
+     
+     			INSERT INTO reverse_mail.mail_send_list
+						(contents_id,
+						send_subject)
+						VALUES	
+              			(#{contents_id}, #{send_subject})
+     </insert>
+     
+     <select id="getSendResultList" parameterType="String" resultType="SendResultVO" >
                <![CDATA[
                        SELECT send_result_id,
 						    send_list_id,
@@ -32,4 +42,15 @@
 						FROM reverse_mail.mail_send_result
                ]]>
      </select>
+     
+      <insert id="insertSendResult" useGeneratedKeys="true" keyProperty="send_result_id" parameterType="SendListVO">
+     
+     			INSERT INTO reverse_mail.mail_send_result
+						(send_list_id,
+						send_mail,
+						send_date
+						)
+						VALUES	
+              			(#{send_list_id}, #{send_mail}, #{send_date})
+     </insert>
 </mapper>

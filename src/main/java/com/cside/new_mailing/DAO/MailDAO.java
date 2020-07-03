@@ -47,4 +47,8 @@ public class MailDAO {
 		int count = sqlSession.update("mail.deleteSendMail",send_list_id);
 		return count >= 1;
 	}
+	public boolean deleteSendResult(String send_id){
+		int count = sqlSession.update("mail.deleteSendResult",send_id);
+		return count >= 1;
+	}
 }

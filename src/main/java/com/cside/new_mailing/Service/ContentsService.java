@@ -18,7 +18,7 @@ public class ContentsService {
     	return contentsDAO.getContentsList(value);
 	}
     
-    public boolean insertContents(ContentsVO vo){
+    public String insertContents(ContentsVO vo){
 		return contentsDAO.insertContents(vo);
 	}
 	

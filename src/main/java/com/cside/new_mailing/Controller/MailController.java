@@ -2,6 +2,8 @@ package com.cside.new_mailing.Controller;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -13,6 +15,7 @@ import com.cside.new_mailing.DAO.MailDAO;
 import com.cside.new_mailing.Service.MailService;
 import com.cside.new_mailing.VO.ContentsVO;
 import com.cside.new_mailing.VO.SendListVO;
+import com.cside.new_mailing.VO.SendResultVO;
 import com.google.gson.Gson;
 
 
@@ -50,10 +53,13 @@ public class MailController {
 	
 	@RequestMapping(value = "/SendMailInsert.do" , method = RequestMethod.POST, produces = "application/json; charset=utf8")
 	@ResponseBody
-	public String ContentsInsert(@RequestBody SendListVO vo){
+	public String ContentsInsert(@RequestBody SendListVO vo,@RequestBody SendResultVO vo2){
 		
 		boolean a = mailService.insertSendMail(vo);
-		System.out.println("insertContents : "+a);
+		System.out.println("insertSendMail : "+vo.getSend_list_id());
+		
+		boolean a2 = mailService.insertSendResult(vo2);
+		System.out.println("insertSendResult : "+vo2.getSend_result_id());
 		
 		return Boolean.toString(a);
     }
@@ -67,4 +73,13 @@ public class MailController {
 		
 		return json;
     } 
+	@RequestMapping(value = "/SendResultDelete.do" , method = RequestMethod.GET, produces = "application/json; charset=utf8")
+	@ResponseBody
+    public String ContentsDelete(HttpServletRequest request){
+		String id=request.getParameter("id");
+		boolean a = mailService.deleteMailList(id);
+		System.out.println("deleteContents : "+a);
+		
+		return Boolean.toString(a);
+    }
 }

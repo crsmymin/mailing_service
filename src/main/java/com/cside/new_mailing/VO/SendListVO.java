@@ -7,14 +7,21 @@ public class SendListVO {
 	private String send_datetime;
 	private String req_date;
 	private String send_status;
+	private String mail_list;
 	
-
 	private String send_cnt;
 	private String send_succ_cnt;
 	private String send_fail_cnt;
 	private String mail_check;
 	private String mail_reject;
 	
+	
+	public String getMail_list() {
+		return mail_list;
+	}
+	public void setMail_list(String mail_list) {
+		this.mail_list = mail_list;
+	}
 	public String getSend_subject() {
 		return send_subject;
 	}

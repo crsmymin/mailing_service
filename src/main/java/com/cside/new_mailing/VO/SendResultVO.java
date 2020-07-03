@@ -9,6 +9,15 @@ public class SendResultVO {
 	private String send_mail_check_yn;
 	private String send_mail_check_date;
 	private String reject_date;
+	private String delete_date;
+	
+	
+	public String getDelete_date() {
+		return delete_date;
+	}
+	public void setDelete_date(String delete_date) {
+		this.delete_date = delete_date;
+	}
 	public String getSend_result_id() {
 		return send_result_id;
 	}
