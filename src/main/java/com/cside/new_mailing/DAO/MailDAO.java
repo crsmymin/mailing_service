@@ -36,15 +36,15 @@ public class MailDAO {
 	
 	public boolean updateMailList(SendListVO vo){
 		int count = sqlSession.update("mail.updateSendMail",vo);
-		return count == 1;
+		return count >= 1;
 	}
 	public boolean updateResultList(SendResultVO vo){
 		int count = sqlSession.update("mail.updateResultList",vo);
-		return count == 1;
+		return count >= 1;
 	}
 	
 	public boolean deleteMailList(String send_list_id){
 		int count = sqlSession.update("mail.deleteSendMail",send_list_id);
-		return count == 1;
+		return count >= 1;
 	}
 }

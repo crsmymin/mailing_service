@@ -37,8 +37,8 @@
 	
 	<update id="deleteContents" parameterType="String" >
 	  update reverse_mail.mail_contents set
-	    delete_date = #{delete_date}
-	  where contents_id in (#{0})
+	    delete_date = curdate()
+	  where contents_id in (${value})
 	</update>
      
 </mapper>
