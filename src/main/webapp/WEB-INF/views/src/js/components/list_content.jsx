@@ -28,7 +28,7 @@ function List(props) {
                 .sort((a,b) => b.contents_id - a.contents_id)
                 .map((contents,index) =>
                 <tr key={index}>
-                  <td>삭제 <input type="checkbox" name="chkContent" id="chkContent"/></td>
+                  <td>삭제 <input type="checkbox" name="chkContent" id={"chkContent" + contents.contents_id}/></td>
                   <td><a href={"/view_content?id=" + contents.contents_id}>{contents.contents_name}</a></td>
                     <td>{contents.req_date.split(" ")[0]}</td>
                   <td>

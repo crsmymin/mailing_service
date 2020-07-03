@@ -64,7 +64,6 @@ function ContentView(props) {
 
   const _getContentsView = () => {
     const id = location.search.split("=")[1];
-    console.log(id);
     axios({
       method: 'get',
       url: '/ContentsSearch.do',
@@ -74,7 +73,7 @@ function ContentView(props) {
     })
     .then(res => {
       const data = res.data
-      console.log(data);
+      console.log(data)
       setContentsId(data[0].contents_id);
       setContentsName(data[0].contents_name);
       setContentsHtml(data[0].contents_html);

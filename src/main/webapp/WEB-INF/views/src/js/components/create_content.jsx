@@ -26,7 +26,7 @@ function Create(props) {
       url :'/ContentsInsert.do',
       data: {
         contents_name : title,
-        contens_html : content
+        contents_html : content
       }
     })
     .then(res => {
@@ -57,11 +57,11 @@ function Create(props) {
           <form id="frmMailContent" onSubmit={onSubmit}>
             <div className="title-area">
               <label>
-                <input id="title" type="text" name="title" placeholder="콘테츠 타이틀" value={title} onChange={e => setTitle(e.target.value)}/>
+                <input id="title" type="text" name="title" placeholder="콘테츠 타이틀" onChange={e => setTitle(e.target.value)}/>
               </label>
             </div>
             <div className="content-area">
-              <textarea id="content" name="content" placeholder="내용입력" value={content} onChange={e => setContent(e.target.value)}></textarea>
+              <textarea id="content" name="content" placeholder="내용입력" onChange={e => setContent(e.target.value)}></textarea>
             </div>
             <div className="btn-wrap fr">
               <button type="submit" className="btn btn-save">저장</button>

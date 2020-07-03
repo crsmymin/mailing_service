@@ -4,9 +4,18 @@ import axios from 'axios';
 function View(props) {
   const [contentName, setContentName] = useState("");
   const [contentHtml, setContentHtml] = useState("");
+  
+  useEffect(
+    () => {
+      setContentName(props.contentsName);
+      setContentHtml(props.contentsHtml);
+    }, 
+    [props]
+  );
 
   const onSubmit = e => {
     e.preventDefault();
+
     let title_val = document.getElementById("title").value;
     let content_val = document.getElementById("content").value;
 
@@ -20,7 +29,7 @@ function View(props) {
       alert("콘텐츠 내용은 필수값입니다.");
       return false;
     }
-
+    
     axios({
       method: 'post',
       url: '/ContentsUpdate.do',
@@ -40,7 +49,7 @@ function View(props) {
       console.log(error)
     })
   }
-  
+
   return (
     <Fragment>
       <h2 className="page-title">
