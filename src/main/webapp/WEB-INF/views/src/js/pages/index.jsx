@@ -26,6 +26,25 @@ function App(props) {
     })
   }
 
+  const _memberSearch = e => {
+    if(e.key === 'Enter') {
+      axios({
+        method: 'get',
+        url: '/MemberSearch.do',
+        params: { searchValue: document.getElementById("searchMemberInput").value },
+        headers: { 'Content-Type': 'application/json; charset=utf-8' }
+      })
+      .then(res => {
+        const data = res.data;
+        console.log(data)
+        setMembers(data);
+      })
+      .catch(error => {
+        console.log(error)
+      })
+    }
+  }
+
   const _getGroup = () => {
     axios({
       method: 'get',
@@ -50,7 +69,7 @@ function App(props) {
     <div className="container">
       <Nav />
       <div className="content">
-        <Receiver groups={groups} members={members}/>
+        <Receiver groups={groups} members={members} memberSearch={_memberSearch}/>
       </div>
     </div>
   )

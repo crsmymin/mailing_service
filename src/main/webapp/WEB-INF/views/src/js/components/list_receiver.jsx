@@ -6,8 +6,9 @@ function Reciever(props) {
   
   const [memberRows, setMemberRows] = useState([]);
   const [groupRows, setGroupRows] = useState([]);
-  const [isCheck, setIsCheck] =useState(false);
-  const [isAllCheck, setIsAllCheck] =useState(false);
+  const [isCheck, setIsCheck] = useState(false);
+  const [isAllCheck, setIsAllCheck] = useState(false);
+  const [searchWord, setSearchWord] = useState("");
   const [name, setName] = useState();
   const [updateGroupRowsLog, setUpdateGroupLog] = useState([]);
   const [updateGroupRows, setUpdateGroup] = useState([]);
@@ -65,6 +66,7 @@ function Reciever(props) {
         }
       setUpdateGroupLog([...updateGroupRowsLog, data]);
   } 
+  
   const addGroup = () => {
     const data = {
       id: groupRows.length + 1,
@@ -95,41 +97,22 @@ function Reciever(props) {
              update: updateGroupList},
       headers: { 'Content-Type': 'application/json; charset=utf-8' }
     })
-      .then(res => {
-        const data = res.data;
-        console.log(data)
-        if(data>1){
-          alert("ok");
-          
-        }
-      })
-      .catch(error => {
-        console.log(error)
-      })
-    }
+    .then(res => {
+      const data = res.data;
+      console.log(data)
+      if(data>1){
+        alert("ok");
+      }
+    })
+    .catch(error => {
+      console.log(error)
+    })
+  }
 
   const saveMember = () => {
     
   }
   
-  const membrtSearch = (e) =>{
-    if(e.key === "Enter"){
-      axios({
-      method: 'get',
-      url: '/MemberSearch.do',
-      params: { searchValue:  document.getElementById("searchMemberInput").value},
-      headers: { 'Content-Type': 'application/json; charset=utf-8' }
-    })
-      .then(res => {
-        const data = res.data;
-        console.log(data)
-        //setPosts(data);
-      })
-      .catch(error => {
-        console.log(error)
-      })
-    }
-  }
   useEffect(() => {
     console.log(isCheck);
     console.log(isAllCheck);
@@ -198,7 +181,13 @@ function Reciever(props) {
               <button type="button" className="btn btn-add" onClick={addMember}>추가</button>
               <button type="button" className="btn btn-save" onClick={saveMember}>저장</button>
             </div>
-            <input id="searchMemberInput" className="fr" type="text" placeholder="검색" onKeyPress={membrtSearch}/>
+            <input 
+            id="searchMemberInput" 
+            className="fr" 
+            type="text" 
+            placeholder="검색" 
+            onKeyPress={props.memberSearch} 
+            />
           </div>
           <form>
             <table>
@@ -225,19 +214,21 @@ function Reciever(props) {
                     <td></td>
                   </tr>
                 ))}
-                {props.members.map(
-                  (members, index) =>
-                    <tr key={index}>
-                      <td>
-                        <input 
-                        type="checkbox" 
-                        name="chkMember" 
+                {props.members.map((members, index) => 
+                  props.members.length === 0 ?
+                  (<tr><td colSpan="4">일치하는 결과가 없습니다.</td></tr>)
+                  :
+                  (<tr key={index}>
+                    <td>
+                      <input
+                        type="checkbox"
+                        name="chkMember"
                         id={"chkMember" + (index + 1)} />
-                      </td>
-                      <td><input type="text" defaultValue={members.member_name} /></td>
-                      <td><input type="text" defaultValue={members.member_mail} /></td>
-                      <td>{members.rejection_date}</td>
-                    </tr>
+                    </td>
+                    <td><input type="text" defaultValue={members.member_name} /></td>
+                    <td><input type="text" defaultValue={members.member_mail} /></td>
+                    <td>{members.rejection_date}</td>
+                  </tr>)  
                 )}
               </tbody>
             </table>
