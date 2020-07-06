@@ -20,14 +20,14 @@ public class MemberDAO {
 		return list;
 	}
 	
-	public boolean insertGroup(String group_name){
-		int count = sqlSession.insert("member.insertGroup", group_name);
-		return count >= 1;
+	public int insertGroup(List<GroupVO> list){
+		int count = sqlSession.insert("member.insertGroup", list);
+		return count;
 	}
 	
-	public boolean updateGroup(Map<String, String> map){
-		int count = sqlSession.update("member.updateGroup",map);
-		return count >= 1;
+	public int updateGroup(List<GroupVO> list){
+		int count = sqlSession.update("member.updateGroup",list);
+		return count;
 	}
 	
 	public boolean deleteGroup(String group_id){

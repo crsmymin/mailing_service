@@ -21,14 +21,14 @@ public class MemberService {
 		return memberDAO.getGroupList(group_id);
 	}
 	
-	public boolean insertGroup(String group_name) {
+	public int insertGroup(List<GroupVO> list) {
 		
-		return memberDAO.insertGroup(group_name);
+		return memberDAO.insertGroup(list);
 	}
 	
-	public boolean updateGroup(Map<String, String> map) {
+	public int updateGroup(List<GroupVO>  list) {
 		
-		return memberDAO.updateGroup(map);
+		return memberDAO.updateGroup(list);
 	}
 	public boolean deleteGroup(String group_id) {
 		
@@ -54,5 +54,6 @@ public class MemberService {
 		
 		return memberDAO.deleteMemrber(member_id);
 	}
+
 }
 

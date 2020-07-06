@@ -11,8 +11,25 @@
 						    delet_date,
 						    (select count(*) from mail_member as m where g.group_id = m.group_id) AS member_cnt
 						FROM reverse_mail.mail_group g
+						WHERE delet_date IS NULL
                ]]>
      </select>
+	 
+	 <insert id="insertGroup" parameterType="java.util.List">
+	    INSERT INTO mail_group (group_name) VALUES
+	    <foreach collection="list" item="item" separator=" , " >
+	        (#{item.group_name})
+	    </foreach>
+	</insert>
+	
+	 <update id="updateGroup" parameterType="java.util.List" >
+	  <foreach collection="list" item="item" separator=" ; " >
+	 	 update reverse_mail.mail_group set
+		    group_name = #{item.group_name}
+		  where group_id = #{item.group_id}
+	   </foreach>
+	</update>
+     
      <select id="getMemberList" parameterType="String" resultType="MemberVO">
            SELECT member_id,
 		    group_id,

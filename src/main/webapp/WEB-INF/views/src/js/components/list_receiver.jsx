@@ -9,12 +9,15 @@ function Reciever(props) {
   const [isCheck, setIsCheck] =useState(false);
   const [isAllCheck, setIsAllCheck] =useState(false);
   const [name, setName] = useState();
+  const [updateGroupRowsLog, setUpdateGroupLog] = useState([]);
+  const [updateGroupRows, setUpdateGroup] = useState([]);
+
 
   const inputGroup = id => e => {
     const { target: {value}} = e;
     const tempRows = groupRows.map(row=> {
       if(row.id === id + 1) { 
-        row["group"] = value; 
+        row["group_name"] = value; 
       }
       return row;
     })
@@ -47,17 +50,25 @@ function Reciever(props) {
     const { target: { value } } = e;
     const tempRows = memberRows.map(row => {
       if (row.id === id + 1) {
-        row["group"] = value;
+        row["group_name"] = value;
       }
       return row;
     })
     setMemberRows(tempRows);
   }
 
+  const changeGroup = id => e => {
+    const { target: {value}} = e;
+      const data = {
+          id: id,
+          group_name: value,
+        }
+      setUpdateGroupLog([...updateGroupRowsLog, data]);
+  } 
   const addGroup = () => {
     const data = {
       id: groupRows.length + 1,
-      group: ""
+      group_name: ""
     }
     setGroupRows([...groupRows, data]);
   }
@@ -73,8 +84,29 @@ function Reciever(props) {
   }
 
   const saveGroup = () => {
+    const updateGroupList = Array.from(updateGroupRowsLog.reduce((m, t) => m.set(t.id, t), new Map()).values());
     
-  }
+    console.log(JSON.stringify(updateGroupList));
+    console.log(JSON.stringify(groupRows));
+    axios({
+      method: 'post',
+      url: '/GroupSave.do',
+      data: {insert: groupRows,
+             update: updateGroupList},
+      headers: { 'Content-Type': 'application/json; charset=utf-8' }
+    })
+      .then(res => {
+        const data = res.data;
+        console.log(data)
+        if(data>1){
+          alert("ok");
+          
+        }
+      })
+      .catch(error => {
+        console.log(error)
+      })
+    }
 
   const saveMember = () => {
     
@@ -91,7 +123,7 @@ function Reciever(props) {
       .then(res => {
         const data = res.data;
         console.log(data)
-        setPosts(data);
+        //setPosts(data);
       })
       .catch(error => {
         console.log(error)
@@ -129,16 +161,14 @@ function Reciever(props) {
                   </th>
                   <th>그룹명</th>
                   <th>멤버수</th>
-                  <th>status</th>
                 </tr>
               </thead>
               <tbody id="groupTbl">
                 {groupRows.map((d, index) => (
                   <tr key={index}>
                     <td></td>
-                    <td><input type="text" defaultValue={d.name} onChange={inputGroup(index)} /></td>
+                    <td><input type="text" defaultValue={d.group_name} onChange={inputGroup(index)} /></td>
                     <td></td>
-                    <td>i</td>
                   </tr>
                 ))}
                 {props.groups.map(
@@ -147,10 +177,10 @@ function Reciever(props) {
                       <td>
                         <input type="checkbox" 
                         name="chkGroup" 
-                        id={"chkGroup" + (index + 1)} 
+                        id={groups.group_id}
                         />
                       </td>
-                      <td><input type="text" defaultValue={groups.group_name} /></td>
+                      <td><input type="text" defaultValue={groups.group_name} onChange={changeGroup(groups.group_id)}/></td>
                       <td>{groups.member_cnt}</td>
                     </tr>
                 )}
