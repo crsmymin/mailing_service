@@ -8,10 +8,9 @@ function Reciever(props) {
   const [groupRows, setGroupRows] = useState([]);
   const [isCheck, setIsCheck] = useState(false);
   const [isAllCheck, setIsAllCheck] = useState(false);
-  const [searchWord, setSearchWord] = useState("");
-  const [name, setName] = useState();
   const [updateGroupRowsLog, setUpdateGroupLog] = useState([]);
-  const [updateGroupRows, setUpdateGroup] = useState([]);
+  const [updateMemberMail, setUpdateMemberMail] = useState([]);
+  const [updateMemberName, setUpdateMemberName] = useState([]);
 
 
   const inputGroup = id => e => {
@@ -47,6 +46,25 @@ function Reciever(props) {
     setMemberRows(tempRows);
   }
 
+  const changeMember= id => e => {
+    const { target: { value } } = e;
+    var member_name=id.member_name;
+    var member_mail=id.member_mail;
+
+    if(e.target.name==="name"){
+       const data = {
+          id: id.member_id,
+          member_name: value,
+        }
+      setUpdateMemberName([...updateMemberName, data]);
+    }else {
+      const data = {
+          id: id.member_id,
+          member_mail: value,
+        }
+      setUpdateMemberMail([...updateMemberMail, data]);
+    }
+  } 
   const selectGroup = id => e => {
     const { target: { value } } = e;
     const tempRows = memberRows.map(row => {
@@ -87,9 +105,7 @@ function Reciever(props) {
 
   const saveGroup = () => {
     const updateGroupList = Array.from(updateGroupRowsLog.reduce((m, t) => m.set(t.id, t), new Map()).values());
-    
-    console.log(JSON.stringify(updateGroupList));
-    console.log(JSON.stringify(groupRows));
+   
     axios({
       method: 'post',
       url: '/GroupSave.do',
@@ -110,7 +126,29 @@ function Reciever(props) {
   }
 
   const saveMember = () => {
+    const updateMemberNameList = Array.from(updateMemberName.reduce((m, t) => m.set(t.id,t), new Map()).values());
+    const updateMemberMailList = Array.from(updateMemberMail.reduce((m, t) => m.set(t.id,t), new Map()).values());
     
+    const updateMemberList = updateMemberNameList.concat(updateMemberMailList);
+    console.log(updateMemberList);
+
+    axios({
+      method: 'post',
+      url: '/MemberSave.do',
+      data: {insert: memberRows,
+              update: updateMemberList},
+      headers: { 'Content-Type': 'application/json; charset=utf-8' }
+    })
+    .then(res => {
+      const data = res.data;
+      console.log(data)
+      if(data>1){
+        alert("ok");
+      }
+    })
+    .catch(error => {
+      console.log(error)
+    })
   }
   
   useEffect(() => {
@@ -218,15 +256,15 @@ function Reciever(props) {
                   props.members.length === 0 ?
                   (<tr><td colSpan="4">일치하는 결과가 없습니다.</td></tr>)
                   :
-                  (<tr key={index}>
+                  (<tr key={members.member_id}>
                     <td>
                       <input
                         type="checkbox"
                         name="chkMember"
-                        id={"chkMember" + (index + 1)} />
+                        id={members.member_id}/>
                     </td>
-                    <td><input type="text" defaultValue={members.member_name} /></td>
-                    <td><input type="text" defaultValue={members.member_mail} /></td>
+                    <td><input type="text" defaultValue={members.member_name} name="name" onChange={changeMember(members)}/></td>
+                    <td><input type="text" defaultValue={members.member_mail} name="mail" onChange={changeMember(members)}/></td>
                     <td>{members.rejection_date}</td>
                   </tr>)  
                 )}

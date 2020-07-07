@@ -45,4 +45,25 @@
 			AND (member_name like CONCAT('%',#{0},'%') OR member_mail like CONCAT('%',#{0},'%'))
 		</if>
      </select>
+     
+     
+	 <insert id="insertMember" parameterType="java.util.List">
+	    INSERT INTO mail_member (member_name,member_mail,group_id) VALUES
+	    <foreach collection="list" item="item" separator=" , " >
+	        (#{item.member_name},#{item.member_mail},#{item.group_id})
+	    </foreach>
+	</insert>
+	
+     <update id="updateMember" parameterType="java.util.List" >
+	  <foreach collection="list" item="item" separator=" ; " >
+	 	 update reverse_mail.mail_member set
+		    <if test='item.member_name != null'>
+				 member_name = #{item.member_name}
+			</if>
+			<if test='item.member_mail != null'>
+				 member_mail = #{item.member_mail}
+			</if>
+		  where member_id = #{item.member_id}
+	   </foreach>
+	</update>
 </mapper>

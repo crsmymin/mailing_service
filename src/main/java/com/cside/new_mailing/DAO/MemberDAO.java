@@ -41,18 +41,18 @@ public class MemberDAO {
 		return list;
 	}
 	
-	public boolean insertMemrber(String memger_name){
-		int count = sqlSession.insert("member.insertMember", memger_name);
-		return count >= 1;
+	public int insertMember(List<MemberVO>  list){
+		int count = sqlSession.insert("member.insertMember", list);
+		return count;
 	}
 	
-	public boolean updateMemrber(Map<String, String> map){
-		int count = sqlSession.update("member.updateMemrber",map);
-		return count >= 1;
+	public int updateMember(List<MemberVO> list){
+		int count = sqlSession.update("member.updateMember",list);
+		return count;
 	}
 	
-	public boolean deleteMemrber(String member_id){
-		int count = sqlSession.update("member.deleteMemrber",member_id);
+	public boolean deleteMember(String member_id){
+		int count = sqlSession.update("member.deleteMember",member_id);
 		return count >= 1;
 	}
 }

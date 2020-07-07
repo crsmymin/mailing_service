@@ -83,20 +83,63 @@ public class MemberController {
 	            if(array_u.length()>0)
 	            	result+=memberService.updateGroup(list_u);
 	            
+	        } catch (JSONException e) {
+	            System.out.println(e.getMessage());
+	        }
+	        
+	    }catch(Exception e) {
+	        System.out.println("Error reading JSON string: " + e.toString());
+	    }
+	    return Integer.toString(result);
+    }
+	@RequestMapping(value = "/MemberSave.do" , method = RequestMethod.POST, produces = "application/json; charset=utf8")
+	@ResponseBody
+	public String MemberInsert(HttpServletRequest request){
+		StringBuffer json = new StringBuffer();
+	    String line = null;
+	    int result=0;
+	    try {
+	        BufferedReader reader = request.getReader();
+	        while((line = reader.readLine()) != null) {
+	            json.append(line);
+	        }
+	        
+	        JsonObject o = new JsonParser().parse(json.toString()).getAsJsonObject();
+	        List<MemberVO> list_i = new ArrayList<MemberVO>();
+	        List<MemberVO> list_u = new ArrayList<MemberVO>();
+	        try {
+	            int i;
+	            JSONArray array_i = new JSONArray(o.get("insert").toString());
+	            for (i = 0; i < array_i.length(); i++) {
+	            	MemberVO vo = new MemberVO();
+	            	vo.setMember_mail(array_i.getJSONObject(i).get("email").toString());
+	            	vo.setMember_name(array_i.getJSONObject(i).get("name").toString());
+	            	vo.setGroup_id(array_i.getJSONObject(i).get("group").toString());
+	            	list_i.add(vo);
+	            }
+	            if(array_i.length()>0)
+	            	result+=memberService.insertMember(list_i);
+	            
+	            JSONArray array_u = new JSONArray(o.get("update").toString());
+	            for (i = 0; i < array_u.length(); i++) {
+	            	MemberVO vo = new MemberVO();
+	            	if(!array_u.getJSONObject(i).isNull("member_mail")) vo.setMember_mail(array_u.getJSONObject(i).getString("member_mail"));
+	            	if(!array_u.getJSONObject(i).isNull("member_name")) vo.setMember_name(array_u.getJSONObject(i).getString("member_name"));
+	            	vo.setMember_id(array_u.getJSONObject(i).get("id").toString());
+	            	list_u.add(vo);
+	            }
+	            if(array_u.length()>0)
+	            	result+=memberService.updateMember(list_u);
 	            
 	        } catch (JSONException e) {
 	            System.out.println(e.getMessage());
 	        }
 	        
-	        
-	 
 	    }catch(Exception e) {
 	        System.out.println("Error reading JSON string: " + e.toString());
 	    }
 	    return Integer.toString(result);
-
-    }
-	
+	}
 	@RequestMapping(value = "/MemberSearch.do", method = RequestMethod.GET, produces = "application/json; charset=utf8")
 	@ResponseBody
     public String memberSearchList(HttpServletRequest request){

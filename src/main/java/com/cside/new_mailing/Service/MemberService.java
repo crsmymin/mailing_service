@@ -41,18 +41,18 @@ public class MemberService {
 		return memberDAO.getMemberList(value);
 	}
 	
-	public boolean insertMemrber(String memger_name) {
+	public int insertMember(List<MemberVO>  list) {
 		
-		return memberDAO.insertMemrber(memger_name);
+		return memberDAO.insertMember(list);
 	}
 	
-	public boolean updateMemrber(Map<String, String> map) {
+	public int updateMember(List<MemberVO>  list) {
 		
-		return memberDAO.updateMemrber(map);
+		return memberDAO.updateMember(list);
 	}
-	public boolean deleteMemrber(String member_id) {
+	public boolean deleteMember(String member_id) {
 		
-		return memberDAO.deleteMemrber(member_id);
+		return memberDAO.deleteMember(member_id);
 	}
 
 }
