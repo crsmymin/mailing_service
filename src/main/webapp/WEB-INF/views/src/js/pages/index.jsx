@@ -37,6 +37,7 @@ function App(props) {
       .then(res => {
         const data = res.data;
         console.log(data)
+        setMembers([]);
         setMembers(data);
       })
       .catch(error => {
