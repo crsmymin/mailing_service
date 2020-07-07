@@ -26,20 +26,23 @@ function ContentCreate(props) {
 function ContentList(props) {
 
   const [contents, setContents] = useState([]);
+  const [loading, setLoading] = useState(false);
 
   const _getContents = () => {
+    setLoading(true);
     axios({
       method: 'get',
       url: '/ContentsSearch.do'
     })
-      .then(res => {
-        const data = res.data
-        console.log(data);
-        setContents(data);
-      })
-      .catch(error => {
-        console.log(error)
-      })
+    .then(res => {
+      const data = res.data
+      console.log(data);
+      setContents(data);
+      setLoading(false);
+    })
+    .catch(error => {
+      console.log(error)
+    })
   }
 
   useEffect(() => {
@@ -50,7 +53,11 @@ function ContentList(props) {
     <div className="container">
       <Nav />
       <div className="content">
-        <List contents={contents} />
+        {loading === true ? 
+        (<div className="loading-indicator">
+          <div className="loader"></div>
+        </div> )
+        : (<List contents={contents} />)}
       </div>
     </div>
   )
