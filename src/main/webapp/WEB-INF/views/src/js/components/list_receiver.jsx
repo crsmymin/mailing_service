@@ -6,8 +6,6 @@ function Reciever(props) {
   
   const [memberRows, setMemberRows] = useState([]);
   const [groupRows, setGroupRows] = useState([]);
-  const [isCheck, setIsCheck] = useState(false);
-  const [isAllCheck, setIsAllCheck] = useState(false);
   const [updateGroupRowsLog, setUpdateGroupLog] = useState([]);
   const [updateMemberMail, setUpdateMemberMail] = useState([]);
   const [updateMemberName, setUpdateMemberName] = useState([]);
@@ -48,8 +46,6 @@ function Reciever(props) {
 
   const changeMember= id => e => {
     const { target: { value } } = e;
-    var member_name=id.member_name;
-    var member_mail=id.member_mail;
 
     if(e.target.name==="name"){
        const data = {
@@ -65,16 +61,6 @@ function Reciever(props) {
       setUpdateMemberMail([...updateMemberMail, data]);
     }
   } 
-  const selectGroup = id => e => {
-    const { target: { value } } = e;
-    const tempRows = memberRows.map(row => {
-      if (row.id === id + 1) {
-        row["group_name"] = value;
-      }
-      return row;
-    })
-    setMemberRows(tempRows);
-  }
 
   const changeGroup = id => e => {
     const { target: {value}} = e;
@@ -115,7 +101,7 @@ function Reciever(props) {
     })
     .then(res => {
       const data = res.data;
-      console.log(data)
+      //console.log(data)
       if(data>1){
         alert("ok");
       }
@@ -130,7 +116,7 @@ function Reciever(props) {
     const updateMemberMailList = Array.from(updateMemberMail.reduce((m, t) => m.set(t.id,t), new Map()).values());
     
     const updateMemberList = updateMemberNameList.concat(updateMemberMailList);
-    console.log(updateMemberList);
+    //console.log(updateMemberList);
 
     axios({
       method: 'post',
@@ -141,7 +127,7 @@ function Reciever(props) {
     })
     .then(res => {
       const data = res.data;
-      console.log(data)
+      //console.log(data)
       if(data>1){
         alert("ok");
       }
@@ -152,8 +138,6 @@ function Reciever(props) {
   }
   
   useEffect(() => {
-    console.log(isCheck);
-    console.log(isAllCheck);
   },[])
   
   return (
@@ -194,7 +178,7 @@ function Reciever(props) {
                 ))}
                 {props.groups.map(
                   (groups, index) =>
-                    <tr key={index}>
+                    <tr id="group" key={groups.group_id} onClick={props.memberSearch(groups.group_id)} >
                       <td>
                         <input type="checkbox" 
                         name="chkGroup" 
@@ -224,7 +208,7 @@ function Reciever(props) {
             className="fr" 
             type="text" 
             placeholder="검색" 
-            onKeyPress={props.memberSearch} 
+            onKeyPress={props.memberSearch()} 
             />
           </div>
           <form>
@@ -240,6 +224,7 @@ function Reciever(props) {
                   </th>
                   <th>이름</th>
                   <th>메일주소</th>
+                  <th>그룹</th>
                   <th>수신거부일</th>
                 </tr>
               </thead>
@@ -265,6 +250,7 @@ function Reciever(props) {
                     </td>
                     <td><input type="text" defaultValue={members.member_name} name="name" onChange={changeMember(members)}/></td>
                     <td><input type="text" defaultValue={members.member_mail} name="mail" onChange={changeMember(members)}/></td>
+                    <td>{members.group_name}</td>
                     <td>{members.rejection_date}</td>
                   </tr>)  
                 )}

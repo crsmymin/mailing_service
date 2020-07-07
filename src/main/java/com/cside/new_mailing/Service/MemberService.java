@@ -3,6 +3,7 @@ package com.cside.new_mailing.Service;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -36,9 +37,9 @@ public class MemberService {
 	}
 	
 	
-	public List<MemberVO>getMemberList(String value){
+	public List<MemberVO>getMemberList(String groupId,String value){
 		
-		return memberDAO.getMemberList(value);
+		return memberDAO.getMemberList(groupId,value);
 	}
 	
 	public int insertMember(List<MemberVO>  list) {
