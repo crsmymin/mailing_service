@@ -145,6 +145,7 @@ public class MemberController {
     public String memberSearchList(HttpServletRequest request){
 		
 		String value=request.getParameter("searchValue");
+		String groupID=request.getParameter("groupID");
 		if(value != null)
 			try {
 				value = new String(value.getBytes("8859_1"), "utf8");
@@ -152,7 +153,7 @@ public class MemberController {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-        List<MemberVO> list = memberService.getMemberList(value);
+        List<MemberVO> list = memberService.getMemberList(groupID, value);
 		
 		String json = new Gson().toJson(list );
 		

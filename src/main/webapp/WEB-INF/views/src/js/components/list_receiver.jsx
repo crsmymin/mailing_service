@@ -2,78 +2,76 @@ import React, { Fragment, useState, useEffect } from "react";
 import axios from "axios";
 
 function Reciever(props) {
-  const [members, setMembers] = useState([]);
-  const [groups, setGroups] = useState([]);
+  // const [members, setMembers] = useState([]);
+  // const [groups, setGroups] = useState([]);
   const [searchWord, setSearchWord] = useState("");
   const [memberRows, setMemberRows] = useState([]);
   const [groupRows, setGroupRows] = useState([]);
   const [updateGroupRowsLog, setUpdateGroupLog] = useState([]);
   const [updateMemberMail, setUpdateMemberMail] = useState([]);
   const [updateMemberName, setUpdateMemberName] = useState([]);
-  const [isCheck, setIsCheck] = useState(false);
-  const [isAllCheck, setIsAllCheck] = useState(false);
   const [loading, setLoading] = useState(false);
 
-  const _getMember = () => {
-    setLoading(true);
-    axios({
-      method: 'get',
-      url: '/MemberSearch.do'
-     })
-    .then(res => {
-      const data = res.data
-      console.log(data);
-      setMembers(data);
-      setLoading(false);
-    })
-    .catch(error => {
-      console.log(error)
-    })
-  }
+  // const _getMember = () => {
+  //   setLoading(true);
+  //   axios({
+  //     method: 'get',
+  //     url: '/MemberSearch.do'
+  //    })
+  //   .then(res => {
+  //     const data = res.data
+  //     console.log(data);
+  //     setMembers(data);
+  //     setLoading(false);
+  //   })
+  //   .catch(error => {
+  //     console.log(error)
+  //   })
+  // }
 
-  const _memberSearch = e => {
-  if (e.key === 'Enter') {
-    setLoading(true);
-    console.log(searchWord);
-    axios({
-      method: 'get',
-      url: '/MemberSearch.do',
-      params: {
-      searchValue: searchWord,
-      },
-      headers: {
-        'Content-Type': 'application/json; charset=utf-8'
-      }
-    })
-    .then(res => {
-      const data = res.data;
-      console.log(data)
-      setMembers([])
-      setMembers(data);
-      setLoading(false);
-    })
-    .catch(error => {
-      console.log(error)
-    })
-    }
-  }
+  // const _memberSearch = e => {
+  // if (e.key === 'Enter') {
+  //   setLoading(true);
+  //   console.log(searchWord);
+  //   axios({
+  //     method: 'get',
+  //     url: '/MemberSearch.do',
+  //     params: {
+  //     searchValue: searchWord,
+  //     },
+  //     headers: {
+  //       'Content-Type': 'application/json; charset=utf-8'
+  //     }
+  //   })
+  //   .then(res => {
+  //     const data = res.data;
+  //     console.log(data)
+  //     setMembers([])
+  //     setMembers(data);
+  //     setLoading(false);
+  //   })
+  //   .catch(error => {
+  //     console.log(error)
+  //   })
+  //   }
+  // }
 
-  const _getGroup = () => {
-    setLoading(true);
-    axios({
-      method: 'get',
-      url: '/GroupSearch.do'
-    })
-    .then(res => {
-      const data = res.data;
-      console.log(data)
-      setGroups(data);
-      setLoading(false);
-    })
-    .catch(error => {
-      console.log(error)
-    })
-  }
+  // const _getGroup = () => {
+  //   setLoading(true);
+  //   axios({
+  //     method: 'get',
+  //     url: '/GroupSearch.do'
+  //   })
+  //   .then(res => {
+  //     const data = res.data;
+  //     console.log(data)
+  //     setGroups(data);
+  //     setLoading(false);
+  //   })
+  //   .catch(error => {
+  //     console.log(error)
+  //   })
+  // }
 
   const inputGroup = id => e => {
   const { target: {value}} = e;
@@ -159,19 +157,22 @@ function Reciever(props) {
     const updateGroupList = Array.from(updateGroupRowsLog.reduce((m, t) => m.set(t.id, t), new Map()).values());
     console.log(updateGroupList.length > 0 || groupRows.length > 0)
     if (updateGroupList.length > 0 || groupRows.length > 0) {
+      console.log(updateGroupList.length);
+      console.log(groupRows.length);
       axios({
         method: 'post',
         url: '/GroupSave.do',
-        data: {insert: groupRows,
-               update: updateGroupList},
+        data: {
+          insert: groupRows,
+          update: updateGroupList
+        },
         headers: { 'Content-Type': 'application/json; charset=utf-8' }
       })
       .then(res => {
         const data = res.data;
         console.log(data)
         alert("저장되었습니다.")
-        _getGroup([]);
-        _getGroup();
+        window.location.reload();
       })
       .catch(error => {
         console.log(error)
@@ -186,14 +187,18 @@ function Reciever(props) {
     const updateMemberMailList = Array.from(updateMemberMail.reduce((m, t) => m.set(t.id,t), new Map()).values());
     
     const updateMemberList = updateMemberNameList.concat(updateMemberMailList);
-    console.log(updateMemberList);
+    // console.log(updateMemberList);
 
     axios({
       method: 'post',
       url: '/MemberSave.do',
-      data: {insert: memberRows,
-              update: updateMemberList},
-      headers: { 'Content-Type': 'application/json; charset=utf-8' }
+      data: {
+        insert: memberRows,      
+        update: updateMemberList
+      },
+      headers: { 
+        'Content-Type': 'application/json; charset=utf-8' 
+      }
     })
     .then(res => {
       const data = res.data;
@@ -208,11 +213,17 @@ function Reciever(props) {
   }
 
   useEffect(() => {
-    console.log(isCheck);
-    console.log(isAllCheck);
-    _getGroup();
-    _getMember();
-  },[])
+    let tableRowGroups = document.querySelectorAll(".tr-groups");
+    console.log(tableRowGroups);
+    for(let i=0; i<tableRowGroups.length; i++) {
+      tableRowGroups[i].addEventListener("click", function(){
+        for(let j=0; j<tableRowGroups.length; j++) {
+          tableRowGroups[j].classList.remove("selected");
+        }
+        this.classList.add("selected");
+      })
+    }
+  }, [props])
 
   return (
   <Fragment>
@@ -256,23 +267,20 @@ function Reciever(props) {
                 </td>
               </tr>
               ))}
-              {groups
+              {props.groups
               .sort((a, b) => b.group_id - a.group_id)
-              .map((groups, index) =>
-              <tr key={index}>
-                <td>
-                  <input type="checkbox" name="chkGroup" id={groups.group_id} />
-                </td>
-                <td>
-                  <input 
-                  className="group-name"
-                  type="text" 
-                  defaultValue={groups.group_name} 
-                  onChange={changeGroup(groups.group_id)} 
-                  required />
-                </td>
-                <td>{groups.member_cnt}</td>
-              </tr>
+              .map(
+              (groups, index) =>
+                <tr id="group" className="tr-groups" key={groups.group_id} onClick={props.memberSearch(groups.group_id)} >
+                  <td>
+                    <input type="checkbox"
+                      name="chkGroup"
+                      id={groups.group_id}
+                    />
+                  </td>
+                  <td><input type="text" defaultValue={groups.group_name} onChange={changeGroup(groups.group_id)} /></td>
+                  <td>{groups.member_cnt}</td>
+                </tr>
               )}
             </tbody>
           </table>
@@ -293,9 +301,7 @@ function Reciever(props) {
             className="fr"
             type="text"
             placeholder="검색"
-            value={searchWord}
-            onChange={e => setSearchWord(e.target.value)}
-            onKeyPress={_memberSearch}
+            onKeyPress={props.memberSearch()}
           />
         </div>
         <form>
@@ -330,7 +336,7 @@ function Reciever(props) {
                 </td>
               </tr>
               ))}
-              {members
+              {props.members
               .sort((a, b) => b.member_id - a.member_id)
               .map((members, index) =>
               <tr key={index}>

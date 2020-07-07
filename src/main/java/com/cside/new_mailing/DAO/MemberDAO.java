@@ -1,5 +1,6 @@
 package com.cside.new_mailing.DAO;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -36,8 +37,12 @@ public class MemberDAO {
 	}
 	
 
-	public List<MemberVO> getMemberList(String value){
-		List<MemberVO> list = sqlSession.selectList("member.getMemberList",value);
+	public List<MemberVO> getMemberList(String groupId,String value){
+		Map<String, Object> param = new HashMap<>(); 
+		param.put("id", groupId); 
+		param.put("value", value);
+
+		List<MemberVO> list = sqlSession.selectList("member.getMemberList",param);
 		return list;
 	}
 	
