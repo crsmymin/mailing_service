@@ -155,16 +155,23 @@ function Reciever(props) {
 
   const saveGroup = () => {
     const updateGroupList = Array.from(updateGroupRowsLog.reduce((m, t) => m.set(t.id, t), new Map()).values());
-    console.log(updateGroupList.length > 0 || groupRows.length > 0)
-    if (updateGroupList.length > 0 || groupRows.length > 0) {
-      console.log(updateGroupList.length);
-      console.log(groupRows.length);
+    //console.log(updateGroupList.length > 0 || groupRows.length > 0)
+    var checkbox = $("input[name=chkGroup]:checked");
+    var delete_id="";
+    for(var i=0;i<checkbox.length;i++){
+      delete_id+=checkbox[i].id+',';
+    }
+    delete_id=delete_id.substring(0, delete_id.lastIndexOf(","));
+      
+    if (updateGroupList.length > 0 || groupRows.length > 0  ||delete_id.length > 0) {
+      
       axios({
         method: 'post',
         url: '/GroupSave.do',
         data: {
           insert: groupRows,
-          update: updateGroupList
+          update: updateGroupList,
+          delete: delete_id
         },
         headers: { 'Content-Type': 'application/json; charset=utf-8' }
       })
@@ -189,12 +196,19 @@ function Reciever(props) {
     const updateMemberList = updateMemberNameList.concat(updateMemberMailList);
     // console.log(updateMemberList);
 
+    var checkbox = $("input[name=chkMember]:checked");
+    var delete_id="";
+    for(var i=0;i<checkbox.length;i++){
+      delete_id+=checkbox[i].id+',';
+    }
+    delete_id=delete_id.substring(0, delete_id.lastIndexOf(","));
     axios({
       method: 'post',
       url: '/MemberSave.do',
       data: {
         insert: memberRows,      
-        update: updateMemberList
+        update: updateMemberList,
+        delete: delete_id
       },
       headers: { 
         'Content-Type': 'application/json; charset=utf-8' 
@@ -341,7 +355,7 @@ function Reciever(props) {
               .map((members, index) =>
               <tr key={index}>
                 <td>
-                  <input type="checkbox" name="chkMember" id={"chkMember" + members.member_id} />
+                  <input type="checkbox" name="chkMember" id={members.member_id} />
                 </td>
                 <td>
                   <input type="text" 

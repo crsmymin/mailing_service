@@ -51,6 +51,7 @@ public class MemberController {
 	public String GroupInsert(HttpServletRequest request){
 		StringBuffer json = new StringBuffer();
 	    String line = null;
+	    
 	    int result=0;
 	    try {
 	        BufferedReader reader = request.getReader();
@@ -82,6 +83,10 @@ public class MemberController {
 
 	            if(array_u.length()>0)
 	            	result+=memberService.updateGroup(list_u);
+	            
+	            String delete_id=o.get("delete").toString().replaceAll("\"", "");
+	            if(!delete_id.equals(null))
+	            	result+=memberService.deleteGroup(delete_id);
 	            
 	        } catch (JSONException e) {
 	            System.out.println(e.getMessage());
@@ -130,6 +135,10 @@ public class MemberController {
 	            }
 	            if(array_u.length()>0)
 	            	result+=memberService.updateMember(list_u);
+	            
+	            String delete_id=o.get("delete").toString().replaceAll("\"", "");
+	            if(!delete_id.equals(null))
+	            	result+=memberService.deleteMember(delete_id);
 	            
 	        } catch (JSONException e) {
 	            System.out.println(e.getMessage());

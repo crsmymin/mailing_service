@@ -31,9 +31,9 @@ public class MemberDAO {
 		return count;
 	}
 	
-	public boolean deleteGroup(String group_id){
+	public int deleteGroup(String group_id){
 		int count = sqlSession.update("member.deleteGroup",group_id);
-		return count >= 1;
+		return count;
 	}
 	
 
@@ -56,8 +56,8 @@ public class MemberDAO {
 		return count;
 	}
 	
-	public boolean deleteMember(String member_id){
+	public int deleteMember(String member_id){
 		int count = sqlSession.update("member.deleteMember",member_id);
-		return count >= 1;
+		return count;
 	}
 }

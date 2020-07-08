@@ -31,7 +31,7 @@ public class MemberService {
 		
 		return memberDAO.updateGroup(list);
 	}
-	public boolean deleteGroup(String group_id) {
+	public int deleteGroup(String group_id) {
 		
 		return memberDAO.deleteGroup(group_id);
 	}
@@ -51,7 +51,7 @@ public class MemberService {
 		
 		return memberDAO.updateMember(list);
 	}
-	public boolean deleteMember(String member_id) {
+	public int deleteMember(String member_id) {
 		
 		return memberDAO.deleteMember(member_id);
 	}

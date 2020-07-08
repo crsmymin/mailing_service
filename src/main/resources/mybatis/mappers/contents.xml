@@ -37,7 +37,7 @@
 	
 	<update id="deleteContents" parameterType="String" >
 	  update reverse_mail.mail_contents set
-	    delete_date = curdate()
+	    delete_date = now()
 	  where contents_id in (${value})
 	</update>
      

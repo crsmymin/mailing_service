@@ -8,10 +8,11 @@
                        SELECT group_id,
 						    group_name,
 						    req_date,
-						    delet_date,
+						    delete_date,
 						    (select count(*) from mail_member as m where g.group_id = m.group_id) AS member_cnt
 						FROM reverse_mail.mail_group g
-						WHERE delet_date IS NULL
+						WHERE delete_date IS NULL
+						ORDER BY group_name
                ]]>
      </select>
 	 
@@ -29,6 +30,12 @@
 		  where group_id = #{item.group_id}
 	   </foreach>
 	</update>
+	
+	 <update id="deleteGroup" parameterType="String" >
+	  update reverse_mail.mail_group set
+		     delete_date = now()
+		  where group_id in (${value})
+	</update>
      
      <select id="getMemberList" parameterType="java.util.HashMap" resultType="MemberVO">
            SELECT member_id,
@@ -40,13 +47,14 @@
 		    delete_date,
 		    rejection_date
 		FROM reverse_mail.mail_member m
-		WHERE 1=1
+		WHERE delete_date IS NULL
 		<if test='value != null'>
 			AND (member_name like CONCAT('%',#{value},'%') OR member_mail like CONCAT('%',#{value},'%'))
 		</if>
 		<if test='id != null'>
 			AND group_id=#{id}
 		</if>
+		ORDER BY member_name
      </select>
      
      
@@ -68,5 +76,11 @@
 			</if>
 		  where member_id = #{item.member_id}
 	   </foreach>
+	</update>
+	
+	<update id="deleteMember" parameterType="String" >
+	  update reverse_mail.mail_member set
+		     delete_date = now()
+		  where member_id in (${value})
 	</update>
 </mapper>
