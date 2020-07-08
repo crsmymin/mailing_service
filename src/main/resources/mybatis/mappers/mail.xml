@@ -9,8 +9,8 @@
 						    send_subject,
 						    contents_id,
 						    send_datetime,
-						    req_date,
 						    send_status,
+						    send_mail_list,
                             (select count(*) from mail_send_result As r where r.send_list_id=l.send_list_id ) as send_cnt,
                             (select count(*) from mail_send_result As r where r.send_list_id=l.send_list_id and send_result_yn='y') as send_succ_cnt,
                             (select count(*) from mail_send_result As r where r.send_list_id=l.send_list_id and send_result_yn='n' ) as send_fail_cnt,
@@ -24,9 +24,10 @@
      
      			INSERT INTO reverse_mail.mail_send_list
 						(contents_id,
-						send_subject)
+						send_subject,
+						send_mail_list)
 						VALUES	
-              			(#{contents_id}, #{send_subject})
+              			(#{contents_id}, #{send_subject}, #{send_mail_list})
      </insert>
      
      <select id="getSendResultList" parameterType="String" resultType="SendResultVO" >
@@ -43,14 +44,15 @@
                ]]>
      </select>
      
-      <insert id="insertSendResult" useGeneratedKeys="true" keyProperty="send_result_id" parameterType="SendListVO">
+      <insert id="insertSendResult" parameterType="java.util.List">
      
      			INSERT INTO reverse_mail.mail_send_result
 						(send_list_id,
-						send_mail,
-						send_date
+						send_mail
 						)
 						VALUES	
-              			(#{send_list_id}, #{send_mail}, #{send_date})
+				<foreach collection="list" item="item" separator=" , " >
+			        (#{item.send_list_id},#{item.send_mail})
+			    </foreach>
      </insert>
 </mapper>

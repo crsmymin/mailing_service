@@ -63,7 +63,6 @@ public class ContentsController {
 	public String ContentsInsert(@RequestBody ContentsVO vo){
 		
 		String a = contentsService.insertContents(vo);
-		System.out.println("insertContents : "+vo.getContents_id());
 		boolean b =  Integer.parseInt(vo.getContents_id())>=1 ;
 		return Boolean.toString(b);
     } 

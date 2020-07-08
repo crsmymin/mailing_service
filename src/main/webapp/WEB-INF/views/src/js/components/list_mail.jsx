@@ -35,8 +35,7 @@ function List(props) {
               {props.mailList.map(
                 (mailList, index) =>
                 <tr key={index}>
-                  <td>
-                    삭제 
+                  <td> 
                     <input 
                     type="checkbox" 
                     name="chkSend" 
@@ -47,7 +46,7 @@ function List(props) {
                     (<td>발송완료</td>)
                       : (<td>발송대기</td>)
                   )}
-                  <td>{mailList.send_datetime}</td>
+                  <td>{mailList.send_datetime.split(" ")[0]}</td>
                   <td>{mailList.send_cnt}</td>
                   <td>{mailList.send_succ_cnt}</td>
                   <td>{mailList.send_fail_cnt}</td>

@@ -250,7 +250,6 @@ function Reciever(props) {
         //console.log(data)
         alert("저장되었습니다.");
         setSaveMember(false);
-        memberSearch(group_id);
       })
       .catch(error => {
         console.log(error)
