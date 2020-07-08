@@ -18,11 +18,19 @@ function List(props) {
   const onSave = () => {
     let result = confirm("항목들을 삭제 하시겠습니까?")
     if(result) {
+
+    var checkbox = $("input[name=chkContent]:checked");
+    var delete_id="";
+    for(var i=0;i<checkbox.length;i++){
+      delete_id+=checkbox[i].id+',';
+    }
+    delete_id=delete_id.substring(0, delete_id.lastIndexOf(","));
+    
       axios({
         method: 'get',
         url: '/ContentsDelete.do',
         params: {
-          id : 9,
+          id : delete_id
         }
       })
       .then(res => {
@@ -39,6 +47,14 @@ function List(props) {
     }
   }
 
+  const chkAllContent = e => {
+    const { target: {value}} = e;
+    console.log(value)
+    if($("#chkAllContent").prop("checked")) {
+      $("input[name=chkContent]").prop("checked",true); 
+    } else { 
+      $("input[name=chkContent]").prop("checked",false); }
+  }
   return (
     <Fragment>
       <h2 className="page-title">
@@ -63,6 +79,7 @@ function List(props) {
                     type="checkbox" 
                     name="chkAllContent" 
                     id="chkAllContent" 
+                    onClick={chkAllContent}
                     />
                   </label>
                 </th>
@@ -81,11 +98,11 @@ function List(props) {
                 <tr key={index}>
                   <td>
                     <label htmlFor={"chkContent" +contents.contents_id}>
-                      삭제 
+                       
                       <input 
                       type="checkbox" 
                       name="chkContent"
-                      id={"chkContent" + contents.contents_id} 
+                      id={contents.contents_id} 
                       refs={contents.contents_id}
                       />
                     </label>
