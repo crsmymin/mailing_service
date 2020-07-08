@@ -1,16 +1,92 @@
 import React, { Fragment, useState, useEffect } from "react";
 import axios from "axios";
 
+let group_id = "";
+
 function Reciever(props) {
+
   // initial states
   const [memberRows, setMemberRows] = useState([]);
   const [groupRows, setGroupRows] = useState([]);
   const [updateGroupRowsLog, setUpdateGroupLog] = useState([]);
   const [updateMemberMail, setUpdateMemberMail] = useState([]);
   const [updateMemberName, setUpdateMemberName] = useState([]);
-  const [loading, setLoading] = useState(false);
+  const [members, setMembers] = useState([]);
+  const [groups, setGroups] = useState([]);
+  const [searchWord, setSearchWord] =useState("");
+  const [searchCnt, setSearchCnt] =useState("");
+  const [loadingGroup, setLoadingGroup] = useState(false);
+  const [loadingMember, setLoadingMember] = useState(false);
+  const [selectGroup, setSelectGroup] = useState();
 
   // functions
+  const _getMember = () => {
+    setLoadingMember(true);
+    axios({
+      method: 'get',
+      url: '/MemberSearch.do'
+    })
+    .then(res => {
+      const data = res.data
+      console.log(data);
+      setMembers(data);
+      setLoadingMember(false);
+    })
+    .catch(error => {
+      console.log(error)
+    })
+  }
+
+  const _getGroup = () => {
+    setLoadingGroup(true);
+    axios({
+      method: 'get',
+      url: '/GroupSearch.do'
+    })
+    .then(res => {
+      const data = res.data;
+      console.log(data)
+      setGroups(data);
+      setLoadingGroup(false);
+    })
+    .catch(error => {
+      console.log(error)
+    })
+  }
+
+  const memberSearch = id => e => {
+    if (e.target.id === '') {
+      document.getElementById("searchMemberInput").value = "";
+      $("#chkAllMember").prop("checked", false);
+      group_id = id;
+      console.log("group_id");
+    }
+    console.log("group_id: " + group_id);
+    if (e.target.id === '' || (e.target.id === 'searchMemberInput' && e.key === 'Enter')) {
+      setLoadingMember(true);
+      axios({
+        method: 'get',
+        url: '/MemberSearch.do',
+        params: {
+          searchValue : searchWord,
+          groupID: group_id
+        },
+        headers: { 'Content-Type': 'application/json; charset=utf-8' }
+      })
+      .then(res => {
+        const data = res.data;
+        console.log(data.length)
+        setMembers([]);
+        setSearchCnt(data.length);
+        setMembers(data);
+        setLoadingMember(false);
+      })
+      .catch(error => {
+        console.log(error)
+      })
+    }
+  }
+
   const inputGroup = id => e => {
   const { target: {value}} = e;
   const tempRows = groupRows.map(row=> {
@@ -102,7 +178,6 @@ function Reciever(props) {
     delete_id=delete_id.substring(0, delete_id.lastIndexOf(","));
       
     if (updateGroupList.length > 0 || groupRows.length > 0  ||delete_id.length > 0) {
-      
       axios({
         method: 'post',
         url: '/GroupSave.do',
@@ -169,6 +244,9 @@ function Reciever(props) {
   }
 
   useEffect(() => {
+    _getMember();
+    _getGroup();
+
     let tableRowGroups = document.querySelectorAll(".tr-groups");
     for(let i=0; i<tableRowGroups.length; i++) {
       tableRowGroups[i].addEventListener("click", function(){
@@ -198,6 +276,11 @@ function Reciever(props) {
           </div>
         </div>
         <form>
+          {loadingGroup === true ? 
+          ( <div className="loading-indicator groups">
+            <div className="loader"></div>
+          </div> ):
+          (
           <table>
             <thead>
               <tr>
@@ -210,7 +293,7 @@ function Reciever(props) {
             </thead>
             <tbody id="groupTbl">
               {groupRows.map((d, index) => (
-              <tr key={index}>
+              <tr className="tr-groups" key={index}>
                 <td></td>
                 <td>
                   <input 
@@ -224,11 +307,11 @@ function Reciever(props) {
                 <td></td>
               </tr>
               ))}
-              {props.groups
+              {groups
               .sort((a, b) => b.group_name - a.group_name)
               .map(
               (groups, index) =>
-                <tr className="tr-groups" key={groups.group_id} onClick={props.memberSearch(groups.group_id)} >
+                <tr className="tr-groups" key={groups.group_id} onClick={memberSearch(groups.group_id)} >
                   <td>
                     <input type="checkbox"
                       name="chkGroup"
@@ -241,6 +324,7 @@ function Reciever(props) {
               )}
             </tbody>
           </table>
+          )}
         </form>
       </div>
       {/* end add group */}
@@ -258,10 +342,17 @@ function Reciever(props) {
             className="fr"
             type="text"
             placeholder="검색"
-            onKeyPress={props.memberSearch()}
+            value={searchWord}
+            onChange={e => setSearchWord(e.target.value)}
+            onKeyPress={memberSearch()}
           />
         </div>
         <form>
+          {loadingMember === true ? (
+            <div className="loading-indicator members">
+              <div className="loader"></div>
+            </div>
+          ):(
           <table>
             <thead>
               <tr>
@@ -276,7 +367,7 @@ function Reciever(props) {
             </thead>
             <tbody id="memberTbl">
               {memberRows.map((d, index) => (
-              <tr key={index}>
+              <tr className="tr-members" key={index}>
                 <td></td>
                 <td>
                   <input 
@@ -295,10 +386,10 @@ function Reciever(props) {
                 <td></td>
               </tr>
               ))}
-              {props.members
+              {members
               .sort((a, b) => b.member_name - a.member_name)
               .map((members, index) =>
-              <tr key={index}>
+              <tr className="tr-members" key={index}>
                 <td>
                   <input type="checkbox" name="chkMember" id={members.member_id} />
                 </td>
@@ -323,6 +414,7 @@ function Reciever(props) {
               )}
             </tbody>
           </table>
+          )}
         </form>
       </div>
       {/* end add member */}
