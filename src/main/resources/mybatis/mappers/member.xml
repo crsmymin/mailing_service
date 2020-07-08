@@ -38,21 +38,23 @@
 	</update>
      
      <select id="getMemberList" parameterType="java.util.HashMap" resultType="MemberVO">
-           SELECT member_id,
-		    group_id,
-		    (select group_name from mail_group as g where g.group_id = m.group_id) AS group_name,
+        SELECT member_id,
+		    m.group_id,
+		    g.group_name,
 		    member_name,
 		    member_mail,
-		    req_date,
-		    delete_date,
+		    m.req_date,
+		    m.delete_date,
 		    rejection_date
 		FROM reverse_mail.mail_member m
-		WHERE delete_date IS NULL
+        JOIN mail_group g ON g.group_id = m.group_id
+		WHERE m.delete_date IS NULL
+        AND g.delete_date IS NULL
 		<if test='value != null'>
 			AND (member_name like CONCAT('%',#{value},'%') OR member_mail like CONCAT('%',#{value},'%'))
 		</if>
 		<if test="id != null and !id.equals('')" >
-			AND group_id=#{id}
+			AND m.group_id=#{id}
 		</if>
 		ORDER BY member_name
      </select>

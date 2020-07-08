@@ -17,10 +17,11 @@ function Reciever(props) {
   const [searchCnt, setSearchCnt] =useState("");
   const [loadingGroup, setLoadingGroup] = useState(false);
   const [loadingMember, setLoadingMember] = useState(false);
-  const [selectGroup, setSelectGroup] = useState();
+  const [deforesaveMember, setSaveMember] = useState(false);
 
   // functions
   const _getMember = () => {
+    // 멤버 초기리스트 호출 
     setLoadingMember(true);
     axios({
       method: 'get',
@@ -28,9 +29,10 @@ function Reciever(props) {
     })
     .then(res => {
       const data = res.data
-      console.log(data);
+      //console.log(data);
       setMembers(data);
       setLoadingMember(false);
+      setSaveMember(false);
     })
     .catch(error => {
       console.log(error)
@@ -38,6 +40,7 @@ function Reciever(props) {
   }
 
   const _getGroup = () => {
+    // 그룹 초기리스트 호출 
     setLoadingGroup(true);
     axios({
       method: 'get',
@@ -45,9 +48,10 @@ function Reciever(props) {
     })
     .then(res => {
       const data = res.data;
-      console.log(data)
+      //console.log(data)
       setGroups(data);
       setLoadingGroup(false);
+      setSaveMember(false);
     })
     .catch(error => {
       console.log(error)
@@ -55,61 +59,73 @@ function Reciever(props) {
   }
 
   const memberSearch = id => e => {
-    if (e.target.id === '') {
-      document.getElementById("searchMemberInput").value = "";
-      $("#chkAllMember").prop("checked", false);
-      group_id = id;
-      console.log("group_id");
-    }
-    console.log("group_id: " + group_id);
+    // 멤버 검색 (그룹 선택 | 멤버 검색어 엔터)
     if (e.target.id === '' || (e.target.id === 'searchMemberInput' && e.key === 'Enter')) {
-      setLoadingMember(true);
-      axios({
-        method: 'get',
-        url: '/MemberSearch.do',
-        params: {
-          searchValue : searchWord,
-          groupID: group_id
-        },
-        headers: { 'Content-Type': 'application/json; charset=utf-8' }
-      })
-      .then(res => {
-        const data = res.data;
-        console.log(data.length)
-        setMembers([]);
-        setSearchCnt(data.length);
-        setMembers(data);
-        setLoadingMember(false);
-      })
-      .catch(error => {
-        console.log(error)
-      })
+      let result = true;
+      if(deforesaveMember){
+        result=confirm("저장이 되지않은 수정이력이 있습니다. 저장하지않고 조회하시겠습니까?");
+      }
+      if(result) {
+
+        if (e.target.id === '') {
+          document.getElementById("searchMemberInput").value = "";
+          $("#chkAllMember").prop("checked", false);
+          group_id = id;
+        }
+        
+        setLoadingMember(true);
+        axios({
+          method: 'get',
+          url: '/MemberSearch.do',
+          params: {
+            searchValue : searchWord,
+            groupID: group_id
+          },
+          headers: { 'Content-Type': 'application/json; charset=utf-8' }
+        })
+        .then(res => {
+          const data = res.data;
+          //console.log(data.length)
+          setMemberRows([]);
+          setMembers([]);
+          setSearchCnt(data.length);
+          setMembers(data);
+          setLoadingMember(false);
+          setSaveMember(false);
+        })
+        .catch(error => {
+          console.log(error)
+        })
+      }
     }
   }
 
   const inputGroup = id => e => {
-  const { target: {value}} = e;
-  const tempRows = groupRows.map(row=> {
-  if(row.id === id + 1) {
-    row["group_name"] = value;
-  }
-  return row;
-  })
+    // 그룹 추가 onChange
+    const { target: {value}} = e;
+    const tempRows = groupRows.map(row=> {
+    if(row.id === id + 1) {
+      row["group_name"] = value;
+    }
+    return row;
+    })
     setGroupRows(tempRows);
   }
 
   const inputName = id => e => {
+    // 멤버 추가 Name onChange
     const { target: { value }} = e;
     const tempRows = memberRows.map(row => {
     if (row.id === id + 1) {
       row["name"] = value;
-    }
-      return row;
+    } 
+    return row;
     })
     setMemberRows(tempRows);
   }
 
   const inputEmail = id => e => {
+    // 멤버 추가 Email onChange
     const { target: { value } } = e;
     const tempRows = memberRows.map(row => {
       if (row.id === id + 1) {
@@ -121,53 +137,62 @@ function Reciever(props) {
   }
 
   const changeMember = id => e => {
+    // 멤버 수정 onChange
     const { target: { value } } = e;
-    var member_name=id.member_name;
-    var member_mail=id.member_mail;
-
     if(e.target.name==="name"){
-       const data = {
-          id: id.member_id,
-          member_name: value,
-        }
-      setUpdateMemberName([...updateMemberName, data]);
+      const data = {
+        id: id.member_id,
+        member_name: value,
+      }
+    setUpdateMemberName([...updateMemberName, data]);
     }else {
       const data = {
-          id: id.member_id,
-          member_mail: value,
-        }
-      setUpdateMemberMail([...updateMemberMail, data]);
+        id: id.member_id,
+        member_mail: value,
+      }
+    setUpdateMemberMail([...updateMemberMail, data]);
     }
+    setSaveMember(true);
   } 
 
   const changeGroup = id => e => {
-  const { target: {value}} = e;
-  const data = {
-    id: id,
-    group_name: value,
-  }
+    // 그룹 수정 onChange
+    const { target: {value}} = e;
+    const data = {
+      id: id,
+      group_name: value,
+    }
     setUpdateGroupLog([...updateGroupRowsLog, data]);
   }
 
   const addGroup = () => {
-  const data = {
-    id: groupRows.length + 1,
-    group_name: ""
-  }
+    // 그룹 추가
+    const data = {
+      id: groupRows.length + 1,
+      group_name: ""
+    }
     setGroupRows([...groupRows, data]);
+    
   }
 
   const addMember = () => {
-  const data = {
-    id: memberRows.length + 1,
-    name: "",
-    email: "",
-    group: "1",
-  }
+    // 멤버 추가
+    if (group_id!=''){
+    const data = {
+      id: memberRows.length + 1,
+      name: "",
+      email: "",
+      group: group_id,
+    }
     setMemberRows([...memberRows, data]);
+    setSaveMember(true);
+    }else{
+      alert('그룹을 선택하세요.');
+    }
   }
 
   const saveGroup = () => {
+    // 그룹 저장
     const updateGroupList = Array.from(updateGroupRowsLog.reduce((m, t) => m.set(t.id, t), new Map()).values());
     //console.log(updateGroupList.length > 0 || groupRows.length > 0)
     var checkbox = $("input[name=chkGroup]:checked");
@@ -190,7 +215,7 @@ function Reciever(props) {
       })
       .then(res => {
         const data = res.data;
-        console.log(data)
+        //console.log(data)
         alert("저장되었습니다.")
         window.location.reload();
       })
@@ -198,17 +223,16 @@ function Reciever(props) {
         console.log(error)
       })
     } else {
-      alert("추가나 수정된 '그룹'항목이 없습니다.");
+      alert("저장할 그룹내역이 없습니다.");
     }
   }
 
   const saveMember = () => {
+    //멤버 저장
     const updateMemberNameList = Array.from(updateMemberName.reduce((m, t) => m.set(t.id,t), new Map()).values());
     const updateMemberMailList = Array.from(updateMemberMail.reduce((m, t) => m.set(t.id,t), new Map()).values());
     
     const updateMemberList = updateMemberNameList.concat(updateMemberMailList);
-    console.log(updateMemberList);
-    console.log(memberRows);
     if (updateMemberList.length > 0 || memberRows.length > 0) {
       axios({
         method: 'post',
@@ -223,30 +247,38 @@ function Reciever(props) {
       })
       .then(res => {
         const data = res.data;
-        console.log(data)
+        //console.log(data)
+        alert("저장되었습니다.");
+        setSaveMember(false);
+        memberSearch(group_id);
       })
       .catch(error => {
         console.log(error)
       })
     } else {
-      alert("추가되거나 수정된 '멤버'항목이 없습니다.")
+      alert("저장할 멤버내역이 없습니다.");
     }
   }
 
   const chkAllMember = e => {
+    // 멤버 삭제 전체선택
     const { target: {value}} = e;
-    console.log(value)
-    if($("#chkAllMember").prop("checked")) { //해당화면에 전체 checkbox들을 체크해준다 
-      
-      $("input[name=chkMember]").prop("checked",true); // 전체선택 체크박스가 해제된 경우 
-    } else { //해당화면에 모든 checkbox들의 체크를해제시킨다. 
-      $("input[name=chkMember]").prop("checked",false); }
+    if($("#chkAllMember").prop("checked")) { 
+      $("input[name=chkMember]").prop("checked",true); 
+    } else {
+      $("input[name=chkMember]").prop("checked",false); 
+    }
+    setSaveMember(true);
+  }
+  const chkMember = e => {
+    setSaveMember(true);
   }
 
   useEffect(() => {
     _getMember();
     _getGroup();
 
+    // 그룹 선택 Row
     let tableRowGroups = document.querySelectorAll(".tr-groups");
     for(let i=0; i<tableRowGroups.length; i++) {
       tableRowGroups[i].addEventListener("click", function(){
@@ -362,6 +394,7 @@ function Reciever(props) {
                 </th>
                 <th>이름</th>
                 <th>메일주소</th>
+                <th>그룹</th>
                 <th>수신거부일</th>
               </tr>
             </thead>
@@ -384,6 +417,7 @@ function Reciever(props) {
                   placeholder="이메일"/>
                 </td>
                 <td></td>
+                <td></td>
               </tr>
               ))}
               {members
@@ -391,7 +425,7 @@ function Reciever(props) {
               .map((members, index) =>
               <tr className="tr-members" key={index}>
                 <td>
-                  <input type="checkbox" name="chkMember" id={members.member_id} />
+                  <input type="checkbox" name="chkMember" id={members.member_id} onClick={chkMember}/>
                 </td>
                 <td>
                   <input type="text" 
@@ -404,7 +438,8 @@ function Reciever(props) {
                   defaultValue={members.member_mail} 
                   name="mail" 
                   onChange={changeMember(members)} />
-                </td>                
+                </td>   
+                <td>{members.group_name}</td>             
                 {members.rejection_date === undefined ? (<td></td>) 
                 : 
                 (
