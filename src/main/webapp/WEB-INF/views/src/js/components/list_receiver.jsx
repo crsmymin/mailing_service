@@ -226,6 +226,16 @@ function Reciever(props) {
     })
   }
 
+  const chkAllMember = e => {
+    const { target: {value}} = e;
+    console.log(value)
+    if($("#chkAllMember").prop("checked")) { //해당화면에 전체 checkbox들을 체크해준다 
+      
+      $("input[name=chkMember]").prop("checked",true); // 전체선택 체크박스가 해제된 경우 
+    } else { //해당화면에 모든 checkbox들의 체크를해제시킨다. 
+      $("input[name=chkMember]").prop("checked",false); }
+  }
+
   useEffect(() => {
     let tableRowGroups = document.querySelectorAll(".tr-groups");
     console.log(tableRowGroups);
@@ -324,7 +334,7 @@ function Reciever(props) {
               <tr>
                 <th>
                   삭제
-                  <input type="checkbox" name="chkAllMember" id="chkAllMember" />
+                  <input type="checkbox" name="chkAllMember" id="chkAllMember" onClick={chkAllMember}/>
                 </th>
                 <th>이름</th>
                 <th>메일주소</th>

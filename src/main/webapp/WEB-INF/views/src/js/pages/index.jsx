@@ -32,10 +32,11 @@ function App(props) {
 
     if (e.target.id === '') {
       document.getElementById("searchMemberInput").value = "";
+      $("#chkAllMember").prop("checked",false);
       group_id = id;
       console.log("group_id");
     }
-    console.log(group_id);
+    console.log("group_id: "+group_id);
     if (e.target.id === '' || (e.target.id === 'searchMemberInput' && e.key === 'Enter')) {
       axios({
         method: 'get',
