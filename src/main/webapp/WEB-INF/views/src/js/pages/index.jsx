@@ -6,7 +6,7 @@ import axios from "axios"
 import Nav from '../layouts/nav.jsx'
 import Receiver from '../components/list_receiver.jsx'
 
-var group_id="";
+let group_id="";
 function App(props) {
   
   const [members, setMembers] = useState([]);
@@ -20,7 +20,7 @@ function App(props) {
     })
     .then(res => {
       const data = res.data
-      //console.log(data);
+      console.log(data);
       setMembers(data);
     })
     .catch(error => {
@@ -42,13 +42,14 @@ function App(props) {
         url: '/MemberSearch.do',
         params: {
           searchValue: document.getElementById("searchMemberInput").value,
+          // searchValue : searchWord,
           groupID: group_id
         },
         headers: { 'Content-Type': 'application/json; charset=utf-8' }
       })
         .then(res => {
           const data = res.data;
-          //console.log(data)
+          console.log(data)
           setMembers([]);
           setMembers(data);
         })
@@ -66,7 +67,7 @@ function App(props) {
     })
       .then(res => {
         const data = res.data;
-        //console.log(data)
+        console.log(data)
         setGroups(data);
       })
       .catch(error => {
