@@ -9,7 +9,7 @@
 						    group_name,
 						    req_date,
 						    delete_date,
-						    (select count(*) from mail_member as m where g.group_id = m.group_id) AS member_cnt
+						    (select count(*) from mail_member as m where g.group_id = m.group_id and m.delete_date is null) AS member_cnt
 						FROM reverse_mail.mail_group g
 						WHERE delete_date IS NULL
 						ORDER BY group_name
@@ -51,7 +51,7 @@
 		<if test='value != null'>
 			AND (member_name like CONCAT('%',#{value},'%') OR member_mail like CONCAT('%',#{value},'%'))
 		</if>
-		<if test='id != null'>
+		<if test="id != null and !id.equals('')" >
 			AND group_id=#{id}
 		</if>
 		ORDER BY member_name
