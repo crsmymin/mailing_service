@@ -41,7 +41,7 @@
         overflow-y: scroll;
         overflow-x: hidden;
         display:block;
-        padding: 0 5px 0 0;
+        padding: 0 3px 0 0;
         &::-webkit-scrollbar {
           -webkit-appearance: none;
           width: 7px;
@@ -90,10 +90,10 @@
       table {
         tr {
           &:hover {
-            background-color: #ccc;
+            background-color: grey;
           }
           &.selected {
-            background-color: #ccc;
+            background-color: grey;
           }
         }
         th {

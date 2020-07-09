@@ -1,4 +1,4 @@
-import React, { Fragment, useState, useEffect } from "react";
+import React, { Fragment, useState, useEffect, useReducer, useRef } from "react";
 import axios from "axios";
 
 let group_id = "";
@@ -14,7 +14,6 @@ function Reciever(props) {
   const [members, setMembers] = useState([]);
   const [groups, setGroups] = useState([]);
   const [searchWord, setSearchWord] =useState("");
-  const [searchCnt, setSearchCnt] =useState("");
   const [loadingGroup, setLoadingGroup] = useState(false);
   const [loadingMember, setLoadingMember] = useState(false);
   const [deforesaveMember, setSaveMember] = useState(false);
@@ -52,6 +51,17 @@ function Reciever(props) {
       setGroups(data);
       setLoadingGroup(false);
       setSaveMember(false);
+      
+      let tableRowGroups = document.querySelectorAll(".tr-groups");
+      for (let i = 0; i < tableRowGroups.length; i++) {
+        tableRowGroups[i].addEventListener("click", function () {
+          console.log(this);
+          for (let j = 0; j < tableRowGroups.length; j++) {
+            tableRowGroups[j].classList.remove("selected");
+          }
+          this.classList.add("selected");
+        })
+      }
     })
     .catch(error => {
       console.log(error)
@@ -88,7 +98,6 @@ function Reciever(props) {
           //console.log(data.length)
           setMemberRows([]);
           setMembers([]);
-          setSearchCnt(data.length);
           setMembers(data);
           setLoadingMember(false);
           setSaveMember(false);
@@ -171,8 +180,7 @@ function Reciever(props) {
       id: groupRows.length + 1,
       group_name: ""
     }
-    setGroupRows([...groupRows, data]);
-    
+    setGroupRows([...groupRows, data]); 
   }
 
   const addMember = () => {
@@ -195,14 +203,32 @@ function Reciever(props) {
     // 그룹 저장
     const updateGroupList = Array.from(updateGroupRowsLog.reduce((m, t) => m.set(t.id, t), new Map()).values());
     //console.log(updateGroupList.length > 0 || groupRows.length > 0)
-    var checkbox = $("input[name=chkGroup]:checked");
-    var delete_id="";
-    for(var i=0;i<checkbox.length;i++){
+    let checkbox = $("input[name=chkGroup]:checked");
+    let delete_id="";
+    
+    for(let i=0;i<checkbox.length;i++){
       delete_id+=checkbox[i].id+',';
     }
+    
     delete_id=delete_id.substring(0, delete_id.lastIndexOf(","));
-      
-    if (updateGroupList.length > 0 || groupRows.length > 0  ||delete_id.length > 0) {
+
+    if (updateGroupList.length > 0 || groupRows.length > 0 || delete_id.length > 0) {
+      // validate for will add groups
+      for(let i=0; i<groupRows.length; i++) {
+        console.log("add group : " + groupRows[i].group_name);
+        if (groupRows[i].group_name === "" || groupRows[i].group_name === " ") {
+          alert("추가할 그룹명을 채워주세요.")
+          return false;
+        }
+      }
+      // validate for will update groups
+      for (let i=0; updateGroupList.length; i++) {
+        console.log("update group : " + updateGroupList[i].group_name);
+        if (updateGroupList[i].group_name === "" || updateGroupList[i].group_name === " ") {
+          alert("수정할 그룹명을 채워주세요.")
+          return false;
+        }
+      }
       axios({
         method: 'post',
         url: '/GroupSave.do',
@@ -215,9 +241,11 @@ function Reciever(props) {
       })
       .then(res => {
         const data = res.data;
-        //console.log(data)
-        alert("저장되었습니다.")
-        window.location.reload();
+        console.log(data);
+        setGroups([]);
+        setGroupRows([]);
+        _getGroup();
+        alert("저장되었습니다.");
       })
       .catch(error => {
         console.log(error)
@@ -231,26 +259,62 @@ function Reciever(props) {
     //멤버 저장
     const updateMemberNameList = Array.from(updateMemberName.reduce((m, t) => m.set(t.id,t), new Map()).values());
     const updateMemberMailList = Array.from(updateMemberMail.reduce((m, t) => m.set(t.id,t), new Map()).values());
-    
     const updateMemberList = updateMemberNameList.concat(updateMemberMailList);
+
     if (updateMemberList.length > 0 || memberRows.length > 0) {
+      let emailCompare = /^([a-z0-9_.-]+)@([da-z.-]+).([a-z.]{2,6})$/;
+      console.log(memberRows)
+      // validate for will add members
+      for(let i=0; i<memberRows.length; i++) {
+        console.log("add member name : " + memberRows[i].name + "add member email : " + memberRows[i].email);
+        if (memberRows[i].name === "" || memberRows[i].name === " ") {
+          alert("추가할 멤버명을 채워주세요.")
+          return false;
+        }
+        if (memberRows[i].email === "" || memberRows[i].email === " ") {
+          alert("추가할 멤버의 메일주소를 채워주세요.")
+          return false;
+        } 
+        if (!emailCompare.test(memberRows[i].email)) {
+          alert("추가할 멤버 메일주소가 유효하지 않습니다.")
+          return false;
+        }
+      }
+      // validate for will update members
+      for (let i = 0; i < updateMemberList.length; i++) {
+        console.log(`update member name : ${updateMemberList[i].member_name} update member email : ${updateMemberList[i].member_mail}`);
+        if (updateMemberList[i].member_name === "" || updateMemberList[i].member_name === " ") {
+          alert("수정할 멤버명을 채워주세요.")
+          return false;
+        }
+        if (updateMemberList[i].member_mail === "" || updateMemberList[i].member_mail === " ") {
+          alert("수정할 멤버의 메일주소를 채워주세요.")
+          return false;
+        }
+        if (!emailCompare.test(updateMemberList[i].member_mail)) {
+          alert("수정할 멤버 메일주소가 유효하지 않습니다.")
+          return false;
+        }
+      }
       axios({
         method: 'post',
         url: '/MemberSave.do',
         data: {
-          insert: memberRows,      
+          insert: memberRows,
           update: updateMemberList
         },
-        headers: { 
-          'Content-Type': 'application/json; charset=utf-8' 
+        headers: {
+          'Content-Type': 'application/json; charset=utf-8'
         }
       })
       .then(res => {
         const data = res.data;
-        //console.log(data)
-        alert("저장되었습니다.");
         setSaveMember(false);
+        setMembers([]);
+        setMemberRows([]);
         memberSearch(group_id);
+        _getMember();
+        alert("저장되었습니다.");
       })
       .catch(error => {
         console.log(error)
@@ -278,16 +342,6 @@ function Reciever(props) {
     _getMember();
     _getGroup();
 
-    // 그룹 선택 Row
-    let tableRowGroups = document.querySelectorAll(".tr-groups");
-    for(let i=0; i<tableRowGroups.length; i++) {
-      tableRowGroups[i].addEventListener("click", function(){
-        for(let j=0; j<tableRowGroups.length; j++) {
-          tableRowGroups[j].classList.remove("selected");
-        }
-        this.classList.add("selected");
-      })
-    }
   }, [props])
 
   return (
@@ -325,7 +379,7 @@ function Reciever(props) {
             </thead>
             <tbody id="groupTbl">
               {groupRows.map((d, index) => (
-              <tr className="tr-groups" key={index}>
+              <tr className="tr-groups created" key={index}>
                 <td></td>
                 <td>
                   <input 
@@ -345,12 +399,21 @@ function Reciever(props) {
               (groups, index) =>
                 <tr className="tr-groups" key={groups.group_id} onClick={memberSearch(groups.group_id)} >
                   <td>
-                    <input type="checkbox"
-                      name="chkGroup"
-                      id={groups.group_id}
+                    <input 
+                    type="checkbox"
+                    name="chkGroup"
+                    id={groups.group_id}
+                    data-attr={groups.group_id}
                     />
                   </td>
-                  <td><input type="text" defaultValue={groups.group_name} onChange={changeGroup(groups.group_id)} /></td>
+                  <td>
+                    <input 
+                    className="group-name"
+                    type="text" 
+                    defaultValue={groups.group_name} 
+                    onChange={changeGroup(groups.group_id)} 
+                    />
+                    </td>
                   <td>{groups.member_cnt}</td>
                 </tr>
               )}
@@ -400,10 +463,11 @@ function Reciever(props) {
             </thead>
             <tbody id="memberTbl">
               {memberRows.map((d, index) => (
-              <tr className="tr-members" key={index}>
+                <tr className="tr-members created" key={index}>
                 <td></td>
                 <td>
                   <input 
+                  className="member-name"
                   type="text" 
                   defaultValue={d.name} 
                   onChange={inputName(index)} 
@@ -411,6 +475,7 @@ function Reciever(props) {
                 </td>
                 <td>
                   <input 
+                  className="member-mail"
                   type="text" 
                   defaultValue={d.email} 
                   onChange={inputEmail(index)} 
@@ -428,13 +493,17 @@ function Reciever(props) {
                   <input type="checkbox" name="chkMember" id={members.member_id} onClick={chkMember}/>
                 </td>
                 <td>
-                  <input type="text" 
+                  <input 
+                  className="member-name"
+                  type="text" 
                   defaultValue={members.member_name} 
                   name="name" 
                   onChange={changeMember(members)} />
                 </td>
                 <td>
-                  <input type="text" 
+                  <input 
+                  className="member-mail"
+                  type="text" 
                   defaultValue={members.member_mail} 
                   name="mail" 
                   onChange={changeMember(members)} />
