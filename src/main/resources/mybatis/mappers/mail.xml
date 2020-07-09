@@ -38,6 +38,19 @@
 	    delete_date = now()
 	  where send_list_id in (${value})
 	</update>
+	
+	<update id="updateSendingMail" parameterType="String" >
+	  update reverse_mail.mail_send_list set
+	    send_status = '전송중'
+	  where send_list_id in (${value})
+	</update>
+	
+	<update id="updateSendingEndMail" parameterType="String" >
+	  update reverse_mail.mail_send_list set
+	    send_status = '전송완료'
+	  where send_list_id in (${value})
+	</update>
+	
 
      <select id="getSendResultList" parameterType="String" resultType="SendResultVO" >
                
@@ -48,8 +61,9 @@
 			send_result_yn,
 			send_mail_check_yn,
 			send_mail_check_date,
-			reject_date
-		FROM reverse_mail.mail_send_result
+			reject_date,
+            (select member_name from mail_member m where r.send_mail=m.member_mail) as member_name
+		FROM reverse_mail.mail_send_result r
 		WHERE 1=1
 		<if test='value != null'>
 			AND send_list_id = #{0}
@@ -67,4 +81,41 @@
 			        (#{item.send_list_id},#{item.send_mail})
 			    </foreach>
      </insert>
+     
+     <select id="sendMail" resultType="SendResultVO" >
+        <![CDATA[       
+			SELECT send_result_id,
+				r.send_list_id,
+				send_mail,
+				send_date,
+				send_result_yn,
+				send_mail_check_yn,
+				send_mail_check_date,
+				reject_date,
+	            send_subject,
+	            send_datetime,
+	            contents_html,
+	            send_status
+			FROM reverse_mail.mail_send_result r
+	        JOIN mail_send_list l ON r.send_list_id = l.send_list_id
+	        JOIN mail_contents c ON c.contents_id = l.contents_id
+			WHERE l.delete_date is null
+	        and reject_date is null
+	        and send_datetime < now()
+        ]]>
+     </select>
+     
+     <update id="updateSuccMail" parameterType="String" >
+	  update reverse_mail.mail_send_result set
+	    send_result_yn = 'y',
+	    send_date=now()
+	  where send_result_id in (${value})
+	</update>
+	
+	<update id="updateFailMail" parameterType="String" >
+	  update reverse_mail.mail_send_result set
+	    send_result_yn = 'n',
+	    send_date=now()
+	  where send_result_id in (${value})
+	</update>
 </mapper>

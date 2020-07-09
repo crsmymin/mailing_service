@@ -15,13 +15,17 @@ public class MailDAO {
 	@Autowired
 	private SqlSession sqlSession;
 	
-	public List<MailDAO> getSendList(String value){
-		List<MailDAO> list = sqlSession.selectList("mail.getSendList",value);
+	public List<SendResultVO> sendMail(String value){
+		List<SendResultVO> list = sqlSession.selectList("mail.sendMail",value);
+		return list;
+	}
+	public List<SendListVO> getSendList(String value){
+		List<SendListVO> list = sqlSession.selectList("mail.getSendList",value);
 		return list;
 	}
 	
-	public List<MailDAO> getSendResultList(String value){
-		List<MailDAO> list = sqlSession.selectList("mail.getSendResultList",value);
+	public List<SendListVO> getSendResultList(String value){
+		List<SendListVO> list = sqlSession.selectList("mail.getSendResultList",value);
 		return list;
 	}
 	
@@ -29,14 +33,25 @@ public class MailDAO {
 		int count = sqlSession.insert("mail.insertSendMail", vo);
 		return count == 1;
 	}
-	
 	public int insertSendResult(List<SendResultVO>  list){
 		int count = sqlSession.insert("mail.insertSendResult", list);
 		return count ;
 	}
 	
-	public boolean updateMailList(SendListVO vo){
-		int count = sqlSession.update("mail.updateSendMail",vo);
+	public boolean updateSendingMail(String value){
+		int count = sqlSession.update("mail.updateSendingMail",value);
+		return count >= 1;
+	}
+	public boolean updateSendingEndMail(String value){
+		int count = sqlSession.update("mail.updateSendingEndMail",value);
+		return count >= 1;
+	}
+	public boolean updateSuccMail(String value){
+		int count = sqlSession.update("mail.updateSuccMail",value);
+		return count >= 1;
+	}
+	public boolean updateFailMail(String value){
+		int count = sqlSession.update("mail.updateFailMail",value);
 		return count >= 1;
 	}
 	public boolean updateResultList(SendResultVO vo){
