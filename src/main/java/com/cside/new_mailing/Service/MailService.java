@@ -76,9 +76,9 @@ public class MailService {
 		return mailDAO.insertSendMail(vo);
 	}
 	
-	public boolean insertSendResult(SendResultVO vo){
+	public int insertSendResult(List<SendResultVO>  list){
 		
-		return mailDAO.insertSendResult(vo);
+		return mailDAO.insertSendResult(list);
 	}
 	
 	public boolean updateMailList(SendListVO vo){

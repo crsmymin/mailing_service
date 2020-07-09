@@ -6,6 +6,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.cside.new_mailing.VO.MemberVO;
 import com.cside.new_mailing.VO.SendListVO;
 import com.cside.new_mailing.VO.SendResultVO;
 
@@ -29,9 +30,9 @@ public class MailDAO {
 		return count == 1;
 	}
 	
-	public boolean insertSendResult(SendResultVO vo){
-		int count = sqlSession.insert("mail.insertSendResult", vo);
-		return count == 1;
+	public int insertSendResult(List<SendResultVO>  list){
+		int count = sqlSession.insert("mail.insertSendResult", list);
+		return count ;
 	}
 	
 	public boolean updateMailList(SendListVO vo){

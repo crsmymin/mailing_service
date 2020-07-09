@@ -1,5 +1,6 @@
 package com.cside.new_mailing.Controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.cside.new_mailing.DAO.MailDAO;
 import com.cside.new_mailing.Service.MailService;
 import com.cside.new_mailing.VO.ContentsVO;
+import com.cside.new_mailing.VO.GroupVO;
 import com.cside.new_mailing.VO.SendListVO;
 import com.cside.new_mailing.VO.SendResultVO;
 import com.google.gson.Gson;
@@ -53,15 +55,22 @@ public class MailController {
 	
 	@RequestMapping(value = "/SendMailInsert.do" , method = RequestMethod.POST, produces = "application/json; charset=utf8")
 	@ResponseBody
-	public String ContentsInsert(@RequestBody SendListVO vo,@RequestBody SendResultVO vo2){
+	public String ContentsInsert(@RequestBody SendListVO vo){
 		
 		boolean a = mailService.insertSendMail(vo);
-		System.out.println("insertSendMail : "+vo.getSend_list_id());
 		
-		boolean a2 = mailService.insertSendResult(vo2);
-		System.out.println("insertSendResult : "+vo2.getSend_result_id());
+		List<SendResultVO> list = new ArrayList<SendResultVO>();
+		String[] array = vo.getSend_mail_list().split(",");
+		for (int i = 0; i < array.length; i++) {
+			SendResultVO voR = new SendResultVO();
+			voR.setSend_mail(array[i]);
+			voR.setSend_list_id(vo.getSend_list_id());
+        	list.add(voR);
+        }
 		
-		return Boolean.toString(a);
+		int a1 = mailService.insertSendResult(list);
+		
+		return "";
     }
 	
 	@RequestMapping(value = "/SendResultSearch.do" , method = RequestMethod.GET, produces = "application/json; charset=utf8")

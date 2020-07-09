@@ -25,7 +25,7 @@
 	
 	 <update id="updateGroup" parameterType="java.util.List" >
 	  <foreach collection="list" item="item" separator=" ; " >
-	 	 update reverse_mail.mail_group set
+	 	 update reverse_mail.mail_group set 
 		    group_name = #{item.group_name}
 		  where group_id = #{item.group_id}
 	   </foreach>
