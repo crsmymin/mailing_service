@@ -10,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.cside.new_mailing.DAO.MailDAO;
@@ -45,8 +46,8 @@ public class MailController {
 	
 	@RequestMapping(value = "/SendMailSearch.do", method = RequestMethod.GET, produces = "application/json; charset=utf8")
 	@ResponseBody
-    public String SendMailSearch(String value){
-        List<MailDAO> list = mailService.getSendList(value);
+    public String SendMailSearch(@RequestParam(value = "id", required = false) String id){
+        List<MailDAO> list = mailService.getSendList(id);
 		
 		String json = new Gson().toJson(list );
 		
@@ -72,23 +73,24 @@ public class MailController {
 		
 		return "";
     }
+
+
+	@RequestMapping(value = "/SendMailDelete.do" , method = RequestMethod.GET, produces = "application/json; charset=utf8")
+	@ResponseBody
+    public String ContentsDelete(HttpServletRequest request){
+		String id=request.getParameter("id");
+		boolean a = mailService.deleteMailList(id);
+		
+		return Boolean.toString(a);
+    }
 	
 	@RequestMapping(value = "/SendResultSearch.do" , method = RequestMethod.GET, produces = "application/json; charset=utf8")
 	@ResponseBody
-	public String SendResultSearch(String value){
-        List<MailDAO> list = mailService.getSendResultList(value);
+	public String SendResultSearch(@RequestParam(value = "id", required = false) String id){
+        List<MailDAO> list = mailService.getSendResultList(id);
 		
 		String json = new Gson().toJson(list );
 		
 		return json;
     } 
-	@RequestMapping(value = "/SendResultDelete.do" , method = RequestMethod.GET, produces = "application/json; charset=utf8")
-	@ResponseBody
-    public String ContentsDelete(HttpServletRequest request){
-		String id=request.getParameter("id");
-		boolean a = mailService.deleteMailList(id);
-		System.out.println("deleteContents : "+a);
-		
-		return Boolean.toString(a);
-    }
 }

@@ -19,12 +19,15 @@ function Reciever(props) {
   const [deforesaveMember, setSaveMember] = useState(false);
 
   // functions
-  const _getMember = () => {
+  const _getMember = id => {
     // 멤버 초기리스트 호출 
     setLoadingMember(true);
     axios({
       method: 'get',
-      url: '/MemberSearch.do'
+      url: '/MemberSearch.do',
+      params: {
+        groupID: id
+      },
     })
     .then(res => {
       const data = res.data
@@ -55,7 +58,7 @@ function Reciever(props) {
       let tableRowGroups = document.querySelectorAll(".tr-groups");
       for (let i = 0; i < tableRowGroups.length; i++) {
         tableRowGroups[i].addEventListener("click", function () {
-          console.log(this);
+          //console.log(this);
           for (let j = 0; j < tableRowGroups.length; j++) {
             tableRowGroups[j].classList.remove("selected");
           }
@@ -215,7 +218,7 @@ function Reciever(props) {
     if (updateGroupList.length > 0 || groupRows.length > 0 || delete_id.length > 0) {
       // validate for will add groups
       for(let i=0; i<groupRows.length; i++) {
-        console.log("add group : " + groupRows[i].group_name);
+        //console.log("add group : " + groupRows[i].group_name);
         if (groupRows[i].group_name === "" || groupRows[i].group_name === " ") {
           alert("추가할 그룹명을 채워주세요.")
           return false;
@@ -223,7 +226,7 @@ function Reciever(props) {
       }
       // validate for will update groups
       for (let i=0; updateGroupList.length; i++) {
-        console.log("update group : " + updateGroupList[i].group_name);
+        //console.log("update group : " + updateGroupList[i].group_name);
         if (updateGroupList[i].group_name === "" || updateGroupList[i].group_name === " ") {
           alert("수정할 그룹명을 채워주세요.")
           return false;
@@ -241,10 +244,9 @@ function Reciever(props) {
       })
       .then(res => {
         const data = res.data;
-        console.log(data);
+        //console.log(data);
         setGroups([]);
         setGroupRows([]);
-        _getGroup();
         alert("저장되었습니다.");
       })
       .catch(error => {
@@ -263,10 +265,10 @@ function Reciever(props) {
 
     if (updateMemberList.length > 0 || memberRows.length > 0) {
       let emailCompare = /^([a-z0-9_.-]+)@([da-z.-]+).([a-z.]{2,6})$/;
-      console.log(memberRows)
+      //console.log(memberRows)
       // validate for will add members
       for(let i=0; i<memberRows.length; i++) {
-        console.log("add member name : " + memberRows[i].name + "add member email : " + memberRows[i].email);
+        //console.log("add member name : " + memberRows[i].name + "add member email : " + memberRows[i].email);
         if (memberRows[i].name === "" || memberRows[i].name === " ") {
           alert("추가할 멤버명을 채워주세요.")
           return false;
@@ -282,7 +284,7 @@ function Reciever(props) {
       }
       // validate for will update members
       for (let i = 0; i < updateMemberList.length; i++) {
-        console.log(`update member name : ${updateMemberList[i].member_name} update member email : ${updateMemberList[i].member_mail}`);
+        //console.log(`update member name : ${updateMemberList[i].member_name} update member email : ${updateMemberList[i].member_mail}`);
         if (updateMemberList[i].member_name === "" || updateMemberList[i].member_name === " ") {
           alert("수정할 멤버명을 채워주세요.")
           return false;
@@ -312,8 +314,8 @@ function Reciever(props) {
         setSaveMember(false);
         setMembers([]);
         setMemberRows([]);
-        memberSearch(group_id);
-        _getMember();
+        _getMember(group_id);
+        _getGroup();
         alert("저장되었습니다.");
       })
       .catch(error => {
@@ -339,7 +341,7 @@ function Reciever(props) {
   }
 
   useEffect(() => {
-    _getMember();
+    _getMember('');
     _getGroup();
 
   }, [props])

@@ -6,6 +6,7 @@ public class SendListVO {
 	private String contents_id;
 	private String send_datetime;
 	private String req_date;
+	private String delete_date;
 	private String send_status;
 	private String send_mail_list;
 	
@@ -16,6 +17,12 @@ public class SendListVO {
 	private String mail_reject;
 	
 	
+	public String getDelete_date() {
+		return delete_date;
+	}
+	public void setDelete_date(String delete_date) {
+		this.delete_date = delete_date;
+	}
 	public String getSend_mail_list() {
 		return send_mail_list;
 	}
