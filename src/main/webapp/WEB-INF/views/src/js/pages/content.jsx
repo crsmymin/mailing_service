@@ -53,11 +53,7 @@ function ContentList(props) {
     <div className="container">
       <Nav />
       <div className="content">
-        {loading === true ? 
-        (<div className="loading-indicator">
-          <div className="loader"></div>
-        </div> )
-        : (<List contents={contents} />)}
+        <List contents={contents} loading={loading}/>
       </div>
     </div>
   )

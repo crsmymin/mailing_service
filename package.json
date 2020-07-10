@@ -1,7 +1,7 @@
 {
-  "name": "Trend",
+  "name": "cside",
   "version": "1.0.0",
-  "description": "TrendUp",
+  "description": "reverse cinema mailer service",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -24,6 +24,7 @@
     "@babel/preset-react": "^7.10.1",
     "babel-loader": "^8.1.0",
     "babel-plugin-transform-class-properties": "^6.24.1",
+    "bootstrap": "^4.5.0",
     "css-loader": "^3.5.3",
     "extract-text-webpack-plugin": "^4.0.0-beta.0",
     "file-loader": "^6.0.0",
@@ -31,6 +32,7 @@
     "jquery-ui": "^1.12.1",
     "node-sass": "^4.14.1",
     "react": "^16.13.1",
+    "react-bootstrap": "^1.1.1",
     "react-dom": "^16.13.1",
     "rimraf": "^3.0.2",
     "sass-loader": "^8.0.2",
@@ -42,8 +44,11 @@
   },
   "dependencies": {
     "@material-ui/core": "^4.10.2",
+    "@popperjs/core": "^2.4.4",
     "axios": "^0.19.2",
+    "react-datepicker": "^3.0.0",
     "react-modal": "^3.11.2",
+    "react-summernote": "^2.0.2",
     "styled-components": "^5.1.1"
   }
 }

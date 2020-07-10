@@ -1,5 +1,14 @@
 import React, { useState, useEffect, Fragment } from "react";
-import axios from 'axios';
+import $ from "jquery";
+window.$ = $;
+window.jQuery = $;
+import axios from "axios";
+import ReactSummernote from 'react-summernote';
+import 'react-summernote/dist/react-summernote.css'; 
+import 'bootstrap/dist/css/bootstrap.css';
+import 'bootstrap/js/dist/modal';
+import 'bootstrap/js/dist/dropdown';
+import 'bootstrap/js/dist/tooltip';
 
 function View(props) {
   const [contentName, setContentName] = useState("");
@@ -15,21 +24,12 @@ function View(props) {
 
   const onSubmit = e => {
     e.preventDefault();
-
-    let title_val = document.getElementById("title").value;
-    let content_val = document.getElementById("content").value;
-
-    if (title_val === '' || title_val === ' ') {
+    if (contentName === '' || contentName === ' ') {
       alert("콘텐츠 타이틀은 필수값입니다.");
       document.getElementById("title").focus();
       return false;
     }
-    if (content_val === '' || content_val === ' ') {
-      document.getElementById("content").focus();
-      alert("콘텐츠 내용은 필수값입니다.");
-      return false;
-    }
-    
+
     axios({
       method: 'post',
       url: '/ContentsUpdate.do',
@@ -64,7 +64,24 @@ function View(props) {
               </label>
             </div>
             <div className="content-area">
-              <textarea name="content" id="content" placeholder="내용입력" defaultValue={props.contentsHtml} onChange={e => setContentHtml(e.target.value)}></textarea>
+              <ReactSummernote
+                value={props.contentsHtml}
+                options={{
+                  lang: "ko-KR",
+                  height: 450,
+                  dialogsInBody: true,
+                  toolbar: [
+                    ['style', ['style']],
+                    ['font', ['bold', 'underline', 'clear']],
+                    ['fontname', ['fontname']],
+                    ['para', ['ul', 'ol', 'paragraph']],
+                    ['table', ['table']],
+                    ['insert', ['link', 'picture', 'video']],
+                    ['view', ['fullscreen', 'codeview']]
+                  ]
+                }}
+                onChange={contentHtml => setContentHtml(contentHtml)}
+              />
             </div>
             <div className="btn-wrap fr">
               <button className="btn btn-save">저장</button>

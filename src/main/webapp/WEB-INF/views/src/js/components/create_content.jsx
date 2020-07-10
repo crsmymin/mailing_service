@@ -1,5 +1,14 @@
 import React, { useState, useEffect, Fragment } from "react";
+import $ from "jquery";
+window.$ = $;
+window.jQuery = $;
 import axios from "axios";
+import ReactSummernote from 'react-summernote';
+import 'react-summernote/dist/react-summernote.css'; 
+import 'bootstrap/dist/css/bootstrap.css';
+import 'bootstrap/js/dist/modal';
+import 'bootstrap/js/dist/dropdown';
+import 'bootstrap/js/dist/tooltip';
 
 function Create(props) {
   const [title, setTitle] = useState("");
@@ -7,20 +16,12 @@ function Create(props) {
   
   const onSubmit = e => {
     e.preventDefault();
-    let title_val = document.getElementById("title").value;
-    let content_val = document.getElementById("content").value;
-    
-    if (title_val === '' || title_val === ' ') {
+    if (title === '' || title === ' ') {
       alert("콘텐츠 타이틀은 필수값입니다.");
       document.getElementById("title").focus();
       return false;
     }
-    if (content_val === '' || content_val === ' ') {
-      document.getElementById("content").focus();
-      alert("콘텐츠 내용은 필수값입니다.");
-      return false;
-    }
-    
+  
     axios({
       method: 'post',
       url :'/ContentsInsert.do',
@@ -61,7 +62,24 @@ function Create(props) {
               </label>
             </div>
             <div className="content-area">
-              <textarea id="content" name="content" placeholder="내용입력" onChange={e => setContent(e.target.value)}></textarea>
+              <ReactSummernote
+                value="콘텐츠를 작성해주세요"
+                options={{
+                  lang: "ko-KR",
+                  height: 450,
+                  dialogsInBody: true,
+                  toolbar: [
+                    ['style', ['style']],
+                    ['font', ['bold', 'underline', 'clear']],
+                    ['fontname', ['fontname']],
+                    ['para', ['ul', 'ol', 'paragraph']],
+                    ['table', ['table']],
+                    ['insert', ['link', 'picture', 'video']],
+                    ['view', ['fullscreen', 'codeview']]
+                  ]
+                }}
+                onChange={content => setContent(content)}
+              />
             </div>
             <div className="btn-wrap fr">
               <button type="submit" className="btn btn-save">저장</button>

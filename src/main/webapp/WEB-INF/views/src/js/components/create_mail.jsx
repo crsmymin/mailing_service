@@ -1,19 +1,25 @@
 import React, { useState, useEffect, Fragment } from "react";
 import ReactDom from "react-dom";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 import axios from 'axios';
 
 let group_id = "";
 
 function Create(props) {
+  
   useEffect(() => {
     _getContentsView();
      
   }, [])
+  
   const [visible, setVisible] = useState(false);
+  const [startDate, setStartDate] = useState(new Date());
+  const [sendOption, setSendOption] = useState("direct");
   const [contentsId, setContentsId] = useState()
   const [contentsName, setContentsName] = useState()
   const [contentsHtml, setContentsHtml] = useState()
-  const [searchWord, setSearchWord] =useState("");
+  const [searchWord, setSearchWord] = useState("");
   
   const _getContentsView = () => {
     const id = location.search.split("=")[1];
@@ -36,8 +42,8 @@ function Create(props) {
     })
   }
   const elements=[];
-  const modalOpen = () => {
-   
+  
+  const modalOpen = () => {   
     settingGroup();
     settingMember();  
     setVisible(true)
@@ -51,7 +57,7 @@ function Create(props) {
       .then(res => {
         const data = res.data;
         //console.log(data)
-        elements.push(<option key='' value=''>전체</option>);
+        elements.push(<option key='' value='' selected>전체</option>);
         
         for(let i=0;i<data.length;i++){
         elements.push(<option key={'group'+data[i].group_id} value={data[i].group_id}>{data[i].group_name}</option>);
@@ -98,6 +104,7 @@ function Create(props) {
     let title_val = document.getElementById("mailTitle").value;
     let receivers_val = document.getElementById("receivers").value;
     let contents_id = contentsId;
+    
     axios({
       method: 'post',
       url: '/SendMailInsert.do',
@@ -112,7 +119,6 @@ function Create(props) {
     })
     .then(res => {
       const data = res.data;
-      //console.log(data)
       alert("저장되었습니다.");
     })
     .catch(error => {
@@ -135,7 +141,7 @@ function Create(props) {
             </div>
             <div className="receiver-area">
               <label htmlFor="receivers">
-                <input id="receivers" className="fl" type="text" placeholder="수신자" />
+                <input id="receivers" className="fl" type="text" placeholder="수신자" readOnly/>
                 <button id="btnAddReceivers" className="fl btn btn-add" type="button" onClick={modalOpen}>추가</button>
               </label> 
             </div>
@@ -143,23 +149,46 @@ function Create(props) {
               콘텐츠 <strong>[{contentsName}]</strong> 
             </div>
             <div className="content-area">
-              <textarea name="content" id="content">{contentsHtml}</textarea>
+              <textarea name="content" id="content" value={contentsHtml} readOnly></textarea>
             </div>
+            
             <div className="option-area cf">
               <strong className="fl">
                 발송일시 : 
               </strong>
               <label htmlFor="direct" className="fl">
                 즉시발송
-                <input type="radio" name="sendOption" id="direct" defaultChecked="checked"/>
+                <input 
+                type="radio" 
+                name="sendOption" 
+                id="direct" 
+                value="direct"
+                checked={sendOption === "direct"}
+                onChange={e => setSendOption(e.target.value)}
+                />
               </label>
               <label htmlFor="booked" className="fl">
                 예약발송
-                <input type="radio" name="sendOption" id="booked" />
+                <input 
+                type="radio" 
+                name="sendOption" 
+                id="booked" 
+                value="booked"
+                checked={sendOption === "booked"}
+                onChange={e => setSendOption(e.target.value)}
+                />
               </label>
-              <select name="bookedTime" id="bookedTime" className="fl" disabled="disabled">
-                <option value="">01:00</option>
-              </select>
+              {sendOption === "booked" ? (
+              <div className="booked-box">
+                <DatePicker 
+                  id="bookedTime"
+                  selected={startDate}
+                  onChange={date => setStartDate(date)}
+                  showTimeSelect
+                  dateFormat="Pp"
+                />
+              </div>
+              ):("")}
             </div>
             <div className="btn-wrap fr">
               <button className="btn btn-save" onClick={saveContents}>저장</button>
@@ -174,30 +203,48 @@ function Create(props) {
       <div id="overLay">
         <div id="modalWrap">
           <div className="inner">
-            <div className="box">
-              <div name="" id="selectGroup"></div>
-              <input 
-                type="text" 
-                id="searchWillAdd" 
-                value={searchWord} 
-                onChange={e => setSearchWord(e.target.value)}
-                onKeyPress={settingMember()}
-              />
+            <div className="top-area">
+              <div className="will-add">
+                <div id="selectGroup"></div>
+                <input
+                  type="text"
+                  id="searchWillAdd"
+                  value={searchWord}
+                  onChange={e => setSearchWord(e.target.value)}
+                  onKeyPress={settingMember()}
+                  placeholder="검색"
+                />
+              </div>
+              <div className="did-add">
+                <input
+                  type="text"
+                  id="searchDidAdd"
+                  placeholder="검색"
+                />
+              </div>
+            </div>                
+            <div className="box will-add-list">
+              <div className="title">
+                <span>이름</span>
+                <span>이메일</span>
+              </div>
               <div className="list">
-              <div name="" id="selectMember"></div>
+                <div id="selectMember"></div>
               </div>
             </div>
-            <div className="box">
-              <input type="text" id="searchDidAdd" />
+
+            <div className="box indicator">
+              <button id="btnAddList" className="btn-save" type="button">추가</button>
+              <button id="btnRemoveList" className="btn-del" type="button">제거</button>
+            </div>        
+
+            <div className="box did-add-list">
+              <div className="title">
+                <span>이름</span>
+                <span>이메일</span>
+              </div>
               <div className="list">
-                <select name="" id="" multiple>
-                  <option value="">1</option>
-                  <option value="">2</option>
-                  <option value="">3</option>
-                  <option value="">4</option>
-                  <option value="">5</option>
-                  <option value="">6</option>
-                </select>
+                <select name="" id="" multiple></select>
               </div>
             </div>
           </div>

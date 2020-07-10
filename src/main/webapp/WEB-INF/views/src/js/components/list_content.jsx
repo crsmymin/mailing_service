@@ -68,6 +68,13 @@ function List(props) {
               <button type="button" className="btn btn-save" onClick={onSave}>저장</button>
             </div>
           </div>
+          {props.loading === true ? 
+          (
+            <div className="loading-indicator content-list">
+              <div className="loader"></div>
+            </div>
+          ) : 
+          (
           <table>
             {/* table head */}
             <thead>
@@ -117,6 +124,7 @@ function List(props) {
             </tbody>
             {/* end table body */}
           </table>
+          )}
         </div>
       </div>
     </Fragment>

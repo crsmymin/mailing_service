@@ -1,5 +1,6 @@
 // list 
 .list-mail-content {
+  position: relative;
   .box {
     table {
       width: 100%;
@@ -52,12 +53,6 @@
     label {
       width: 100%;
       margin: 0 0 15px;
-      &[for="direct"] {
-
-      }
-      &[for="booked"] {
-
-      }
       input[type="text"] {
         width: 100%;
         padding: 10px;
@@ -69,10 +64,13 @@
         -o-border-radius: 5px;
       }
     }
-    textarea {
-      border: 1px solid #ccc;   
-      height: 450px;
-      padding: 25px;
+    .content-area {
+      margin: 0 0 25px;
+      .btn-group {
+        .btn {
+          background-color: $main-color;
+        }
+      }
     }
   }
 }
