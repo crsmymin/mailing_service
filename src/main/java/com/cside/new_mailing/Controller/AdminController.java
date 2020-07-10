@@ -67,7 +67,7 @@ public class AdminController {
 	@ResponseBody
 	public String sendMail( HttpServletRequest request) {
 		List<SendResultVO> list = mailService.sendMail(""); // dto (메일관련 정보)를 sendMail에 저장함
-        
+        if(list.size()>0) {
 		ArrayList<String> dataList = new ArrayList<>();
 		for(int i=0;i<list.size();i++) {
 			dataList.add(list.get(i).getSend_list_id());
@@ -101,8 +101,9 @@ public class AdminController {
 		mailService.updateFailMail(fail_id.substring(0, fail_id.length()-1));
 		
 		mailService.updateSendingEndMail(update_id);
-		String json = new Gson().toJson(list );
-		
-		return json;
+		}
+        String json = new Gson().toJson(list );
+        
+        return json;
 	}
 }

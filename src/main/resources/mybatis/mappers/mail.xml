@@ -62,7 +62,7 @@
 			send_mail_check_yn,
 			send_mail_check_date,
 			reject_date,
-            (select member_name from mail_member m where r.send_mail=m.member_mail) as member_name
+            (select member_name from mail_member m where r.send_mail=m.member_mail LIMIT 1) as member_name
 		FROM reverse_mail.mail_send_result r
 		WHERE 1=1
 		<if test='value != null'>
@@ -101,6 +101,7 @@
 	        JOIN mail_contents c ON c.contents_id = l.contents_id
 			WHERE l.delete_date is null
 	        and reject_date is null
+	        and send_status ='대기중'
 	        and send_datetime < now()
         ]]>
      </select>
@@ -116,6 +117,19 @@
 	  update reverse_mail.mail_send_result set
 	    send_result_yn = 'n',
 	    send_date=now()
+	  where send_result_id in (${value})
+	</update>
+	
+	 <update id="updateCheckedMail" parameterType="String" >
+	  update reverse_mail.mail_send_result set
+	    send_mail_check_yn='y',
+	    send_mail_check_date=now()
+	  where send_result_id in (${value})
+	</update>
+	
+	<update id="updateRejectMail" parameterType="String" >
+	  update reverse_mail.mail_send_result set
+	    reject_date=now()
 	  where send_result_id in (${value})
 	</update>
 </mapper>

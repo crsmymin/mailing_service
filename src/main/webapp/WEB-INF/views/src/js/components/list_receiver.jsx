@@ -283,9 +283,10 @@ function Reciever(props) {
         }
       }
       // validate for will update members
+      
       for (let i = 0; i < updateMemberList.length; i++) {
-        console.log(updateMemberList);
-        console.log(`update member name : ${updateMemberList[i].member_name} update member email : ${updateMemberList[i].member_mail}`);
+        //console.log(updateMemberList);
+        //console.log(`update member name : ${updateMemberList[i].member_name} update member email : ${updateMemberList[i].member_mail}`);
         if (updateMemberList[i].member_name === "" || updateMemberList[i].member_name === " ") {
           alert("수정할 멤버명을 채워주세요.")
           return false;
@@ -294,8 +295,8 @@ function Reciever(props) {
           alert("수정할 멤버의 메일주소를 채워주세요.")
           return false;
         }
-        if (!emailCompare.test(updateMemberList[i].member_mail)) {
-          console.log(updateMemberList[i].member_mail);
+        if (updateMemberList[i].member_name === undefined &&!emailCompare.test(updateMemberList[i].member_mail)) {
+          //console.log(updateMemberList[i].member_mail);
           alert("수정할 멤버 메일주소가 유효하지 않습니다.")
           return false;
         }
@@ -317,7 +318,6 @@ function Reciever(props) {
         setMembers([]);
         setMemberRows([]);
         _getMember(group_id);
-        _getGroup();
         alert("저장되었습니다.");
       })
       .catch(error => {
