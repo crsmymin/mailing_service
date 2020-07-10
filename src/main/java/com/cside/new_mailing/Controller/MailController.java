@@ -12,7 +12,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 
+import com.cside.new_mailing.DAO.ContentsDAO;
 import com.cside.new_mailing.DAO.MailDAO;
 import com.cside.new_mailing.Service.MailService;
 import com.cside.new_mailing.VO.GroupVO;
@@ -92,4 +94,25 @@ public class MailController {
 		
 		return json;
     } 
+	
+	@RequestMapping(value = "/CheckedMail.do" )
+	@ResponseBody
+	public String CheckedMail(@RequestParam(value = "id", required = false) String id) {
+		boolean a=false;
+		if(id != null) {
+			a = mailService.updateCheckedMail(id);
+		}
+		return Boolean.toString(a);
+	}
+	
+	@RequestMapping(value = "/RejectMail.do" )
+	@ResponseBody
+	public String RejectMail(@RequestParam(value = "id", required = false) String id) {
+		boolean a=false;
+		if(id != null) {
+			a = mailService.updateRejectMail(id);
+		}
+		return Boolean.toString(a);
+	}
+	
 }

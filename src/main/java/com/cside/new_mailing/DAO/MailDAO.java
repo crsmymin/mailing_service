@@ -54,6 +54,14 @@ public class MailDAO {
 		int count = sqlSession.update("mail.updateFailMail",value);
 		return count >= 1;
 	}
+	public boolean updateCheckedMail(String value){
+		int count = sqlSession.update("mail.updateCheckedMail",value);
+		return count >= 1;
+	}
+	public boolean updateRejectMail(String value){
+		int count = sqlSession.update("mail.updateRejectMail",value);
+		return count >= 1;
+	}
 	public boolean updateResultList(SendResultVO vo){
 		int count = sqlSession.update("mail.updateResultList",vo);
 		return count >= 1;
