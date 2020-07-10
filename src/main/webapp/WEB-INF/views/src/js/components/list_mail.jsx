@@ -51,6 +51,13 @@ function List(props) {
           </div>
         </div>
         <div className="box">
+          {props.loading === true ? 
+          (
+            <div className="loading-indicator mail-list">
+              <div className="loader"></div>
+            </div>
+          ):
+          (
           <table>
             <thead>
               <tr>
@@ -90,6 +97,7 @@ function List(props) {
               )}
             </tbody>
           </table>
+          )}
         </div>
       </div>
     </Fragment>

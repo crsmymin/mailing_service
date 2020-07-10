@@ -149,9 +149,8 @@ function Create(props) {
               콘텐츠 <strong>[{contentsName}]</strong> 
             </div>
             <div className="content-area">
-              <textarea name="content" id="content" value={contentsHtml} readOnly></textarea>
+              <div id="loaded-content" dangerouslySetInnerHTML={{__html: contentsHtml}}></div>
             </div>
-            
             <div className="option-area cf">
               <strong className="fl">
                 발송일시 : 

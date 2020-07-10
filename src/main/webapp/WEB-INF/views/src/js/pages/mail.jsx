@@ -25,21 +25,23 @@ function MailCreate(props) {
 
 function MailList(props) {
 
-  const [mailList, setMailList] = useState([])
-
+  const [mailList, setMailList] = useState([]);
+  const [loading, setLoading] = useState(false);
   const _getMailList = () => {
+    setLoading(true);
     axios({
       method: 'get',
       url: '/SendMailSearch.do'
     })
-      .then(res => {
-        const data = res.data
-        console.log(data);
-        setMailList(data);
-      })
-      .catch(error => {
-        console.log(error)
-      })
+    .then(res => {
+      const data = res.data
+      console.log(data);
+      setMailList(data);
+      setLoading(false);
+    })
+    .catch(error => {
+      console.log(error)
+    })
   }
 
   useEffect(() => {
@@ -50,7 +52,7 @@ function MailList(props) {
     <div className="container">
       <Nav />
       <div className="content">
-        <List mailList={mailList}/>
+        <List mailList={mailList} loading={loading}/>
       </div>
     </div>
   )
