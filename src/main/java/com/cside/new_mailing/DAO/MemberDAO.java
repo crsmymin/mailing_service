@@ -55,6 +55,10 @@ public class MemberDAO {
 		int count = sqlSession.update("member.updateMember",list);
 		return count;
 	}
+	public boolean updateRejectMember(String value){
+		int count = sqlSession.update("mail.updateRejectMember",value);
+		return count >= 1;
+	}
 	
 	public int deleteMember(String member_id){
 		int count = sqlSession.update("member.deleteMember",member_id);

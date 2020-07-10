@@ -51,6 +51,10 @@ public class MemberService {
 		
 		return memberDAO.updateMember(list);
 	}
+	public boolean updateRejectMember(String value){
+		
+		return memberDAO.updateRejectMember(value);
+	}
 	public int deleteMember(String member_id) {
 		
 		return memberDAO.deleteMember(member_id);
