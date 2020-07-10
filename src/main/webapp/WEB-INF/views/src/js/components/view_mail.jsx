@@ -60,9 +60,10 @@ function View(props) {
         elements.push(
           <tr key={i}>
           <td>{data[i].send_mail}</td>
-          <td>{data[i].send_mail}</td>
-          <td>{data[i].send_date}</td>
-          <td>{data[i].send_date}</td>
+          <td>{data[i].member_name}</td>
+          <td>{data[i].send_result_yn}</td>
+          <td>{data[i].send_mail_check_date}</td>
+          <td>{data[i].reject_date}</td>
           </tr>);
       };
       ReactDom.render(elements, document.getElementById("listReceiver"));
@@ -97,6 +98,7 @@ function View(props) {
               <tr>
                 <th>메일주소</th>
                 <th>이름</th>
+                <th>상태</th>
                 <th>수신확인일</th>
                 <th>수신거부일</th>
               </tr>

@@ -81,10 +81,7 @@ function List(props) {
                     id={mailList.send_list_id} />
                   </td>
                   <td><a href={"/view_mail?id="+mailList.send_list_id}>{mailList.send_subject}</a></td>
-                  {(mailList.mail_check.toString() > 0 ?
-                    (<td>발송완료</td>)
-                      : (<td>발송대기</td>)
-                  )}
+                  <td>{mailList.send_status}</td>
                   <td>{mailList.send_datetime.split(" ")[0]}</td>
                   <td>{mailList.send_cnt}</td>
                   <td>{mailList.send_succ_cnt}</td>

@@ -24,11 +24,11 @@ public class MailService {
 	@Autowired
 	private MailDAO mailDAO;
 	
-    public void sendMail(EmailVO vo) {
+    public Boolean sendMailAction(EmailVO vo) {
         try {
             // 이메일 객체
             MimeMessage msg = mailSender.createMimeMessage();
- 
+            System.out.println("sendMail 시작 : "+vo.getReceiveMail()  +" ["+vo.getSubject()+ "] "+vo.getMessage());
             // 받는 사람을 설정 (수신자, 받는사람의 이메일 주소 객체를 생성해서 수신자 이메일주소를 담음)
             msg.addRecipient(RecipientType.TO, new InternetAddress(vo.getReceiveMail()));
  
@@ -57,17 +57,24 @@ public class MailService {
  
             // 이메일 보내기
             mailSender.send(msg);
+        	System.out.println("sendMail 전송: "+vo.getReceiveMail());
+        	return true;
         } catch (Exception e) {
         	System.out.println("sendMail 실패");
             e.printStackTrace();
+            return false;
         }
     }
     
-    public List<MailDAO> getSendList(String value){
+    public List<SendResultVO> sendMail(String value){
+    	return mailDAO.sendMail(value);
+	}
+    
+    public List<SendListVO> getSendList(String value){
     	return mailDAO.getSendList(value);
 	}
     
-    public List<MailDAO> getSendResultList(String value){
+    public List<SendListVO> getSendResultList(String value){
 		return mailDAO.getSendResultList(value);
 	}
 	
@@ -75,15 +82,26 @@ public class MailService {
 		
 		return mailDAO.insertSendMail(vo);
 	}
-	
 	public int insertSendResult(List<SendResultVO>  list){
 		
 		return mailDAO.insertSendResult(list);
 	}
 	
-	public boolean updateMailList(SendListVO vo){
+	public boolean updateSendingMail(String value){
 		
-		return mailDAO.updateMailList(vo);
+		return mailDAO.updateSendingMail(value);
+	}
+	public boolean updateSendingEndMail(String value){
+		
+		return mailDAO.updateSendingEndMail(value);
+	}
+	public boolean updateSuccMail(String value){
+		
+		return mailDAO.updateSuccMail(value);
+	}
+	public boolean updateFailMail(String value){
+	
+	return mailDAO.updateFailMail(value);
 	}
 	public boolean updateResultList(SendResultVO vo){
 		

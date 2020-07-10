@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.cside.new_mailing.DAO.MailDAO;
 import com.cside.new_mailing.Service.MailService;
-import com.cside.new_mailing.VO.ContentsVO;
 import com.cside.new_mailing.VO.GroupVO;
 import com.cside.new_mailing.VO.SendListVO;
 import com.cside.new_mailing.VO.SendResultVO;
@@ -47,7 +46,7 @@ public class MailController {
 	@RequestMapping(value = "/SendMailSearch.do", method = RequestMethod.GET, produces = "application/json; charset=utf8")
 	@ResponseBody
     public String SendMailSearch(@RequestParam(value = "id", required = false) String id){
-        List<MailDAO> list = mailService.getSendList(id);
+        List<SendListVO> list = mailService.getSendList(id);
 		
 		String json = new Gson().toJson(list );
 		
@@ -87,7 +86,7 @@ public class MailController {
 	@RequestMapping(value = "/SendResultSearch.do" , method = RequestMethod.GET, produces = "application/json; charset=utf8")
 	@ResponseBody
 	public String SendResultSearch(@RequestParam(value = "id", required = false) String id){
-        List<MailDAO> list = mailService.getSendResultList(id);
+        List<SendListVO> list = mailService.getSendResultList(id);
 		
 		String json = new Gson().toJson(list );
 		
