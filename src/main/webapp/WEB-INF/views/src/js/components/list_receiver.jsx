@@ -65,6 +65,7 @@ function Reciever(props) {
           this.classList.add("selected");
         })
       }
+      $("[data-attr=tr-groups"+group_id+"]").addClass("selected");
     })
     .catch(error => {
       console.log(error)
@@ -318,6 +319,7 @@ function Reciever(props) {
         setMembers([]);
         setMemberRows([]);
         _getMember(group_id);
+        _getGroup();
         alert("저장되었습니다.");
       })
       .catch(error => {
@@ -401,7 +403,7 @@ function Reciever(props) {
               .sort((a, b) => b.group_name - a.group_name)
               .map(
               (groups, index) =>
-                <tr className="tr-groups" key={groups.group_id} onClick={memberSearch(groups.group_id)} >
+                <tr className="tr-groups" key={groups.group_id} onClick={memberSearch(groups.group_id)}  data-attr={"tr-groups"+groups.group_id} >
                   <td>
                     <input 
                     type="checkbox"
