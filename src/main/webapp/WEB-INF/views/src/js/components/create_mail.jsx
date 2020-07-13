@@ -8,11 +8,8 @@ let group_id = "";
 
 function Create(props) {
   
-  useEffect(() => {
-    _getContentsView();
-     
-  }, [])
-  
+  const [initMember,setInitMember] = useState([]);
+  const [initGroup, setInitGroup] = useState([]);
   const [visible, setVisible] = useState(false);
   const [startDate, setStartDate] = useState(new Date());
   const [sendOption, setSendOption] = useState("direct");
@@ -20,7 +17,7 @@ function Create(props) {
   const [contentsName, setContentsName] = useState()
   const [contentsHtml, setContentsHtml] = useState()
   const [searchWord, setSearchWord] = useState("");
-  
+
   const _getContentsView = () => {
     const id = location.search.split("=")[1];
     axios({
@@ -43,12 +40,6 @@ function Create(props) {
   }
   const elements=[];
   
-  const modalOpen = () => {   
-    settingGroup();
-    settingMember();  
-    setVisible(true)
-  }
-
   const settingGroup = () => {
     axios({
       method: 'get',
@@ -56,7 +47,8 @@ function Create(props) {
     })
       .then(res => {
         const data = res.data;
-        //console.log(data)
+        setInitGroup(data);
+        console.log(data)
         elements.push(<option key='' value='' selected>전체</option>);
         
         for(let i=0;i<data.length;i++){
@@ -80,7 +72,8 @@ function Create(props) {
     })
     .then(res => {
       const data = res.data;
-      console.log(data.length)
+      console.log(data);
+      setInitMember(data);
       for(let i=0;i<data.length;i++){
       elements.push(<option key={'member'+data[i].member_id} value={data[i].member_id}>{data[i].member_name}</option>);
       };
@@ -90,6 +83,13 @@ function Create(props) {
       console.log(error)
     })
   }
+  
+  const modalOpen = () => {
+    settingGroup();
+    settingMember();
+    setVisible(true);
+  }
+
   const modalClose = () => {
     setVisible(false)
   }
@@ -100,7 +100,6 @@ function Create(props) {
   }
 
   const saveContents = () => {
-    
     let title_val = document.getElementById("mailTitle").value;
     let receivers_val = document.getElementById("receivers").value;
     let contents_id = contentsId;
@@ -125,6 +124,10 @@ function Create(props) {
       console.log(error)
     })
   }
+
+  useEffect(() => {
+    _getContentsView();
+  }, [])
 
   return (
     <Fragment>
@@ -204,7 +207,11 @@ function Create(props) {
           <div className="inner">
             <div className="top-area">
               <div className="will-add">
-                <div id="selectGroup"></div>
+                <div id="selectGroup">
+                  <select name="" id="">
+                    
+                  </select>
+                </div>
                 <input
                   type="text"
                   id="searchWillAdd"
@@ -228,7 +235,21 @@ function Create(props) {
                 <span>이메일</span>
               </div>
               <div className="list">
-                <div id="selectMember"></div>
+                <div id="selectMember">
+                  <select name="" id="" multiple>
+                    {/* {initMember.map(
+                      (initMember, index) =>
+                        <option key={initMember.member_id} valu={initMember.member_id}>
+                          <span>
+                            {initMember.member_name}
+                          </span>
+                          <span>
+                            {initMember.member_mail}
+                          </span>
+                        </option>
+                    )} */}
+                  </select>
+                </div>
               </div>
             </div>
 
