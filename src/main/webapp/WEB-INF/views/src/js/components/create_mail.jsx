@@ -49,16 +49,15 @@ function Create(props) {
         const data = res.data;
         setInitGroup(data);
         console.log(data)
-        elements.push(<option key='' value='' selected>전체</option>);
-        
-        for(let i=0;i<data.length;i++){
-        elements.push(<option key={'group'+data[i].group_id} value={data[i].group_id}>{data[i].group_name}</option>);
-        };
-        ReactDom.render(<select>{elements}</select>, document.getElementById("selectGroup"));
-      })
+        })
       .catch(error => {
         console.log(error)
       })
+  }
+  const chageSelect = e =>{
+    const { target: {value}} = e;
+    group_id=value;
+    settingMember();
   }
   const settingMember = () => {
     axios({
@@ -73,17 +72,20 @@ function Create(props) {
     .then(res => {
       const data = res.data;
       console.log(data);
+      setInitMember([]);
       setInitMember(data);
-      for(let i=0;i<data.length;i++){
-      elements.push(<option key={'member'+data[i].member_id} value={data[i].member_id}>{data[i].member_name}</option>);
-      };
-      ReactDom.render(<select multiple>{elements}</select>, document.getElementById("selectMember"));
-    })
+         })
     .catch(error => {
       console.log(error)
     })
   }
   
+  const memberSearch = id => e => {
+    if(e.key === 'Enter'){
+      settingMember();
+    }
+  }
+
   const modalOpen = () => {
     settingGroup();
     settingMember();
@@ -103,6 +105,7 @@ function Create(props) {
     let title_val = document.getElementById("mailTitle").value;
     let receivers_val = document.getElementById("receivers").value;
     let contents_id = contentsId;
+    let send_date = document.getElementById("bookedTime").value;
     
     axios({
       method: 'post',
@@ -110,7 +113,8 @@ function Create(props) {
       data: {
         send_subject: title_val,      
         send_mail_list: receivers_val,
-        contents_id:contents_id
+        contents_id:contents_id,
+        send_date:send_date
       },
       headers: { 
         'Content-Type': 'application/json; charset=utf-8' 
@@ -144,7 +148,7 @@ function Create(props) {
             </div>
             <div className="receiver-area">
               <label htmlFor="receivers">
-                <input id="receivers" className="fl" type="text" placeholder="수신자" readOnly/>
+                <input id="receivers" className="fl" type="text" placeholder="수신자" />
                 <button id="btnAddReceivers" className="fl btn btn-add" type="button" onClick={modalOpen}>추가</button>
               </label> 
             </div>
@@ -208,8 +212,14 @@ function Create(props) {
             <div className="top-area">
               <div className="will-add">
                 <div id="selectGroup">
-                  <select name="" id="">
-                    
+                  <select name="" id="" onChange={chageSelect}>
+                      <option key={"member_all"} value="">전체
+                      </option>
+                     {initGroup.map(
+                      (initGroup, index) =>
+                        <option key={"member_"+initGroup.group_id} value={initGroup.group_id}>{initGroup.group_name}
+                        </option>
+                    )} 
                   </select>
                 </div>
                 <input
@@ -217,8 +227,8 @@ function Create(props) {
                   id="searchWillAdd"
                   value={searchWord}
                   onChange={e => setSearchWord(e.target.value)}
-                  onKeyPress={settingMember()}
                   placeholder="검색"
+                  onKeyPress={memberSearch()}
                 />
               </div>
               <div className="did-add">
@@ -237,17 +247,13 @@ function Create(props) {
               <div className="list">
                 <div id="selectMember">
                   <select name="" id="" multiple>
-                    {/* {initMember.map(
+                     {initMember.map(
                       (initMember, index) =>
-                        <option key={initMember.member_id} valu={initMember.member_id}>
-                          <span>
-                            {initMember.member_name}
-                          </span>
-                          <span>
-                            {initMember.member_mail}
-                          </span>
+                        <option key={"member_"+initMember.member_id} value={initMember.member_id}>
+                        {initMember.member_name} | 
+                        {initMember.member_mail}
                         </option>
-                    )} */}
+                    )} 
                   </select>
                 </div>
               </div>

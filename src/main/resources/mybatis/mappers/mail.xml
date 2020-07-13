@@ -28,9 +28,10 @@
      			INSERT INTO reverse_mail.mail_send_list
 						(contents_id,
 						send_subject,
-						send_mail_list)
+						send_mail_list,
+						send_datetime)
 						VALUES	
-              			(#{contents_id}, #{send_subject}, #{send_mail_list})
+              			(#{contents_id}, #{send_subject}, #{send_mail_list}, #{send_datetime})
      </insert>
      
 	<update id="deleteSendMail" parameterType="String" >
