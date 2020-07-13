@@ -17,6 +17,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.cside.new_mailing.DAO.ContentsDAO;
 import com.cside.new_mailing.DAO.MailDAO;
 import com.cside.new_mailing.Service.MailService;
+import com.cside.new_mailing.Service.MemberService;
 import com.cside.new_mailing.VO.GroupVO;
 import com.cside.new_mailing.VO.SendListVO;
 import com.cside.new_mailing.VO.SendResultVO;
@@ -29,6 +30,8 @@ public class MailController {
 	
 	@Autowired
 	private MailService mailService;
+	@Autowired
+	private MemberService memberService;
 
 	@RequestMapping(value = "/create_mail")
 	public String create_mail() {
@@ -111,6 +114,7 @@ public class MailController {
 		boolean a=false;
 		if(id != null) {
 			a = mailService.updateRejectMail(id);
+			a = memberService.updateRejectMember(id);
 		}
 		return Boolean.toString(a);
 	}
