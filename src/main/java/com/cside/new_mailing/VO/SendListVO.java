@@ -11,12 +11,19 @@ public class SendListVO {
 	private String send_mail_list;
 	
 	private String send_cnt;
+	private String send_w_cnt;
 	private String send_succ_cnt;
 	private String send_fail_cnt;
 	private String mail_check;
 	private String mail_reject;
 	
 	
+	public String getSend_w_cnt() {
+		return send_w_cnt;
+	}
+	public void setSend_w_cnt(String send_w_cnt) {
+		this.send_w_cnt = send_w_cnt;
+	}
 	public String getDelete_date() {
 		return delete_date;
 	}

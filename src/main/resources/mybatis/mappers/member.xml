@@ -90,6 +90,6 @@
 		UPDATE  mail_member A INNER JOIN mail_send_result B
 		ON A.member_mail = B.send_mail
 		SET A.rejection_date = now()
-		( WHERE B.send_result_id in  (${value}))
+		WHERE B.send_mail = #{value}
 	</update>
 </mapper>

@@ -15,6 +15,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 
@@ -65,8 +66,10 @@ public class AdminController {
 
 	@RequestMapping(value = "/sendMail.do", produces = "application/json; charset=utf8")
 	@ResponseBody
-	public String sendMail( HttpServletRequest request) {
-		List<SendResultVO> list = mailService.sendMail(""); // dto (메일관련 정보)를 sendMail에 저장함
+	public String sendMail(@RequestParam(value = "id", required = false) String id, HttpServletRequest request) {
+		System.out.println("id: "+id);
+		List<SendResultVO> list = mailService.sendMail(id); // dto (메일관련 정보)를 sendMail에 저장함
+		
         if(list.size()>0) {
 		ArrayList<String> dataList = new ArrayList<>();
 		for(int i=0;i<list.size();i++) {
@@ -84,21 +87,31 @@ public class AdminController {
 		
 		String succ_id="";
 		String fail_id="";
+		
 		for(int i=0;i<list.size();i++) {
-			EmailVO vo=new EmailVO();
-			vo.setReceiveMail(list.get(i).getSend_mail());
-			vo.setSubject(list.get(i).getSend_subject());
-			vo.setMessage(list.get(i).getContents_html());
 			
-			 Boolean result= mailService.sendMailAction(vo);
-			 if(result) {
-				 succ_id+=list.get(i).getSend_result_id()+",";
-			 }else {
-				 fail_id+=list.get(i).getSend_result_id()+",";
-			 }
+			if (list.get(i).getReject_date() == null) {
+				String message=list.get(i).getContents_html();
+				String tmp="<div><a classname=\"btn btn-save\" href=\"http://13.209.6.204:8080/RejectMail.do?send_mail="+list.get(i).getSend_mail()+"&send_list_id="+list.get(i).getSend_list_id()+"\">수신거부</a><img src=\"http://13.209.6.204:8080/CheckedMail.do?send_mail="+list.get(i).getSend_mail()+"&send_list_id="+list.get(i).getSend_list_id()+"\" border=0 width=0 height=0 /></div>";
+				message=message+tmp;
+				
+				EmailVO vo=new EmailVO();
+				vo.setReceiveMail(list.get(i).getSend_mail());
+				vo.setSubject(list.get(i).getSend_subject());
+				vo.setMessage(message);
+				
+				 Boolean result= mailService.sendMailAction(vo);
+				 if(result) {
+					 succ_id+=list.get(i).getSend_result_id()+",";
+				 }else {
+					 fail_id+=list.get(i).getSend_result_id()+",";
+				 }
+			}else {
+				fail_id+=list.get(i).getSend_result_id()+",";
+			}
 		}
-		mailService.updateSuccMail(succ_id.substring(0, succ_id.length()-1));
-		mailService.updateFailMail(fail_id.substring(0, fail_id.length()-1));
+		if (succ_id != "") mailService.updateSuccMail(succ_id.substring(0, succ_id.length()-1));
+		if (fail_id != "") mailService.updateFailMail(fail_id.substring(0, fail_id.length()-1));
 		
 		mailService.updateSendingEndMail(update_id);
 		}

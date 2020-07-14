@@ -105,7 +105,11 @@ function Create(props) {
     let title_val = document.getElementById("mailTitle").value;
     let receivers_val = document.getElementById("receivers").value;
     let contents_id = contentsId;
-    let send_date = document.getElementById("bookedTime").value;
+    let send_date = "";
+    
+    var st = $("input:radio[name=sendOption]:checked").val();
+    if (st==='booked')
+      send_date = document.getElementById("bookedTime").value;
     
     axios({
       method: 'post',
@@ -114,7 +118,7 @@ function Create(props) {
         send_subject: title_val,      
         send_mail_list: receivers_val,
         contents_id:contents_id,
-        send_date:send_date
+        send_datetime:send_date
       },
       headers: { 
         'Content-Type': 'application/json; charset=utf-8' 
@@ -123,6 +127,23 @@ function Create(props) {
     .then(res => {
       const data = res.data;
       alert("저장되었습니다.");
+      if (st==='direct')
+        sendMail(data);
+    })
+    .catch(error => {
+      console.log(error)
+    })
+  }
+  const sendMail = id => {
+    axios({
+      method: 'get',
+      url: '/sendMail.do?id='+id,
+      headers: { 
+        'Content-Type': 'application/json; charset=utf-8' 
+      }
+    })
+    .then(res => {
+      const data = res.data;
     })
     .catch(error => {
       console.log(error)
@@ -191,13 +212,14 @@ function Create(props) {
                   selected={startDate}
                   onChange={date => setStartDate(date)}
                   showTimeSelect
-                  dateFormat="Pp"
+                  timeFormat="HH:mm"
+                  dateFormat="yyyy-MM-dd HH:mm"
                 />
               </div>
               ):("")}
             </div>
             <div className="btn-wrap fr">
-              <button className="btn btn-save" onClick={saveContents}>저장</button>
+              <a className="btn btn-save" onClick={saveContents}>저장</a>
             </div>
           </form>
         </div>
