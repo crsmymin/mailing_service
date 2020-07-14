@@ -1,8 +1,8 @@
 import React, { useState, useEffect, Fragment } from "react";
+import axios from "axios";
 import $ from "jquery";
 window.$ = $;
 window.jQuery = $;
-import axios from "axios";
 import ReactSummernote from 'react-summernote';
 import 'react-summernote/dist/react-summernote.css'; 
 import 'bootstrap/dist/css/bootstrap.css';
@@ -76,8 +76,8 @@ function View(props) {
                     ['fontname', ['fontname']],
                     ['para', ['ul', 'ol', 'paragraph']],
                     ['table', ['table']],
-                    ['insert', ['link', 'picture', 'video']],
-                    ['view', ['fullscreen', 'codeview']]
+                    ['insert', ['link', 'video']],
+                    ['view', ['codeview']]
                   ]
                 }}
                 onChange={contentHtml => setContentHtml(contentHtml)}

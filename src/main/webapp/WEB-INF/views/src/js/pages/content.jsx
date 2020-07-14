@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import ReactDom from "react-dom";
 import axios from "axios"
+
 // import components
 import Nav from '../layouts/nav.jsx'
 import Create from  '../components/Create_content.jsx'

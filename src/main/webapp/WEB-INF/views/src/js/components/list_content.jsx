@@ -2,48 +2,43 @@ import React, { useState, useEffect, Fragment } from "react";
 import axios from 'axios';
 
 function List(props) {
-  const [isCheckedAll, setIsCheckedAll] = useState(false);
-  const [isChecked, setIsChecked] = useState(false);
-  
+    
   useEffect(() => {
     
   },[])
 
-  const handleCheckedChange = e => {
-    const { target: { checked } } = e;
-    setIsChecked(true)
-  }
-
-
   const onSave = () => {
-    let result = confirm("항목들을 삭제 하시겠습니까?")
-    if(result) {
-
-    var checkbox = $("input[name=chkContent]:checked");
-    var delete_id="";
-    for(var i=0;i<checkbox.length;i++){
-      delete_id+=checkbox[i].id+',';
-    }
-    delete_id=delete_id.substring(0, delete_id.lastIndexOf(","));
-    
-      axios({
-        method: 'get',
-        url: '/ContentsDelete.do',
-        params: {
-          id : delete_id
-        }
-      })
-      .then(res => {
-        const data = res.data;
-        console.log(data);
-        alert("저장되었습니다.")
-        location.reload();
-      })
-      .catch(error => {
-        console.log(error)
-      })
-    } else {
+    let checkbox = $("input[name=chkContent]:checked");
+    if(checkbox.length === 0) {
+      alert("선택 항목이 없습니다.")
       return false;
+    } else {
+      let result = confirm("항목들을 삭제 하시겠습니까?")
+      if (result) {
+        let delete_id = "";
+        for (let i = 0; i < checkbox.length; i++) {
+          delete_id += checkbox[i].id + ',';
+        }
+        delete_id = delete_id.substring(0, delete_id.lastIndexOf(","));
+        axios({
+          method: 'get',
+          url: '/ContentsDelete.do',
+          params: {
+            id: delete_id
+          }
+        })
+          .then(res => {
+            const data = res.data;
+            console.log(data);
+            alert("저장되었습니다.")
+            location.reload();
+          })
+          .catch(error => {
+            console.log(error)
+          })
+      } else {
+        return false;
+      }
     }
   }
 

@@ -74,8 +74,8 @@ function Create(props) {
                     ['fontname', ['fontname']],
                     ['para', ['ul', 'ol', 'paragraph']],
                     ['table', ['table']],
-                    ['insert', ['link', 'picture', 'video']],
-                    ['view', ['fullscreen', 'codeview']]
+                    ['insert', ['link', 'video']],
+                    ['view', ['codeview']]
                   ]
                 }}
                 onChange={content => setContent(content)}

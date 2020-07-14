@@ -13,11 +13,13 @@ function Create(props) {
   const [visible, setVisible] = useState(false);
   const [startDate, setStartDate] = useState(new Date());
   const [sendOption, setSendOption] = useState("direct");
-  const [contentsId, setContentsId] = useState()
-  const [contentsName, setContentsName] = useState()
-  const [contentsHtml, setContentsHtml] = useState()
+  const [mailTitle, setMailTitle] = useState("");
+  const [contentsId, setContentsId] = useState();
+  const [contentsName, setContentsName] = useState();
+  const [contentsHtml, setContentsHtml] = useState();
   const [searchWord, setSearchWord] = useState("");
-
+  const [sendList, setSendList] = useState("");
+  
   const _getContentsView = () => {
     const id = location.search.split("=")[1];
     axios({
@@ -38,27 +40,28 @@ function Create(props) {
       console.log(error)
     })
   }
-  const elements=[];
   
   const settingGroup = () => {
     axios({
       method: 'get',
       url: '/GroupSearch.do'
     })
-      .then(res => {
-        const data = res.data;
-        setInitGroup(data);
-        console.log(data)
-        })
-      .catch(error => {
-        console.log(error)
-      })
+    .then(res => {
+      const data = res.data;
+      setInitGroup(data);
+      console.log(data)
+    })
+    .catch(error => {
+      console.log(error)
+    })
   }
-  const chageSelect = e =>{
+
+  const changeSelect = e => {
     const { target: {value}} = e;
     group_id=value;
     settingMember();
   }
+
   const settingMember = () => {
     axios({
       method: 'get',
@@ -74,7 +77,7 @@ function Create(props) {
       console.log(data);
       setInitMember([]);
       setInitMember(data);
-         })
+      })
     .catch(error => {
       console.log(error)
     })
@@ -87,34 +90,62 @@ function Create(props) {
   }
 
   const modalOpen = () => {
+    setVisible(true);
     settingGroup();
     settingMember();
-    setVisible(true);
   }
 
   const modalClose = () => {
-    setVisible(false)
+    setSearchWord("");
+    setInitMember([]);
+    setVisible(false);
+  }
+
+  const addReceiverList = () => {
+    let addList = $("#willSelectList option:selected");
+    for(let i=0; i < addList.length; i++) {
+      console.log(addList[i]);
+      let cln = addList[i].cloneNode(true);
+      document.getElementById("didSelectList").appendChild(cln);
+    }
+    alert("리스트에 목록이 추가되었습니다.");
+  }
+
+  const removeReceiverList = () => {
+    let removeList = $("#didSelectList option:selected");
+    for (let i = 0; i < removeList.length; i++) {
+      console.log(removeList[i]);
+      removeList[i].remove();
+    }
+    alert("리스트에 목록이 제외되었습니다.");
   }
 
   const saveReceiverList = () => {
-    alert("수신인 저장");
-    setVisible(false)
+    let sendList = $("#didSelectList option");
+    if(sendList.length === 0) {
+      alert("선택된 목록이 없습니다.");
+    } else {
+      let sendMailList = "";
+      for (let i = 0; i < sendList.length; i++) {
+        let cln = sendList[i].cloneNode(true);
+        sendMailList += cln.innerText.split(" | ")[1]+","
+        console.log(sendMailList);
+        setSendList(sendMailList);
+      }
+      alert("수신인 저장");
+      setVisible(false)
+    }
   }
 
   const saveContents = () => {
-    let title_val = document.getElementById("mailTitle").value;
-    let receivers_val = document.getElementById("receivers").value;
-    let contents_id = contentsId;
-    let send_date = document.getElementById("bookedTime").value;
-    
     axios({
       method: 'post',
       url: '/SendMailInsert.do',
       data: {
-        send_subject: title_val,      
-        send_mail_list: receivers_val,
-        contents_id:contents_id,
-        send_date:send_date
+        send_subject: mailTitle,      
+        send_mail_list: sendList,
+        contents_id:contentsId,
+        send_date:startDate
       },
       headers: { 
         'Content-Type': 'application/json; charset=utf-8' 
@@ -143,17 +174,30 @@ function Create(props) {
           <form>
             <div className="title-area">
               <label htmlFor="mailTitle">
-                <input id="mailTitle" type="text" placeholder="메일제목"/>
+                <input 
+                id="mailTitle" 
+                type="text" 
+                placeholder="메일제목"
+                value={mailTitle}
+                onChange={e => setMailTitle(e.target.value)}
+                />
               </label>
             </div>
             <div className="receiver-area">
               <label htmlFor="receivers">
-                <input id="receivers" className="fl" type="text" placeholder="수신자" />
+                <input 
+                id="receivers" 
+                className="fl" 
+                type="text" 
+                placeholder="수신자" 
+                defaultValue={sendList}
+                readOnly
+                />
                 <button id="btnAddReceivers" className="fl btn btn-add" type="button" onClick={modalOpen}>추가</button>
               </label> 
             </div>
             <div className="content-title-area">
-              콘텐츠 <strong>[{contentsName}]</strong> 
+              콘텐츠 <strong>[ {contentsName} ]</strong> 
             </div>
             <div className="content-area">
               <div id="loaded-content" dangerouslySetInnerHTML={{__html: contentsHtml}}></div>
@@ -189,9 +233,11 @@ function Create(props) {
                 <DatePicker 
                   id="bookedTime"
                   selected={startDate}
+                  value={startDate}
                   onChange={date => setStartDate(date)}
                   showTimeSelect
-                  dateFormat="Pp"
+                  timeFormat="HH:mm"
+                  dateFormat="MMMM d, yyyy HH:mm"
                 />
               </div>
               ):("")}
@@ -212,7 +258,7 @@ function Create(props) {
             <div className="top-area">
               <div className="will-add">
                 <div id="selectGroup">
-                  <select name="" id="" onChange={chageSelect}>
+                  <select name="" id="" onChange={changeSelect}>
                       <option key={"member_all"} value="">전체
                       </option>
                      {initGroup.map(
@@ -245,23 +291,24 @@ function Create(props) {
                 <span>이메일</span>
               </div>
               <div className="list">
-                <div id="selectMember">
-                  <select name="" id="" multiple>
-                     {initMember.map(
-                      (initMember, index) =>
-                        <option key={"member_"+initMember.member_id} value={initMember.member_id}>
-                        {initMember.member_name} | 
-                        {initMember.member_mail}
-                        </option>
-                    )} 
-                  </select>
-                </div>
+                <select 
+                multiple
+                name="willSelectList" 
+                id="willSelectList"
+                >
+                  {initMember.map(
+                  (initMember) =>
+                    <option key={"member_"+initMember.member_id} value={initMember.member_id}>
+                      {initMember.member_name} | {initMember.member_mail}
+                    </option>
+                  )}
+                </select>
               </div>
             </div>
 
             <div className="box indicator">
-              <button id="btnAddList" className="btn-save" type="button">추가</button>
-              <button id="btnRemoveList" className="btn-del" type="button">제거</button>
+              <button id="btnAddList" className="btn-save" type="button" onClick={addReceiverList}>추가</button>
+              <button id="btnRemoveList" className="btn-del" type="button" onClick={removeReceiverList}>제거</button>
             </div>        
 
             <div className="box did-add-list">
@@ -270,7 +317,12 @@ function Create(props) {
                 <span>이메일</span>
               </div>
               <div className="list">
-                <select name="" id="" multiple></select>
+                <select 
+                name="didSelectList" 
+                id="didSelectList" 
+                multiple
+                >
+                </select>
               </div>
             </div>
           </div>
