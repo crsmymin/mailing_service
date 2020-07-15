@@ -219,15 +219,15 @@ function Reciever(props) {
     if (updateGroupList.length > 0 || groupRows.length > 0 || delete_id.length > 0) {
       // validate for will add groups
       for(let i=0; i<groupRows.length; i++) {
-        //console.log("add group : " + groupRows[i].group_name);
+        console.log("add group : " + groupRows[i].group_name);
         if (groupRows[i].group_name === "" || groupRows[i].group_name === " ") {
           alert("추가할 그룹명을 채워주세요.")
           return false;
         }
       }
       // validate for will update groups
-      for (let i=0; updateGroupList.length; i++) {
-        //console.log("update group : " + updateGroupList[i].group_name);
+      for (let i=0; i<updateGroupList.length; i++) {
+        console.log("update group : " +updateGroupList.length+ ", "+updateGroupList[i].group_name);
         if (updateGroupList[i].group_name === "" || updateGroupList[i].group_name === " ") {
           alert("수정할 그룹명을 채워주세요.")
           return false;
@@ -246,9 +246,10 @@ function Reciever(props) {
       .then(res => {
         const data = res.data;
         //console.log(data);
+        alert("저장되었습니다.");
         setGroups([]);
         setGroupRows([]);
-        alert("저장되었습니다.");
+        _getGroup();
       })
       .catch(error => {
         console.log(error)
