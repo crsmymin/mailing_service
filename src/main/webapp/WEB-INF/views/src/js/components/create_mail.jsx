@@ -129,6 +129,7 @@ function Create(props) {
       alert("저장되었습니다.");
       if (st==='direct')
         sendMail(data);
+      location.href="/list_mail"
     })
     .catch(error => {
       console.log(error)

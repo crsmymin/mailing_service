@@ -103,6 +103,10 @@ public class MailService {
 	
 	return mailDAO.updateFailMail(value);
 	}
+	public boolean updateFailMail2(String value){
+		
+		return mailDAO.updateFailMail2(value);
+		}
 	
 	public boolean updateCheckedMail(SendResultVO vo){
 		

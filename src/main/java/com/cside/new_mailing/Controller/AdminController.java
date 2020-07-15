@@ -87,9 +87,9 @@ public class AdminController {
 		
 		String succ_id="";
 		String fail_id="";
+		String reject_id="";
 		
 		for(int i=0;i<list.size();i++) {
-			
 			if (list.get(i).getReject_date() == null) {
 				String message=list.get(i).getContents_html();
 				String tmp="<div><a classname=\"btn btn-save\" href=\"http://13.209.6.204:8080/RejectMail.do?send_mail="+list.get(i).getSend_mail()+"&send_list_id="+list.get(i).getSend_list_id()+"\">수신거부</a><img src=\"http://13.209.6.204:8080/CheckedMail.do?send_mail="+list.get(i).getSend_mail()+"&send_list_id="+list.get(i).getSend_list_id()+"\" border=0 width=0 height=0 /></div>";
@@ -107,11 +107,12 @@ public class AdminController {
 					 fail_id+=list.get(i).getSend_result_id()+",";
 				 }
 			}else {
-				fail_id+=list.get(i).getSend_result_id()+",";
+				reject_id+=list.get(i).getSend_result_id()+",";
 			}
 		}
 		if (succ_id != "") mailService.updateSuccMail(succ_id.substring(0, succ_id.length()-1));
 		if (fail_id != "") mailService.updateFailMail(fail_id.substring(0, fail_id.length()-1));
+		if (reject_id != "") mailService.updateFailMail2(reject_id.substring(0, reject_id.length()-1));
 		
 		mailService.updateSendingEndMail(update_id);
 		}

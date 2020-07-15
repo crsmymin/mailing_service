@@ -70,7 +70,7 @@ public class MailController {
 		String[] array = vo.getSend_mail_list().split(",");
 		for (int i = 0; i < array.length; i++) {
 			SendResultVO voR = new SendResultVO();
-			voR.setSend_mail(array[i]);
+			voR.setSend_mail(array[i].replaceAll(" ", ""));
 			voR.setSend_list_id(vo.getSend_list_id());
         	list.add(voR);
         }
@@ -123,8 +123,8 @@ public class MailController {
 		vo.setSend_mail(send_mail);
 		boolean a=false;
 		if(vo != null) {
-			//a = mailService.updateRejectMail(vo);
-			a = memberService.updateRejectMember(send_mail);
+			a = mailService.updateRejectMail(vo);
+			//a = memberService.updateRejectMember(send_mail);
 		}
 		return Boolean.toString(a);
 	}
