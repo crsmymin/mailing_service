@@ -1,6 +1,5 @@
 import React, { useState, useEffect, Fragment } from "react";
 import axios from "axios";
-import ReactDom from "react-dom";
 
 function View(props) {
   const [title, setTitle] = useState("");
@@ -58,18 +57,7 @@ function View(props) {
     .then(res => {
       const data = res.data
       console.log(data)
-      for(let i=0;i<data.length;i++){
-        elements.push(
-          <tr key={i}>
-          <td>{data[i].send_mail}</td>
-          <td>{data[i].member_name}</td>
-          <td>{data[i].send_result_yn}</td>
-          <td>{data[i].send_mail_check_date}</td>
-          <td>{data[i].reject_date}</td>
-          </tr>);
-      };
-      ReactDom.render(elements, document.getElementById("listReceiver"));
-
+      setMailList(data);
     })
     .catch(error => {
       console.log(error)
@@ -84,7 +72,7 @@ function View(props) {
         <div className="box state-send">
           <ul>
             <li className="title">메일제목: <em>{title}</em></li>
-            <li className="date">발송일시: <em>{sendDate}</em></li>
+            <li className="date">발송일시: <em>{sendDate.split(".")[0]}</em></li>
             <li className="result">
               <span>발송: <em>{sendCnt}</em></span>
               <span>대기: <em>{waitCnt}</em></span>
@@ -107,12 +95,25 @@ function View(props) {
               </tr>
             </thead>
             <tbody id="listReceiver">
-              <tr>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-              </tr>
+              {mailList.map((mailList, index) =>
+                <tr key={mailList.send_result_id}>
+                  <td>{mailList.send_mail}</td>
+                  <td>{mailList.member_name}</td>
+                  {mailList.send_result_yn =='y' && <td>완료</td>}
+                  {mailList.send_result_yn =='r' && <td class='result_fail'>거부</td>}
+                  {mailList.send_result_yn =='n' && <td class='result_fail'>실패</td>}
+                  {mailList.send_mail_check_date === undefined ? (<td></td>) 
+                  : 
+                  (
+                  <td>{mailList.send_mail_check_date.split(".")[0]}</td>
+                  )}
+                  {mailList.reject_date === undefined ? (<td></td>) 
+                  : 
+                  (
+                  <td>{mailList.reject_date.split(".")[0]}</td>
+                  )}
+                </tr>
+                )}
             </tbody>
           </table>
         </div>

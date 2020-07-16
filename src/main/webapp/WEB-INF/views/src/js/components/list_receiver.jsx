@@ -73,42 +73,46 @@ function Reciever(props) {
   }
 
   const memberSearch = id => e => {
-    // 멤버 검색 (그룹 선택 | 멤버 검색어 엔터)
-    if (e.target.id === '' || (e.target.id === 'searchMemberInput' && e.key === 'Enter')) {
-      let result = true;
-      if(deforesaveMember){
-        result=confirm("저장이 되지않은 수정이력이 있습니다. 저장하지않고 조회하시겠습니까?");
-      }
-      if(result) {
-
-        if (e.target.id === '') {
-          document.getElementById("searchMemberInput").value = "";
-          $("#chkAllMember").prop("checked", false);
-          group_id = id;
+    
+    if(group_id===''|| id!=group_id){
+      console.log(id+" , "+group_id);
+      // 멤버 검색 (그룹 선택 | 멤버 검색어 엔터)
+      if (e.target.id === '' || (e.target.id === 'searchMemberInput' && e.key === 'Enter')) {
+        let result = true;
+        if(deforesaveMember){
+          result=confirm("저장이 되지않은 수정이력이 있습니다. 저장하지않고 조회하시겠습니까?");
         }
-        
-        setLoadingMember(true);
-        axios({
-          method: 'get',
-          url: '/MemberSearch.do',
-          params: {
-            searchValue : searchWord,
-            groupID: group_id
-          },
-          headers: { 'Content-Type': 'application/json; charset=utf-8' }
-        })
-        .then(res => {
-          const data = res.data;
-          //console.log(data.length)
-          setMemberRows([]);
-          setMembers([]);
-          setMembers(data);
-          setLoadingMember(false);
-          setSaveMember(false);
-        })
-        .catch(error => {
-          console.log(error)
-        })
+        if(result) {
+
+          if (e.target.id === '') {
+            document.getElementById("searchMemberInput").value = "";
+            $("#chkAllMember").prop("checked", false);
+            group_id = id;
+          }
+          
+          setLoadingMember(true);
+          axios({
+            method: 'get',
+            url: '/MemberSearch.do',
+            params: {
+              searchValue : searchWord,
+              groupID: group_id
+            },
+            headers: { 'Content-Type': 'application/json; charset=utf-8' }
+          })
+          .then(res => {
+            const data = res.data;
+            //console.log(data.length)
+            setMemberRows([]);
+            setMembers([]);
+            setMembers(data);
+            setLoadingMember(false);
+            setSaveMember(false);
+          })
+          .catch(error => {
+            console.log(error)
+          })
+        }
       }
     }
   }

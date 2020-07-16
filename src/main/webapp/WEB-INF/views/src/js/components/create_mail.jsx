@@ -11,7 +11,7 @@ function Create(props) {
   const [initMember,setInitMember] = useState([]);
   const [initGroup, setInitGroup] = useState([]);
   const [visible, setVisible] = useState(false);
-  const [startDate, setStartDate] = useState(new Date());
+  const [startDate, setStartDate] = useState();
   const [sendOption, setSendOption] = useState("direct");
   const [contentsId, setContentsId] = useState()
   const [contentsName, setContentsName] = useState()
@@ -19,6 +19,11 @@ function Create(props) {
   const [searchWord, setSearchWord] = useState("");
 
   const _getContentsView = () => {
+    const loadDt = new Date();
+    loadDt.setHours(loadDt.getHours()+1);
+    loadDt.setMinutes(0);
+    
+    setStartDate(loadDt);
     const id = location.search.split("=")[1];
     axios({
       method: 'get',
@@ -174,12 +179,6 @@ function Create(props) {
                 <button id="btnAddReceivers" className="fl btn btn-add" type="button" onClick={modalOpen}>추가</button>
               </label> 
             </div>
-            <div className="content-title-area">
-              콘텐츠 <strong>[{contentsName}]</strong> 
-            </div>
-            <div className="content-area">
-              <div id="loaded-content" dangerouslySetInnerHTML={{__html: contentsHtml}}></div>
-            </div>
             <div className="option-area cf">
               <strong className="fl">
                 발송일시 : 
@@ -222,6 +221,13 @@ function Create(props) {
             <div className="btn-wrap fr">
               <a className="btn btn-save" onClick={saveContents}>저장</a>
             </div>
+            <div className="content-title-area">
+              콘텐츠 <strong>[{contentsName}]</strong> 
+            </div>
+            <div className="content-area">
+              <div id="loaded-content" dangerouslySetInnerHTML={{__html: contentsHtml}}></div>
+            </div>
+            
           </form>
         </div>
       </div>

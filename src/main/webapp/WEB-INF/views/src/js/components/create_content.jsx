@@ -58,7 +58,7 @@ function Create(props) {
           <form id="frmMailContent" onSubmit={onSubmit}>
             <div className="title-area">
               <label>
-                <input id="title" type="text" name="title" placeholder="콘테츠 타이틀" onChange={e => setTitle(e.target.value)}/>
+                <input id="title" type="text" name="title" placeholder="타이틀" onChange={e => setTitle(e.target.value)}/>
               </label>
             </div>
             <div className="content-area">
@@ -69,13 +69,12 @@ function Create(props) {
                   height: 450,
                   dialogsInBody: true,
                   toolbar: [
-                    ['style', ['style']],
-                    ['font', ['bold', 'underline', 'clear']],
                     ['fontname', ['fontname']],
-                    ['para', ['ul', 'ol', 'paragraph']],
+                    ['font', ['bold', 'underline', 'clear']],
+                    ['para', ['paragraph']],
                     ['table', ['table']],
-                    ['insert', ['link', 'picture', 'video']],
-                    ['view', ['fullscreen', 'codeview']]
+                    ['insert', ['link']],
+                    ['view', ['codeview']]
                   ]
                 }}
                 onChange={content => setContent(content)}

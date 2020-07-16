@@ -71,13 +71,12 @@ function View(props) {
                   height: 450,
                   dialogsInBody: true,
                   toolbar: [
-                    ['style', ['style']],
-                    ['font', ['bold', 'underline', 'clear']],
                     ['fontname', ['fontname']],
-                    ['para', ['ul', 'ol', 'paragraph']],
+                    ['font', ['bold', 'underline', 'clear']],
+                    ['para', ['paragraph']],
                     ['table', ['table']],
-                    ['insert', ['link', 'picture', 'video']],
-                    ['view', ['fullscreen', 'codeview']]
+                    ['insert', ['link']],
+                    ['view', ['codeview']]
                   ]
                 }}
                 onChange={contentHtml => setContentHtml(contentHtml)}

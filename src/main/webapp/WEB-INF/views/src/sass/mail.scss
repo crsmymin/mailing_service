@@ -111,12 +111,12 @@
                 font-style: normal;
                 font-weight: 500;
               }
-              &:nth-child(2){
+              &:nth-child(3){
                 em {
                   color: blue;
                 }
               }
-              &:nth-child(3){
+              &:nth-child(4){
                 em {
                   color: red;
                 }
@@ -149,6 +149,9 @@
         }
       }
       td {
+        &.result_fail{
+          color: red;
+        }
         &:nth-child(1) {
           width: 35%;
         }
