@@ -27,8 +27,8 @@ public class MailService {
     public Boolean sendMailAction(EmailVO vo) {
         try {
             // 이메일 객체
-            MimeMessage msg = mailSender.createMimeMessage();
-            System.out.println("sendMail 시작 : "+vo.getReceiveMail()  +" ["+vo.getSubject()+ "] "+vo.getMessage());
+        	MimeMessage msg = mailSender.createMimeMessage();
+            //System.out.println("sendMail 시작 : "+vo.getReceiveMail()  +" ["+vo.getSubject()+ "] "+vo.getMessage());
             // 받는 사람을 설정 (수신자, 받는사람의 이메일 주소 객체를 생성해서 수신자 이메일주소를 담음)
             msg.addRecipient(RecipientType.TO, new InternetAddress(vo.getReceiveMail()));
  
@@ -57,10 +57,11 @@ public class MailService {
  
             // 이메일 보내기
             mailSender.send(msg);
-        	System.out.println("sendMail 전송: "+vo.getReceiveMail());
+           
+            System.out.println("sendMail 성공!: "+vo.getReceiveMail());
         	return true;
         } catch (Exception e) {
-        	System.out.println("sendMail 실패");
+        	System.out.println("sendMail 실패"+vo.getReceiveMail());
             e.printStackTrace();
             return false;
         }
