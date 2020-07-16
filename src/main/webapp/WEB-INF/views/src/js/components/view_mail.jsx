@@ -100,8 +100,8 @@ function View(props) {
                   <td>{mailList.send_mail}</td>
                   <td>{mailList.member_name}</td>
                   {mailList.send_result_yn =='y' && <td>완료</td>}
-                  {mailList.send_result_yn =='r' && <td class='result_fail'>거부</td>}
-                  {mailList.send_result_yn =='n' && <td class='result_fail'>실패</td>}
+                  {mailList.send_result_yn =='r' && <td className='result_fail'>거부</td>}
+                  {mailList.send_result_yn =='n' && <td className='result_fail'>실패</td>}
                   {mailList.send_mail_check_date === undefined ? (<td></td>) 
                   : 
                   (
