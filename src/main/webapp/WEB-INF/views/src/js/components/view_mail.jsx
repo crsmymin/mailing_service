@@ -31,7 +31,7 @@ function View(props) {
       const data = res.data
       console.log(data)
       setTitle(data[0].send_subject);
-      setContent(data[0].send_subject);
+      setContent(data[0].contents_id);
       setSendDate(data[0].send_datetime);
       setSendCnt(data[0].send_cnt);
       setWaitCnt(data[0].send_w_cnt);
@@ -80,6 +80,7 @@ function View(props) {
               <span>실패: <em>{failCnt}</em></span>
               <span>수신확인: <em>{mailCheck}</em></span>
               <span>수신거부: <em>{mailReject}</em></span>
+              <span className="float_right"><a href={"/view_content?id=" + content}>[컨텐츠]</a></span>
             </li>
           </ul>
         </div>

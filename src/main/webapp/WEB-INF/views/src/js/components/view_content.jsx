@@ -60,7 +60,7 @@ function View(props) {
           <form id="frmMailContent" onSubmit={onSubmit}>
             <div className="title-area">
               <label>
-                <input id="title" type="text" name="title" placeholder="콘테츠 타이틀" defaultValue={props.contentsName} onChange={e => setContentName(e.target.value)}/>
+                <input id="title" type="text" name="title" placeholder="타이틀" defaultValue={props.contentsName} onChange={e => setContentName(e.target.value)}/>
               </label>
             </div>
             <div className="content-area">
