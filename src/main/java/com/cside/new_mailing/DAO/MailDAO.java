@@ -29,9 +29,9 @@ public class MailDAO {
 		return list;
 	}
 	
-	public boolean insertSendMail(SendListVO vo){
+	public int insertSendMail(SendListVO vo){
 		int count = sqlSession.insert("mail.insertSendMail", vo);
-		return count == 1;
+		return count;
 	}
 	public int insertSendResult(List<SendResultVO>  list){
 		int count = sqlSession.insert("mail.insertSendResult", list);
@@ -54,12 +54,12 @@ public class MailDAO {
 		int count = sqlSession.update("mail.updateFailMail",value);
 		return count >= 1;
 	}
-	public boolean updateCheckedMail(String value){
-		int count = sqlSession.update("mail.updateCheckedMail",value);
+	public boolean updateCheckedMail(SendResultVO vo){
+		int count = sqlSession.update("mail.updateCheckedMail",vo);
 		return count >= 1;
 	}
-	public boolean updateRejectMail(String value){
-		int count = sqlSession.update("mail.updateRejectMail",value);
+	public boolean updateRejectMail(SendResultVO vo){
+		int count = sqlSession.update("mail.updateRejectMail",vo);
 		return count >= 1;
 	}
 	public boolean updateResultList(SendResultVO vo){

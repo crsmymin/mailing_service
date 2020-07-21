@@ -1,4 +1,4 @@
-import React, { useState, useEffect, Fragment } from "react";
+import React, { useState, useEffect, Fragment, useRef } from "react";
 import ReactDom from "react-dom";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
@@ -19,7 +19,7 @@ function Create(props) {
   const [contentsHtml, setContentsHtml] = useState();
   const [searchWord, setSearchWord] = useState("");
   const [sendList, setSendList] = useState("");
-  
+
   const _getContentsView = () => {
     const id = location.search.split("=")[1];
     axios({
@@ -104,7 +104,6 @@ function Create(props) {
   const addReceiverList = () => {
     let addList = $("#willSelectList option:selected");
     for(let i=0; i < addList.length; i++) {
-      console.log(addList[i]);
       let cln = addList[i].cloneNode(true);
       document.getElementById("didSelectList").appendChild(cln);
     }
@@ -114,7 +113,6 @@ function Create(props) {
   const removeReceiverList = () => {
     let removeList = $("#didSelectList option:selected");
     for (let i = 0; i < removeList.length; i++) {
-      console.log(removeList[i]);
       removeList[i].remove();
     }
     alert("리스트에 목록이 제외되었습니다.");
@@ -129,7 +127,6 @@ function Create(props) {
       for (let i = 0; i < sendList.length; i++) {
         let cln = sendList[i].cloneNode(true);
         sendMailList += cln.innerText.split(" | ")[1]+","
-        console.log(sendMailList);
         setSendList(sendMailList);
       }
       alert("수신인 저장");
@@ -144,8 +141,8 @@ function Create(props) {
       data: {
         send_subject: mailTitle,      
         send_mail_list: sendList,
-        contents_id:contentsId,
-        send_date:startDate
+        contents_id: contentsId,
+        send_date: startDate
       },
       headers: { 
         'Content-Type': 'application/json; charset=utf-8' 
@@ -154,6 +151,23 @@ function Create(props) {
     .then(res => {
       const data = res.data;
       alert("저장되었습니다.");
+      if (st==='direct')
+        sendMail(data);
+    })
+    .catch(error => {
+      console.log(error)
+    })
+  }
+  const sendMail = id => {
+    axios({
+      method: 'get',
+      url: '/sendMail.do?id='+id,
+      headers: { 
+        'Content-Type': 'application/json; charset=utf-8' 
+      }
+    })
+    .then(res => {
+      const data = res.data;
     })
     .catch(error => {
       console.log(error)
@@ -185,14 +199,9 @@ function Create(props) {
             </div>
             <div className="receiver-area">
               <label htmlFor="receivers">
-                <input 
-                id="receivers" 
-                className="fl" 
-                type="text" 
-                placeholder="수신자" 
-                defaultValue={sendList}
-                readOnly
-                />
+                <div id="sendMailList">
+                  {sendList}
+                </div>
                 <button id="btnAddReceivers" className="fl btn btn-add" type="button" onClick={modalOpen}>추가</button>
               </label> 
             </div>
@@ -237,13 +246,13 @@ function Create(props) {
                   onChange={date => setStartDate(date)}
                   showTimeSelect
                   timeFormat="HH:mm"
-                  dateFormat="MMMM d, yyyy HH:mm"
+                  dateFormat="yyyy-MM-dd HH:mm"
                 />
               </div>
               ):("")}
             </div>
             <div className="btn-wrap fr">
-              <button className="btn btn-save" onClick={saveContents}>저장</button>
+              <a className="btn btn-save" onClick={saveContents}>저장</a>
             </div>
           </form>
         </div>

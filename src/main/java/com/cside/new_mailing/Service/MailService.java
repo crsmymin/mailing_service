@@ -53,7 +53,7 @@ public class MailService {
             MimeMessageHelper helper = new MimeMessageHelper(msg, true, "UTF-8");
             helper.setTo(vo.getReceiveMail());
             //helper.setTo("se.hong@cfind.co.kr");
-            helper.setText(vo.getMessage(), true);
+            msg.setContent(vo.getMessage(), "text/html;charset=euc-kr");
  
             // 이메일 보내기
             mailSender.send(msg);
@@ -78,7 +78,7 @@ public class MailService {
 		return mailDAO.getSendResultList(value);
 	}
 	
-	public boolean insertSendMail(SendListVO vo){
+	public int insertSendMail(SendListVO vo){
 		
 		return mailDAO.insertSendMail(vo);
 	}
@@ -104,14 +104,14 @@ public class MailService {
 	return mailDAO.updateFailMail(value);
 	}
 	
-	public boolean updateCheckedMail(String value){
+	public boolean updateCheckedMail(SendResultVO vo){
 		
-		return mailDAO.updateCheckedMail(value);
+		return mailDAO.updateCheckedMail(vo);
 	}
 	
-	public boolean updateRejectMail(String value){
+	public boolean updateRejectMail(SendResultVO vo){
 		
-		return mailDAO.updateRejectMail(value);
+		return mailDAO.updateRejectMail(vo);
 	}
 
 	public boolean updateResultList(SendResultVO vo){

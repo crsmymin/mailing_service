@@ -7,6 +7,7 @@ function View(props) {
   const [content, setContent] = useState("");
   const [sendDate, setSendDate] = useState("");
   const [sendCnt, setSendCnt] = useState("");
+  const [waitCnt, setWaitCnt] = useState("");
   const [succCnt, setSuccCnt] = useState("");
   const [failCnt, setFailCnt] = useState("");
   const [mailCheck, setMailCheck] = useState("");
@@ -34,6 +35,7 @@ function View(props) {
       setContent(data[0].send_subject);
       setSendDate(data[0].send_datetime);
       setSendCnt(data[0].send_cnt);
+      setWaitCnt(data[0].send_w_cnt);
       setSuccCnt(data[0].send_succ_cnt);
       setFailCnt(data[0].send_fail_cnt);
       setMailCheck(data[0].mail_check);
@@ -85,6 +87,7 @@ function View(props) {
             <li className="date">발송일시: <em>{sendDate}</em></li>
             <li className="result">
               <span>발송: <em>{sendCnt}</em></span>
+              <span>대기: <em>{waitCnt}</em></span>
               <span>성공: <em>{succCnt}</em></span>
               <span>실패: <em>{failCnt}</em></span>
               <span>수신확인: <em>{mailCheck}</em></span>

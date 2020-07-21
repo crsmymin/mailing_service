@@ -190,13 +190,23 @@
     }
     .receiver-area {
       label {
-        input {
+        overflow: hidden;
+        #sendMailList {
           width: 90%;
+          float: left;
           font-size: 14px;
           color: $main-color;
+          padding: 10px;
+          min-height: 42px;
+          border: 1px solid #ccc;
+          border-radius: 5px;
+          -webkit-border-radius: 5px;
+          -moz-border-radius: 5px;
+          -ms-border-radius: 5px;
+          -o-border-radius: 5px;
         }
         button {
-          margin: 3px 0 0 15px;
+          margin: 0 0 0 15px;
         }
       }
     }

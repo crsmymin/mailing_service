@@ -73,6 +73,7 @@ function List(props) {
                 <th>상태</th>
                 <th>발송일시</th>
                 <th>발송수</th>
+                <th>대기</th>
                 <th>성공</th>
                 <th>실패</th>
               </tr>
@@ -89,8 +90,9 @@ function List(props) {
                   </td>
                   <td><a href={"/view_mail?id="+mailList.send_list_id}>{mailList.send_subject}</a></td>
                   <td>{mailList.send_status}</td>
-                  <td>{mailList.send_datetime.split(" ")[0]}</td>
+                  <td>{mailList.send_datetime}</td>
                   <td>{mailList.send_cnt}</td>
+                  <td>{mailList.send_w_cnt}</td>
                   <td>{mailList.send_succ_cnt}</td>
                   <td>{mailList.send_fail_cnt}</td>
                 </tr>

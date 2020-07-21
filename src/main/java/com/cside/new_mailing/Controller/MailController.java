@@ -62,7 +62,9 @@ public class MailController {
 	@ResponseBody
 	public String ContentsInsert(@RequestBody SendListVO vo){
 		
-		boolean a = mailService.insertSendMail(vo);
+		int result = mailService.insertSendMail(vo);
+		
+		System.out.println("result; "+vo.getSend_list_id());
 		
 		List<SendResultVO> list = new ArrayList<SendResultVO>();
 		String[] array = vo.getSend_mail_list().split(",");
@@ -75,7 +77,7 @@ public class MailController {
 		
 		int a1 = mailService.insertSendResult(list);
 		
-		return "";
+		return vo.getSend_list_id();
     }
 
 
@@ -100,21 +102,29 @@ public class MailController {
 	
 	@RequestMapping(value = "/CheckedMail.do" )
 	@ResponseBody
-	public String CheckedMail(@RequestParam(value = "id", required = false) String id) {
+	public String CheckedMail(@RequestParam(value = "send_mail", required = false) String send_mail,@RequestParam(value = "send_list_id", required = false) String send_list_id) {
+		SendResultVO vo = new SendResultVO();
+		
+		vo.setSend_list_id(send_list_id);
+		vo.setSend_mail(send_mail);
 		boolean a=false;
-		if(id != null) {
-			a = mailService.updateCheckedMail(id);
+		if(vo != null) {
+			a = mailService.updateCheckedMail(vo);
 		}
 		return Boolean.toString(a);
 	}
 	
 	@RequestMapping(value = "/RejectMail.do" )
 	@ResponseBody
-	public String RejectMail(@RequestParam(value = "id", required = false) String id) {
+	public String RejectMail(@RequestParam(value = "send_mail", required = false) String send_mail,@RequestParam(value = "send_list_id", required = false) String send_list_id) {
+		SendResultVO vo = new SendResultVO();
+		
+		vo.setSend_list_id(send_list_id);
+		vo.setSend_mail(send_mail);
 		boolean a=false;
-		if(id != null) {
-			a = mailService.updateRejectMail(id);
-			a = memberService.updateRejectMember(id);
+		if(vo != null) {
+			//a = mailService.updateRejectMail(vo);
+			a = memberService.updateRejectMember(send_mail);
 		}
 		return Boolean.toString(a);
 	}
