@@ -79,8 +79,9 @@ function List(props) {
               </tr>
             </thead>
             <tbody>
-              {props.mailList.map(
-                (mailList, index) =>
+              {props.mailList
+                .sort((a,b) => b.send_list_id - a.send_list_id)
+                .map((mailList, index) =>
                 <tr key={index}>
                   <td> 
                     <input 
@@ -90,7 +91,7 @@ function List(props) {
                   </td>
                   <td><a href={"/view_mail?id="+mailList.send_list_id}>{mailList.send_subject}</a></td>
                   <td>{mailList.send_status}</td>
-                  <td>{mailList.send_datetime}</td>
+                  <td>{mailList.send_datetime.split(".")[0]}</td>
                   <td>{mailList.send_cnt}</td>
                   <td>{mailList.send_w_cnt}</td>
                   <td>{mailList.send_succ_cnt}</td>

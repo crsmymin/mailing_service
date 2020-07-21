@@ -1,6 +1,5 @@
 import React, { useState, useEffect, Fragment } from "react";
 import axios from "axios";
-import ReactDom from "react-dom";
 
 function View(props) {
   const [title, setTitle] = useState("");
@@ -32,7 +31,7 @@ function View(props) {
       const data = res.data
       console.log(data)
       setTitle(data[0].send_subject);
-      setContent(data[0].send_subject);
+      setContent(data[0].contents_id);
       setSendDate(data[0].send_datetime);
       setSendCnt(data[0].send_cnt);
       setWaitCnt(data[0].send_w_cnt);
@@ -58,18 +57,7 @@ function View(props) {
     .then(res => {
       const data = res.data
       console.log(data)
-      for(let i=0;i<data.length;i++){
-        elements.push(
-          <tr key={i}>
-          <td>{data[i].send_mail}</td>
-          <td>{data[i].member_name}</td>
-          <td>{data[i].send_result_yn}</td>
-          <td>{data[i].send_mail_check_date}</td>
-          <td>{data[i].reject_date}</td>
-          </tr>);
-      };
-      ReactDom.render(elements, document.getElementById("listReceiver"));
-
+      setMailList(data);
     })
     .catch(error => {
       console.log(error)
@@ -84,7 +72,7 @@ function View(props) {
         <div className="box state-send">
           <ul>
             <li className="title">메일제목: <em>{title}</em></li>
-            <li className="date">발송일시: <em>{sendDate}</em></li>
+            <li className="date">발송일시: <em>{sendDate.split(".")[0]}</em></li>
             <li className="result">
               <span>발송: <em>{sendCnt}</em></span>
               <span>대기: <em>{waitCnt}</em></span>
@@ -92,6 +80,7 @@ function View(props) {
               <span>실패: <em>{failCnt}</em></span>
               <span>수신확인: <em>{mailCheck}</em></span>
               <span>수신거부: <em>{mailReject}</em></span>
+              <span className="float_right"><a href={"/view_content?id=" + content}>[컨텐츠]</a></span>
             </li>
           </ul>
         </div>
@@ -107,12 +96,25 @@ function View(props) {
               </tr>
             </thead>
             <tbody id="listReceiver">
-              <tr>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-              </tr>
+              {mailList.map((mailList, index) =>
+                <tr key={mailList.send_result_id}>
+                  <td>{mailList.send_mail}</td>
+                  <td>{mailList.member_name}</td>
+                  {mailList.send_result_yn =='y' && <td>완료</td>}
+                  {mailList.send_result_yn =='r' && <td className='result_fail'>거부</td>}
+                  {mailList.send_result_yn =='n' && <td className='result_fail'>실패</td>}
+                  {mailList.send_mail_check_date === undefined ? (<td></td>) 
+                  : 
+                  (
+                  <td>{mailList.send_mail_check_date.split(".")[0]}</td>
+                  )}
+                  {mailList.reject_date === undefined ? (<td></td>) 
+                  : 
+                  (
+                  <td>{mailList.reject_date.split(".")[0]}</td>
+                  )}
+                </tr>
+                )}
             </tbody>
           </table>
         </div>

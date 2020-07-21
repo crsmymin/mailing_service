@@ -85,7 +85,7 @@ public class MemberController {
 	            	result+=memberService.updateGroup(list_u);
 	            
 	            String delete_id=o.get("delete").toString().replaceAll("\"", "");
-	            if(!delete_id.equals(null))
+	            if(!(delete_id.equals(null)||delete_id.equals("")))
 	            	result+=memberService.deleteGroup(delete_id);
 	            
 	        } catch (JSONException e) {

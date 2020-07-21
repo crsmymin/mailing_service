@@ -14,9 +14,9 @@
 			(select count(*) from mail_send_result As r where r.send_list_id=l.send_list_id and delete_date is null) as send_cnt,
 			(select count(*) from mail_send_result As r where r.send_list_id=l.send_list_id and send_result_yn is null and delete_date is null) as send_w_cnt,
 			(select count(*) from mail_send_result As r where r.send_list_id=l.send_list_id and send_result_yn='y'and delete_date is null) as send_succ_cnt,
-			(select count(*) from mail_send_result As r where r.send_list_id=l.send_list_id and send_result_yn='n' and delete_date is null) as send_fail_cnt,
+			(select count(*) from mail_send_result As r where r.send_list_id=l.send_list_id and (send_result_yn='r' ||send_result_yn='n')  and delete_date is null) as send_fail_cnt,
 			(select count(*) from mail_send_result As r where r.send_list_id=l.send_list_id and send_mail_check_yn='y' and delete_date is null) as mail_check,
-			(select count(*) from mail_send_result As r where r.send_list_id=l.send_list_id and send_mail_check_date is not null and delete_date is null) as mail_reject
+			IFNULL ((select count(*) from mail_rejection r  WHERE  r.send_list_id=l.send_list_id GROUP BY r.rejection_mail),0) as mail_reject
 		FROM reverse_mail.mail_send_list l
 		WHERE delete_date IS NULL
         <if test='value != null'>
@@ -63,19 +63,19 @@
      <select id="getSendResultList" parameterType="String" resultType="SendResultVO" >
                
 		SELECT send_result_id,
-			send_list_id,
+			r.send_list_id,
 			send_mail,
 			send_date,
 			send_result_yn,
 			send_mail_check_yn,
 			send_mail_check_date,
-			reject_date,
+			j.req_date as reject_date,
             (select member_name from mail_member m where r.send_mail=m.member_mail LIMIT 1) as member_name
 		FROM reverse_mail.mail_send_result r
-		WHERE reject_date is null
-		and delete_date is null
+		LEFT OUTER JOIN mail_rejection j ON j.rejection_mail=r.send_mail AND r.send_list_id=j.send_list_id
+		WHERE delete_date is null
 		<if test='value != null and value != ""'>
-			AND send_list_id = ${value}
+			AND r.send_list_id = ${value}
 		</if>
      </select>
      
@@ -92,32 +92,32 @@
      </insert>
      
      <select id="sendMail" parameterType="String" resultType="SendResultVO" >
-        <![CDATA[       
-			SELECT send_result_id,
-				r.send_list_id,
-				send_mail,
-				send_date,
-				send_result_yn,
-				send_mail_check_yn,
-				send_mail_check_date,
-	            send_subject,
-	            send_datetime,
-	            contents_html,
-	            send_status,
-                rejection_date as reject_date
-			FROM reverse_mail.mail_send_result r
-	        JOIN mail_send_list l ON r.send_list_id = l.send_list_id
-	        JOIN mail_contents c ON c.contents_id = l.contents_id
-	        INNER JOIN mail_member m ON m.member_mail = r.send_mail
-			WHERE l.delete_date is null
-	        and send_status ='대기중'
-	    ]]>
+           
+		SELECT send_result_id,
+			r.send_list_id,
+			send_mail,
+			send_date,
+			send_result_yn,
+			send_mail_check_yn,
+			send_mail_check_date,
+            send_subject,
+            send_datetime,
+            contents_html,
+            send_status,
+               j.req_date as reject_date
+		FROM reverse_mail.mail_send_result r
+        JOIN mail_send_list l ON r.send_list_id = l.send_list_id
+        JOIN mail_contents c ON c.contents_id = l.contents_id
+        LEFT OUTER JOIN mail_member m ON m.member_mail = r.send_mail
+		LEFT OUTER JOIN mail_rejection j ON j.rejection_mail=r.send_mail 
+		WHERE l.delete_date is null
+        and send_status ='대기중'
 	    <choose>
 	    <when test='value != null and value != ""'>
 			and r.send_list_id = ${value}
 		</when>
 		<otherwise>
-        	 <![CDATA[ and send_datetime < now()]]>
+        	 <![CDATA[ and send_datetime <= now()]]>
         </otherwise>
         </choose>
      </select>
@@ -136,6 +136,13 @@
 	  where send_result_id in (${value})
 	</update>
 	
+	<update id="updateFailMail2" parameterType="String" >
+	  update reverse_mail.mail_send_result set
+	    send_result_yn = 'r',
+	    send_date=now()
+	  where send_result_id in (${value})
+	</update>
+	
 	 <update id="updateCheckedMail" parameterType="SendResultVO" >
 	  update reverse_mail.mail_send_result set
 	    send_mail_check_yn='y',
@@ -144,10 +151,11 @@
 	  and send_list_id =#{send_list_id}
 	</update>
 	
-	<update id="updateRejectMail" parameterType="SendResultVO" >
-	  update reverse_mail.mail_send_result set
-	    reject_date=now()
-	 where send_mail =#{send_mail}
-	  and send_list_id =#{send_list_id}
-	</update>
+	<insert id="updateRejectMail" parameterType="SendResultVO">
+   		INSERT INTO reverse_mail.mail_rejection
+			(rejection_mail,
+			send_list_id)
+			VALUES	
+		(#{send_mail},${send_list_id})
+     </insert>
 </mapper>
