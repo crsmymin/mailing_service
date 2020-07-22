@@ -5,6 +5,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import axios from 'axios';
 
 let group_id = "";
+let sendMailList = "";
 
 function Create(props) {
   
@@ -110,9 +111,11 @@ function Create(props) {
     let addList = $("#willSelectList option:selected");
     for(let i=0; i < addList.length; i++) {
       let cln = addList[i].cloneNode(true);
+      let didSelectList=document.getElementById("didSelectList").innerHTML;
+      if(didSelectList.indexOf(cln.innerHTML)==-1)
       document.getElementById("didSelectList").appendChild(cln);
     }
-    alert("리스트에 목록이 추가되었습니다.");
+    //alert("리스트에 목록이 추가되었습니다.");
   }
 
   const removeReceiverList = () => {
@@ -120,7 +123,7 @@ function Create(props) {
     for (let i = 0; i < removeList.length; i++) {
       removeList[i].remove();
     }
-    alert("리스트에 목록이 제외되었습니다.");
+    //alert("리스트에 목록이 제외되었습니다.");
   }
 
   const saveReceiverList = () => {
@@ -128,13 +131,14 @@ function Create(props) {
     if(sendList.length === 0) {
       alert("선택된 목록이 없습니다.");
     } else {
-      let sendMailList = "";
       for (let i = 0; i < sendList.length; i++) {
         let cln = sendList[i].cloneNode(true);
-        sendMailList += cln.innerText.split(" | ")[1]+","
-        setSendList(sendMailList);
+        if(sendMailList.indexOf(cln.innerHTML)==-1)
+        sendMailList += cln.innerText+", "
       }
-      alert("수신인 저장");
+      sendMailList=sendMailList.substr(0,sendMailList.length-2);
+      setSendList(sendMailList);
+      //alert("수신인 저장");
       setVisible(false)
     }
   }
@@ -299,13 +303,6 @@ function Create(props) {
                   onKeyPress={memberSearch()}
                 />
               </div>
-              <div className="did-add">
-                <input
-                  type="text"
-                  id="searchDidAdd"
-                  placeholder="검색"
-                />
-              </div>
             </div>                
             <div className="box will-add-list">
               <div className="title">
@@ -321,7 +318,7 @@ function Create(props) {
                   {initMember.map(
                   (initMember) =>
                     <option key={"member_"+initMember.member_id} value={initMember.member_id}>
-                      {initMember.member_name} | {initMember.member_mail}
+                      [{initMember.member_name}] {initMember.member_mail}
                     </option>
                   )}
                 </select>
