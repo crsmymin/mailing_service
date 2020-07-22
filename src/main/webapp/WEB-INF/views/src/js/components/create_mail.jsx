@@ -5,7 +5,6 @@ import "react-datepicker/dist/react-datepicker.css";
 import axios from 'axios';
 
 let group_id = "";
-let sendMailList = "";
 
 function Create(props) {
   
@@ -131,6 +130,10 @@ function Create(props) {
     if(sendList.length === 0) {
       alert("선택된 목록이 없습니다.");
     } else {
+      if(sendMailList!=''){
+        sendMailList+=', ';
+      }
+      let sendMailList = "";
       for (let i = 0; i < sendList.length; i++) {
         let cln = sendList[i].cloneNode(true);
         if(sendMailList.indexOf(cln.innerHTML)==-1)
@@ -145,6 +148,12 @@ function Create(props) {
   }
 
   const saveContents = () => {
+    let send_date = "";
+    
+    var st = $("input:radio[name=sendOption]:checked").val();
+    if (st==='booked')
+      send_date = document.getElementById("bookedTime").value;
+    
     axios({
       method: 'post',
       url: '/SendMailInsert.do',
@@ -152,7 +161,7 @@ function Create(props) {
         send_subject: mailTitle,      
         send_mail_list: sendList,
         contents_id: contentsId,
-        send_date: startDate
+        send_datetime: send_date
       },
       headers: { 
         'Content-Type': 'application/json; charset=utf-8' 
@@ -216,12 +225,6 @@ function Create(props) {
                 <button id="btnAddReceivers" className="fl btn btn-add" type="button" onClick={modalOpen}>추가</button>
               </label> 
             </div>
-            <div className="content-title-area">
-              콘텐츠 <strong>[ {contentsName} ]</strong> 
-            </div>
-            <div className="content-area">
-              <div id="loaded-content" dangerouslySetInnerHTML={{__html: contentsHtml}}></div>
-            </div>
             <div className="option-area cf">
               <strong className="fl">
                 발송일시 : 
@@ -265,6 +268,13 @@ function Create(props) {
             <div className="btn-wrap fr">
               <a className="btn btn-save" onClick={saveContents}>저장</a>
             </div>
+            <div className="content-title-area">
+              콘텐츠 <strong>[ {contentsName} ]</strong> 
+            </div>
+            <div className="content-area">
+              <div id="loaded-content" dangerouslySetInnerHTML={{__html: contentsHtml}}></div>
+            </div>
+           
           </form>
         </div>
       </div>
