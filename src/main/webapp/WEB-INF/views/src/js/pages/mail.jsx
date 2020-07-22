@@ -24,9 +24,10 @@ function MailCreate(props) {
 }
 
 function MailList(props) {
-
   const [mailList, setMailList] = useState([]);
   const [loading, setLoading] = useState(false);
+  const { length: listCount } = mailList;
+
   const _getMailList = () => {
     setLoading(true);
     axios({
@@ -45,14 +46,18 @@ function MailList(props) {
   }
 
   useEffect(() => {
-    _getMailList()
+    _getMailList();
   }, [])
 
   return (
     <div className="container">
       <Nav />
       <div className="content">
-        <List mailList={mailList} loading={loading}/>
+        <List 
+        mailList={mailList} 
+        listCount={listCount}
+        loading={loading}
+        />
       </div>
     </div>
   )

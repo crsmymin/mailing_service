@@ -1,7 +1,28 @@
 import React, { useState, useEffect, Fragment } from "react";
 import axios from "axios";
 
+
 function List(props) {
+  
+  const [currentPage, setCurrentPage] = useState(1);
+  const [listsPerPage] = useState(10); 
+  
+  const indexOfLastList = currentPage * listsPerPage;
+  const indexOfFirstList = indexOfLastList - listsPerPage;
+  const currentLists = props.mailList.slice(indexOfFirstList, indexOfLastList);
+  const totalPosts = props.mailList.length;
+  
+  const pageNumber = [];
+  
+  for (let i = 1; i <= Math.ceil(totalPosts / listsPerPage); i++) {
+    pageNumber.push(i);
+  }
+
+  const paginate = (pageNumber) => {
+    setCurrentPage(pageNumber);
+    console.log(pageNumber);
+  }
+
   const chkAllSend = e => {
     const { target: {value}} = e;
     console.log(value)
@@ -10,6 +31,7 @@ function List(props) {
     } else { 
       $("input[name=chkSend]").prop("checked",false); }
   }
+
   const onSave = () => {
     let result = confirm("항목들을 삭제 하시겠습니까?")
     if(result) {
@@ -39,10 +61,16 @@ function List(props) {
       return false;
     }
   }
+
+  useEffect(() => {
+    
+  },[])
+
   return (
     <Fragment>
       <h2 className="page-title">
         메일 발송 리스트
+        <p>{props.listCount}</p>
       </h2>
       <div className="list-mail-send">
         <div className="top-line cf">
@@ -79,29 +107,42 @@ function List(props) {
               </tr>
             </thead>
             <tbody>
-              {props.mailList
+              {currentLists
                 .sort((a,b) => b.send_list_id - a.send_list_id)
-                .map((mailList, index) =>
+                .map((currentLists, index) =>
                 <tr key={index}>
                   <td> 
                     <input 
                     type="checkbox" 
                     name="chkSend" 
-                    id={mailList.send_list_id} />
+                    id={currentLists.send_list_id} />
                   </td>
-                  <td><a href={"/view_mail?id="+mailList.send_list_id}>{mailList.send_subject}</a></td>
-                  <td>{mailList.send_status}</td>
-                  <td>{mailList.send_datetime.split(".")[0]}</td>
-                  <td>{mailList.send_cnt}</td>
-                  <td>{mailList.send_w_cnt}</td>
-                  <td>{mailList.send_succ_cnt}</td>
-                  <td>{mailList.send_fail_cnt}</td>
+                  <td><a href={"/view_mail?id="+currentLists.send_list_id}>{currentLists.send_subject}</a></td>
+                  <td>{currentLists.send_status}</td>
+                  <td>{currentLists.send_datetime.split(".")[0]}</td>
+                  <td>{currentLists.send_cnt}</td>
+                  <td>{currentLists.send_w_cnt}</td>
+                  <td>{currentLists.send_succ_cnt}</td>
+                  <td>{currentLists.send_fail_cnt}</td>
                 </tr>
               )}
             </tbody>
           </table>
           )}
         </div>
+        
+        {/* pagination */}
+        <div id="pagination">
+          <ul className="flex-cont">
+            {pageNumber.map((pageNum,index) => (
+            <li key={pageNum} className={"page" + pageNum} onClick={() => paginate(pageNum)}>
+                <button type="button" className={pageNum === (index + 1) ? ("current") : ("")}>{pageNum}{index + 1}</button>
+            </li>
+            ))}
+          </ul>
+        </div>
+        {/* end pagination */}
+
       </div>
     </Fragment>
   )

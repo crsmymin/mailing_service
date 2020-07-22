@@ -131,12 +131,12 @@ function Create(props) {
     if(sendList.length === 0) {
       alert("선택된 목록이 없습니다.");
     } else {
+      setSendList("");
       for (let i = 0; i < sendList.length; i++) {
         let cln = sendList[i].cloneNode(true);
         if(sendMailList.indexOf(cln.innerHTML)==-1)
         sendMailList += cln.innerText+", "
       }
-      setSendList("");
       sendMailList=sendMailList.substr(0,sendMailList.length-2);
       setSendList(sendMailList);
       //alert("수신인 저장");
