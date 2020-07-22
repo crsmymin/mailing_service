@@ -136,6 +136,7 @@ function Create(props) {
         if(sendMailList.indexOf(cln.innerHTML)==-1)
         sendMailList += cln.innerText+", "
       }
+      setSendList("");
       sendMailList=sendMailList.substr(0,sendMailList.length-2);
       setSendList(sendMailList);
       //alert("수신인 저장");
@@ -264,21 +265,12 @@ function Create(props) {
             <div className="btn-wrap fr">
               <a className="btn btn-save" onClick={saveContents}>저장</a>
             </div>
-            <div className="content-title-area">
-              콘텐츠 <strong>[{contentsName}]</strong> 
-            </div>
-            <div className="content-area">
-              <div id="loaded-content" dangerouslySetInnerHTML={{__html: contentsHtml}}></div>
-            </div>
-            
           </form>
         </div>
       </div>
 
       {/* modal add receiver list */}
-      {visible === true ? 
-      (
-      <div id="overLay">
+      <div id="overLay" className={visible === true ? ("open") : ("")}>
         <div id="modalWrap">
           <div className="inner">
             <div className="top-area">
@@ -351,9 +343,6 @@ function Create(props) {
           </div>
         </div>
       </div>
-      ) 
-      : 
-      ("")}
     </Fragment>
   )
 }
