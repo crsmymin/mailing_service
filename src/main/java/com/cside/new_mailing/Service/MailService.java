@@ -51,8 +51,9 @@ public class MailService {
 //            html로 보낼 경우            
             //MimeMessage message = mailSender.createMimeMessage();
             MimeMessageHelper helper = new MimeMessageHelper(msg, true, "UTF-8");
-            helper.setTo(vo.getReceiveMail());
+            //helper.setTo(vo.getReceiveMail());
             //helper.setTo("se.hong@cfind.co.kr");
+            msg.addFrom(new InternetAddress[] { new InternetAddress(vo.getReceiveMail(), "Reverse Cinema") });
             msg.setContent(vo.getMessage(), "text/html;charset=euc-kr");
  
             // 이메일 보내기

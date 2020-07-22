@@ -21,7 +21,8 @@
 		WHERE delete_date IS NULL
         <if test='value != null'>
 			AND send_list_id = #{0}
-		</if>        
+		</if> 
+		ORDER BY send_list_id desc       
      </select>
      
      <insert id="insertSendMail" useGeneratedKeys="true" keyProperty="send_list_id" parameterType="SendListVO">
@@ -77,6 +78,7 @@
 		<if test='value != null and value != ""'>
 			AND r.send_list_id = ${value}
 		</if>
+		ORDER BY send_list_id desc
      </select>
      
       <insert id="insertSendResult" parameterType="java.util.List">
@@ -120,6 +122,7 @@
         	 <![CDATA[ and send_datetime <= now()]]>
         </otherwise>
         </choose>
+        ORDER BY send_list_id desc
      </select>
      
      <update id="updateSuccMail" parameterType="String" >
