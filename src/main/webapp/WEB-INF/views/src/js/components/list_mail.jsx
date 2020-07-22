@@ -70,7 +70,6 @@ function List(props) {
     <Fragment>
       <h2 className="page-title">
         메일 발송 리스트
-        <p>{props.listCount}</p>
       </h2>
       <div className="list-mail-send">
         <div className="top-line cf">
@@ -108,7 +107,7 @@ function List(props) {
             </thead>
             <tbody>
               {currentLists
-                .sort((a,b) => b.send_list_id - a.send_list_id)
+                .sort((a,b) => a.send_list_id - b.send_list_id)
                 .map((currentLists, index) =>
                 <tr key={index}>
                   <td> 
@@ -136,7 +135,7 @@ function List(props) {
           <ul className="flex-cont">
             {pageNumber.map((pageNum,index) => (
             <li key={pageNum} className={"page" + pageNum} onClick={() => paginate(pageNum)}>
-                <button type="button" className={pageNum === (index + 1) ? ("current") : ("")}>{pageNum}{index + 1}</button>
+              <button type="button" className={pageNum === currentPage ? ("current") : ("")}>{pageNum}</button>
             </li>
             ))}
           </ul>
