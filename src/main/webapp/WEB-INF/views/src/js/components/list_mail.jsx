@@ -5,23 +5,45 @@ import axios from "axios";
 function List(props) {
   
   const [currentPage, setCurrentPage] = useState(1);
-  const [listsPerPage] = useState(10); 
-  
+  const [listsPerPage, setListsPerPage] = useState(10); 
+  const [pageRange, setPageRange] = useState(5);
   const indexOfLastList = currentPage * listsPerPage;
   const indexOfFirstList = indexOfLastList - listsPerPage;
   const currentLists = props.mailList.slice(indexOfFirstList, indexOfLastList);
   const totalPosts = props.mailList.length;
-  
+  const totalPages = totalPosts / listsPerPage;
   const pageNumber = [];
   
-  for (let i = 1; i <= Math.ceil(totalPosts / listsPerPage); i++) {
+  for (let i = 1; i <= Math.ceil(totalPages); i++) {
     pageNumber.push(i);
   }
 
   const paginate = (pageNumber) => {
     setCurrentPage(pageNumber);
-    console.log(pageNumber);
   }
+
+  const getNextPage = () => {
+    console.log(currentPage);
+    console.log(Math.ceil(totalPages));
+    if (currentPage >= Math.ceil(totalPages)) {
+      return false;
+    } else {
+      setCurrentPage(currentPage + 1);
+    }
+  }
+  
+  const getPrevPage = () => {
+    console.log(currentPage);
+    if (currentPage <= 1) {
+      return false;
+    } else {
+      setCurrentPage(currentPage - 1);
+    }
+  }
+
+  // const handlePageChange = pageNumber => {
+  //   setActivePage(pageNumber)
+  // }
 
   const chkAllSend = e => {
     const { target: {value}} = e;
@@ -107,7 +129,7 @@ function List(props) {
             </thead>
             <tbody>
               {currentLists
-                .sort((a,b) => a.send_list_id - b.send_list_id)
+                .sort((a,b) => b.send_list_id - a.send_list_id)
                 .map((currentLists, index) =>
                 <tr key={index}>
                   <td> 
@@ -129,15 +151,33 @@ function List(props) {
           </table>
           )}
         </div>
-        
+      
         {/* pagination */}
         <div id="pagination">
           <ul className="flex-cont">
+            <li className="btn-prev indicator">
+              <button 
+              type="button" 
+              onClick={getPrevPage}
+              className={currentPage === 1 ? ("disabled"):("")}
+              >
+              이전
+              </button>
+            </li>
             {pageNumber.map((pageNum,index) => (
-            <li key={pageNum} className={"page" + pageNum} onClick={() => paginate(pageNum)}>
+            <li key={pageNum} className={"item page" + pageNum} onClick={() => paginate(pageNum)}>
               <button type="button" className={pageNum === currentPage ? ("current") : ("")}>{pageNum}</button>
             </li>
             ))}
+            <li className="btn-next indicator">
+              <button 
+              type="button" 
+              onClick={getNextPage}
+              className={currentPage === Math.ceil(totalPages) ? ("disabled") : ("")}
+              >
+              다음
+              </button>
+            </li>
           </ul>
         </div>
         {/* end pagination */}

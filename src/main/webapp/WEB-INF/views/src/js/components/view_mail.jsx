@@ -12,12 +12,43 @@ function View(props) {
   const [mailCheck, setMailCheck] = useState("");
   const [mailReject, setMailReject] = useState("");
   const [mailList, setMailList] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [listsPerPage, setListsPerPage] = useState(5);
+  const [pageRange, setPageRange] = useState(5);
+  const indexOfLastList = currentPage * listsPerPage;
+  const indexOfFirstList = indexOfLastList - listsPerPage;
+  const currentLists = mailList.slice(indexOfFirstList, indexOfLastList);
+  const totalPosts = mailList.length;
+  const totalPages = totalPosts / listsPerPage;
+  const pageNumber = [];
 
-  useEffect(() => {
-    _getMailView();
-    _getMailListView();
-     
-  }, [])
+  for (let i = 1; i <= Math.ceil(totalPages); i++) {
+    pageNumber.push(i);
+  }
+
+  const paginate = (pageNumber) => {
+    setCurrentPage(pageNumber);
+  }
+
+  const getNextPage = () => {
+    console.log(currentPage);
+    console.log(Math.ceil(totalPages));
+    if (currentPage >= Math.ceil(totalPages)) {
+      return false;
+    } else {
+      setCurrentPage(currentPage + 1);
+    }
+  }
+
+  const getPrevPage = () => {
+    console.log(currentPage);
+    if (currentPage <= 1) {
+      return false;
+    } else {
+      setCurrentPage(currentPage - 1);
+    }
+  }
+
   const _getMailView = () => {
     const id = location.search.split("=")[1];
     axios({
@@ -63,6 +94,13 @@ function View(props) {
       console.log(error)
     })
   }
+
+  useEffect(() => {
+    _getMailView();
+    _getMailListView();
+
+  }, [])
+
   return (
     <Fragment>
       <h2 className="page-title">
@@ -96,29 +134,59 @@ function View(props) {
               </tr>
             </thead>
             <tbody id="listReceiver">
-              {mailList.map((mailList, index) =>
-                <tr key={mailList.send_result_id}>
-                  <td>{mailList.send_mail}</td>
-                  <td>{mailList.member_name}</td>
-                  {mailList.send_result_yn =='y' && <td>완료</td>}
-                  {mailList.send_result_yn =='r' && <td className='result_fail'>거부</td>}
-                  {mailList.send_result_yn =='n' && <td className='result_fail'>실패</td>}
-                  {mailList.send_result_yn ==undefined && <td>대기</td>}
-                  {mailList.send_mail_check_date === undefined ? (<td></td>) 
+              {currentLists.map((currentLists, index) =>
+                <tr key={currentLists.send_result_id}>
+                  <td>{currentLists.send_mail}</td>
+                  <td>{currentLists.member_name}</td>
+                  {currentLists.send_result_yn =='y' && <td>완료</td>}
+                  {currentLists.send_result_yn =='r' && <td className='result_fail'>거부</td>}
+                  {currentLists.send_result_yn =='n' && <td className='result_fail'>실패</td>}
+                  {currentLists.send_result_yn ==undefined && <td>대기</td>}
+                  {currentLists.send_mail_check_date === undefined ? (<td></td>) 
                   : 
                   (
-                  <td>{mailList.send_mail_check_date.split(".")[0]}</td>
+                  <td>{currentLists.send_mail_check_date.split(".")[0]}</td>
                   )}
-                  {mailList.reject_date === undefined ? (<td></td>) 
+                  {currentLists.reject_date === undefined ? (<td></td>) 
                   : 
                   (
-                  <td>{mailList.reject_date.split(".")[0]}</td>
+                  <td>{currentLists.reject_date.split(".")[0]}</td>
                   )}
                 </tr>
                 )}
             </tbody>
           </table>
         </div>
+        
+        {/* pagination */}
+        <div id="pagination">
+          <ul className="flex-cont">
+            <li className="btn-prev indicator">
+              <button
+                type="button"
+                onClick={getPrevPage}
+                className={currentPage === 1 ? ("disabled") : ("")}
+              >
+                이전
+              </button>
+            </li>
+            {pageNumber.map((pageNum, index) => (
+              <li key={pageNum} className={"item page" + pageNum} onClick={() => paginate(pageNum)}>
+                <button type="button" className={pageNum === currentPage ? ("current") : ("")}>{pageNum}</button>
+              </li>
+            ))}
+            <li className="btn-next indicator">
+              <button
+                type="button"
+                onClick={getNextPage}
+                className={currentPage === Math.ceil(totalPages) ? ("disabled") : ("")}
+              >
+                다음
+              </button>
+            </li>
+          </ul>
+        </div>
+        {/* end pagination */}
       </div>
     </Fragment>
   )

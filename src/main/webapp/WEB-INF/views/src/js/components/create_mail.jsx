@@ -2,12 +2,20 @@ import React, { useState, useEffect, Fragment, useRef } from "react";
 import ReactDom from "react-dom";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import styled from "styled-components"
 import axios from 'axios';
 
 let group_id = "";
 
 function Create(props) {
   
+  const Overlay = styled.div`
+  margin: 0 auto;
+  color: coral;
+  font-weight: bold;
+  `
+
+
   const [initMember,setInitMember] = useState([]);
   const [initGroup, setInitGroup] = useState([]);
   const [visible, setVisible] = useState(false);
@@ -201,6 +209,7 @@ function Create(props) {
     <Fragment>
       <h2 className="page-title">
         메일 발송 
+        <Overlay>hihi</Overlay>
       </h2>
       <div className="create-mail-send">
         <div className="box">
