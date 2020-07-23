@@ -103,10 +103,21 @@
           }
           &.result {
             margin: 0 0 5px;
+            overflow: hidden;
+            #viewContent {
+              color: #333;
+              font-size: 18px;
+              font-weight: bold;
+              display: inline-block;
+              padding: 3px;
+            }
             span {
               display: inline-block;
               margin: 0 15px 0 0;
               color: #333;
+              &:last-child {
+                margin: 0;
+              }
               em {
                 font-style: normal;
                 font-weight: 500;
@@ -121,9 +132,6 @@
                   color: red;
                 }
               }
-            }
-            .float_right{
-              float: right;
             }
           }
         }

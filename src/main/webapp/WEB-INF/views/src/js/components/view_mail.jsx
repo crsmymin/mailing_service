@@ -13,8 +13,9 @@ function View(props) {
   const [mailReject, setMailReject] = useState("");
   const [mailList, setMailList] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
-  const [listsPerPage, setListsPerPage] = useState(5);
-  const [pageRange, setPageRange] = useState(5);
+  const [listsPerPage] = useState(3);
+  const [startIndex, setStartIndex] = useState(0);
+  const [endIndex, setEndIndex] = useState(5);
   const indexOfLastList = currentPage * listsPerPage;
   const indexOfFirstList = indexOfLastList - listsPerPage;
   const currentLists = mailList.slice(indexOfFirstList, indexOfLastList);
@@ -28,27 +29,43 @@ function View(props) {
 
   const paginate = (pageNumber) => {
     setCurrentPage(pageNumber);
+    // console.log(currentPage + 1);
+    // if(currentPage > 2) {
+    //   setStartIndex(currentPage - 2);
+    //   setEndIndex(currentPage + 3);
+    // }
   }
 
   const getNextPage = () => {
-    console.log(currentPage);
-    console.log(Math.ceil(totalPages));
+    console.log("start : " + (currentPage - 1));
+    console.log("now : " + (currentPage + 1));
+    console.log("end : " + (currentPage + 3));
     if (currentPage >= Math.ceil(totalPages)) {
       return false;
     } else {
       setCurrentPage(currentPage + 1);
+      if (currentPage > 2 && (Math.ceil(totalPages) - currentPage) > 2) {
+        setStartIndex(currentPage - 2);
+        setEndIndex(currentPage + 3);
+      }
     }
   }
 
   const getPrevPage = () => {
-    console.log(currentPage);
+    console.log("start : " + (currentPage - 2));
+    console.log("now : " + currentPage);
+    console.log("end : " + (currentPage + 2));
     if (currentPage <= 1) {
       return false;
     } else {
       setCurrentPage(currentPage - 1);
+      if (currentPage > 3 && (Math.ceil(totalPages) - currentPage) > 1) {
+        setStartIndex(currentPage - 4);
+        setEndIndex(currentPage + 1);
+      }
     }
   }
-
+  
   const _getMailView = () => {
     const id = location.search.split("=")[1];
     axios({
@@ -98,7 +115,6 @@ function View(props) {
   useEffect(() => {
     _getMailView();
     _getMailListView();
-
   }, [])
 
   return (
@@ -118,7 +134,9 @@ function View(props) {
               <span>실패: <em>{failCnt}</em></span>
               <span>수신확인: <em>{mailCheck}</em></span>
               <span>수신거부: <em>{mailReject}</em></span>
-              <span className="float_right"><a href={"/view_content?id=" + content}>[컨텐츠]</a></span>
+              <span className="fr">
+                <a id="viewContent" href={"/view_content?id=" + content}>[ 컨텐츠 내용보기 ]</a>
+              </span>
             </li>
           </ul>
         </div>
@@ -170,7 +188,7 @@ function View(props) {
                 이전
               </button>
             </li>
-            {pageNumber.map((pageNum, index) => (
+            {pageNumber.slice(startIndex,endIndex).map((pageNum, index) => (
               <li key={pageNum} className={"item page" + pageNum} onClick={() => paginate(pageNum)}>
                 <button type="button" className={pageNum === currentPage ? ("current") : ("")}>{pageNum}</button>
               </li>
