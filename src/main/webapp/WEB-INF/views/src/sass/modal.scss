@@ -1,0 +1,186 @@
+// add receiver modal
+#overLay {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.2);
+
+  &.open {
+    display: block;
+  }
+
+  #modalWrap {
+    width: 700px;
+    padding: 20px;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    background-color: #fff;
+    transform: translate(-50%, -50%);
+    -webkit-transform: translate(-50%, -50%);
+    -moz-transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
+    -o-transform: translate(-50%, -50%);
+    border-radius: 5px;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    -ms-border-radius: 5px;
+    -o-border-radius: 5px;
+    box-shadow: 0px 3px 3px -2px rgba(0, 0, 0, 0.2),
+      0px 3px 4px 0px rgba(0, 0, 0, 0.14),
+      0px 1px 8px 0px rgba(0, 0, 0, 0.12);
+
+    .inner {
+      overflow: hidden;
+      margin: 0;
+      float: none;
+
+      .top-area {
+        margin: 0 0 15px;
+        overflow: hidden;
+
+        .will-add {
+          width: 280px;
+          float: left;
+          margin: 0 100px 0 0;
+          overflow: hidden;
+
+          #selectGroup {
+            float: left;
+
+            select {
+              width: 80px;
+              height: 38px;
+              padding: 4px 5px;
+              border: 1px solid grey;
+              background-color: #fff;
+              border-radius: 5px;
+              -webkit-border-radius: 5px;
+              -moz-border-radius: 5px;
+              -ms-border-radius: 5px;
+              -o-border-radius: 5px;
+            }
+          }
+
+          input {
+            float: left;
+            width: 185px;
+            height: 38px;
+            padding: 5px 10px;
+            margin: 0 0 0 13px;
+            border: 1px solid grey;
+            background-color: #fff;
+            border-radius: 5px;
+            -webkit-border-radius: 5px;
+            -moz-border-radius: 5px;
+            -ms-border-radius: 5px;
+            -o-border-radius: 5px;
+          }
+        }
+
+        .did-add {
+          width: 280px;
+          float: left;
+
+          input {
+            width: 100%;
+            padding: 5px 10px;
+            border: 1px solid grey;
+            border-radius: 5px;
+            -webkit-border-radius: 5px;
+            -moz-border-radius: 5px;
+            -ms-border-radius: 5px;
+            -o-border-radius: 5px;
+          }
+        }
+      }
+
+      .box {
+        float: left;
+        height: 360px;
+
+        .title {
+          overflow: hidden;
+          border-bottom: 1px solid grey;
+
+          span {
+            float: left;
+            padding: 5px 10px;
+
+            &:nth-child(1) {
+              width: 30%;
+              border-right: 1px solid grey;
+            }
+
+            &:nth-child(2) {
+              width: 70%;
+            }
+          }
+        }
+
+        &.will-add-list,
+        &.did-add-list {
+          width: 280px;
+          border: 1px solid grey;
+          border-radius: 5px;
+          -webkit-border-radius: 5px;
+          -moz-border-radius: 5px;
+          -ms-border-radius: 5px;
+          -o-border-radius: 5px;
+
+          select {
+            width: 100%;
+            height: 322px;
+            border-bottom: 0;
+            background-color: #fff;
+
+            option {
+              font-size: 14px;
+              padding: 2px 3px;
+
+              &:checked {
+                background-color: cornflowerblue;
+                color: #fff;
+              }
+            }
+          }
+        }
+
+        &.indicator {
+          width: 100px;
+
+          button {
+            display: block;
+            border-radius: 5px;
+            -webkit-border-radius: 5px;
+            -moz-border-radius: 5px;
+            -ms-border-radius: 5px;
+            -o-border-radius: 5px;
+            width: 70px;
+            color: #fff;
+
+            &#btnAddList {
+              margin: 140px auto 0;
+            }
+
+            &#btnRemoveList {
+              margin: 35px auto 0;
+            }
+          }
+        }
+      }
+    }
+
+    .btn-wrap {
+      text-align: center;
+      padding: 20px 0 0;
+
+      button {
+        margin: 0 10px;
+      }
+    }
+  }
+}

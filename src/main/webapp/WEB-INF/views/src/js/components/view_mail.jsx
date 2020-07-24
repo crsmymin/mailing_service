@@ -13,7 +13,7 @@ function View(props) {
   const [mailReject, setMailReject] = useState("");
   const [mailList, setMailList] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
-  const [listsPerPage] = useState(3);
+  const [listsPerPage] = useState(10);
   const [startIndex, setStartIndex] = useState(0);
   const [endIndex, setEndIndex] = useState(5);
   const indexOfLastList = currentPage * listsPerPage;
@@ -28,12 +28,7 @@ function View(props) {
   }
 
   const paginate = (pageNumber) => {
-    setCurrentPage(pageNumber);
-    // console.log(currentPage + 1);
-    // if(currentPage > 2) {
-    //   setStartIndex(currentPage - 2);
-    //   setEndIndex(currentPage + 3);
-    // }
+    setCurrentPage(pageNumber);    
   }
 
   const getNextPage = () => {
