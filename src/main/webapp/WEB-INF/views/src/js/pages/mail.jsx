@@ -68,7 +68,7 @@ function MailView(props) {
     <div className="container">
       <Nav />
       <div className="content">
-        <View />
+        <View/>
       </div>
     </div>
   )

@@ -160,6 +160,7 @@ function List(props) {
         </div>
 
         {/* pagination */}
+        {props.loading === true ? (""):(
         <div id="pagination">
           <ul className="flex-cont">
             <li className="btn-prev indicator">
@@ -187,6 +188,7 @@ function List(props) {
             </li>
           </ul>
         </div>
+        )}
         {/* end pagination */}
       </div>
     </Fragment>

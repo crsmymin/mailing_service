@@ -151,37 +151,38 @@ function List(props) {
           </table>
           )}
         </div>
-      
+
         {/* pagination */}
+        {props.loading === true ? (""):(
         <div id="pagination">
           <ul className="flex-cont">
             <li className="btn-prev indicator">
-              <button 
-              type="button" 
-              onClick={getPrevPage}
-              className={currentPage === 1 ? ("disabled"):("")}
+              <button
+                type="button"
+                onClick={getPrevPage}
+                className={currentPage === 1 ? ("disabled") : ("")}
               >
-              이전
+                이전
               </button>
             </li>
-            {pageNumber.map((pageNum,index) => (
-            <li key={pageNum} className={"item page" + pageNum} onClick={() => paginate(pageNum)}>
-              <button type="button" className={pageNum === currentPage ? ("current") : ("")}>{pageNum}</button>
-            </li>
+            {pageNumber.map((pageNum, index) => (
+              <li key={pageNum} className={"item page" + pageNum} onClick={() => paginate(pageNum)}>
+                <button type="button" className={pageNum === currentPage ? ("current") : ("")}>{pageNum}</button>
+              </li>
             ))}
             <li className="btn-next indicator">
-              <button 
-              type="button" 
-              onClick={getNextPage}
-              className={currentPage === Math.ceil(totalPages) ? ("disabled") : ("")}
+              <button
+                type="button"
+                onClick={getNextPage}
+                className={currentPage === Math.ceil(totalPages) ? ("disabled") : ("")}
               >
-              다음
+                다음
               </button>
             </li>
           </ul>
         </div>
+        )}
         {/* end pagination */}
-
       </div>
     </Fragment>
   )

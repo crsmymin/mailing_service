@@ -22,6 +22,7 @@ function View(props) {
   const totalPosts = mailList.length;
   const totalPages = totalPosts / listsPerPage;
   const pageNumber = [];
+  const [loading, setLoading] = useState(false);
 
   for (let i = 1; i <= Math.ceil(totalPages); i++) {
     pageNumber.push(i);
@@ -62,6 +63,7 @@ function View(props) {
   }
   
   const _getMailView = () => {
+    setLoading(true);
     const id = location.search.split("=")[1];
     axios({
       method: 'get',
@@ -82,6 +84,7 @@ function View(props) {
       setFailCnt(data[0].send_fail_cnt);
       setMailCheck(data[0].mail_check);
       setMailReject(data[0].mail_reject);
+      setLoading(false);
     })
     .catch(error => {
       console.log(error)
@@ -89,6 +92,7 @@ function View(props) {
   }
   const elements=[];
   const _getMailListView = () => {
+    setLoading(true);
     const id = location.search.split("=")[1];
     axios({
       method: 'get',
@@ -101,6 +105,7 @@ function View(props) {
       const data = res.data
       console.log(data)
       setMailList(data);
+      setLoading(false);
     })
     .catch(error => {
       console.log(error)
@@ -118,60 +123,68 @@ function View(props) {
         메일 상세
       </h2>
       <div className="view-mail-send">
-        <div className="box state-send">
-          <ul>
-            <li className="title">메일제목: <em>{title}</em></li>
-            <li className="date">발송일시: <em>{sendDate.split(".")[0]}</em></li>
-            <li className="result">
-              <span>발송: <em>{sendCnt}</em></span>
-              <span>대기: <em>{waitCnt}</em></span>
-              <span>성공: <em>{succCnt}</em></span>
-              <span>실패: <em>{failCnt}</em></span>
-              <span>수신확인: <em>{mailCheck}</em></span>
-              <span>수신거부: <em>{mailReject}</em></span>
-              <span className="fr">
-                <a id="viewContent" href={"/view_content?id=" + content}>[ 컨텐츠 내용보기 ]</a>
-              </span>
-            </li>
-          </ul>
-        </div>
-        <div className="box list-receiver">
-          <table>
-            <thead>
-              <tr>
-                <th>메일주소</th>
-                <th>이름</th>
-                <th>상태</th>
-                <th>수신확인일</th>
-                <th>수신거부일</th>
-              </tr>
-            </thead>
-            <tbody id="listReceiver">
-              {currentLists.map((currentLists, index) =>
-                <tr key={currentLists.send_result_id}>
-                  <td>{currentLists.send_mail}</td>
-                  <td>{currentLists.member_name}</td>
-                  {currentLists.send_result_yn =='y' && <td>완료</td>}
-                  {currentLists.send_result_yn =='r' && <td className='result_fail'>거부</td>}
-                  {currentLists.send_result_yn =='n' && <td className='result_fail'>실패</td>}
-                  {currentLists.send_result_yn ==undefined && <td>대기</td>}
-                  {currentLists.send_mail_check_date === undefined ? (<td></td>) 
-                  : 
-                  (
-                  <td>{currentLists.send_mail_check_date.split(".")[0]}</td>
-                  )}
-                  {currentLists.reject_date === undefined ? (<td></td>) 
-                  : 
-                  (
-                  <td>{currentLists.reject_date.split(".")[0]}</td>
-                  )}
+        {loading === true ? (
+          <div className="loading-indicator mail-view">
+            <div className="loader"></div>
+          </div>
+        ):(
+        <>
+          <div className="box state-send">
+            <ul>
+              <li className="title">메일제목: <em>{title}</em></li>
+              <li className="date">발송일시: <em>{sendDate.split(".")[0]}</em></li>
+              <li className="result">
+                <span>발송: <em>{sendCnt}</em></span>
+                <span>대기: <em>{waitCnt}</em></span>
+                <span>성공: <em>{succCnt}</em></span>
+                <span>실패: <em>{failCnt}</em></span>
+                <span>수신확인: <em>{mailCheck}</em></span>
+                <span>수신거부: <em>{mailReject}</em></span>
+                <span className="fr">
+                  <a id="viewContent" href={"/view_content?id=" + content}>[ 컨텐츠 내용보기 ]</a>
+                </span>
+              </li>
+            </ul>
+          </div>
+          <div className="box list-receiver">
+            <table>
+              <thead>
+                <tr>
+                  <th>메일주소</th>
+                  <th>이름</th>
+                  <th>상태</th>
+                  <th>수신확인일</th>
+                  <th>수신거부일</th>
                 </tr>
-                )}
-            </tbody>
-          </table>
-        </div>
-        
+              </thead>
+              <tbody id="listReceiver">
+                {currentLists.map((currentLists, index) =>
+                  <tr key={currentLists.send_result_id}>
+                    <td>{currentLists.send_mail}</td>
+                    <td>{currentLists.member_name}</td>
+                    {currentLists.send_result_yn =='y' && <td>완료</td>}
+                    {currentLists.send_result_yn =='r' && <td className='result_fail'>거부</td>}
+                    {currentLists.send_result_yn =='n' && <td className='result_fail'>실패</td>}
+                    {currentLists.send_result_yn ==undefined && <td>대기</td>}
+                    {currentLists.send_mail_check_date === undefined ? (<td></td>) 
+                    : 
+                    (
+                    <td>{currentLists.send_mail_check_date.split(".")[0]}</td>
+                    )}
+                    {currentLists.reject_date === undefined ? (<td></td>) 
+                    : 
+                    (
+                    <td>{currentLists.reject_date.split(".")[0]}</td>
+                    )}
+                  </tr>
+                  )}
+              </tbody>
+            </table>
+          </div>
+        </>
+        )}
         {/* pagination */}
+        {loading === true ? (""):(
         <div id="pagination">
           <ul className="flex-cont">
             <li className="btn-prev indicator">
@@ -199,6 +212,7 @@ function View(props) {
             </li>
           </ul>
         </div>
+        )}
         {/* end pagination */}
       </div>
     </Fragment>
