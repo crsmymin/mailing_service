@@ -10,7 +10,8 @@
 				    contents_send_yn,
 				    req_date,
 				    delete_date,
-				    contents_html
+				    contents_html,
+				    contents_memo
 				FROM reverse_mail.mail_contents
 				WHERE delete_date is null
 				<if test='value != null'>
@@ -22,16 +23,17 @@
      
      			INSERT INTO reverse_mail.mail_contents
 						(contents_name,
-						contents_html)
+						contents_html,contents_memo)
 						VALUES	
-              			(#{contents_name}, #{contents_html})
+              			(#{contents_name}, #{contents_html}, #{contents_memo})
      </insert>
      
      <update id="updateContents" parameterType="ContentsVO" >
 	  update reverse_mail.mail_contents set
 	    contents_name = #{contents_name},
 	    contents_send_yn = #{contents_send_yn},
-	    contents_html = #{contents_html}
+	    contents_html = #{contents_html},
+	    contents_memo = #{contents_memo}
 	  where contents_id = #{contents_id}
 	</update>
 	

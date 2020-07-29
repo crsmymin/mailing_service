@@ -7,6 +7,7 @@ public class ContentsVO {
 	private String req_date;
 	private String delete_date;
 	private String contents_html;
+	private String contents_memo;
 	
 	public String getContents_id() {
 		return contents_id;
@@ -43,6 +44,12 @@ public class ContentsVO {
 	}
 	public void setContents_html(String contents_html) {
 		this.contents_html = contents_html;
+	}
+	public String getContents_memo() {
+		return contents_memo;
+	}
+	public void setContents_memo(String contents_memo) {
+		this.contents_memo = contents_memo;
 	}
 	
 	

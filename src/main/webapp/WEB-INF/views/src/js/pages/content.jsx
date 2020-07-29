@@ -65,6 +65,7 @@ function ContentView(props) {
   const [contentsId, setContentsId] = useState()
   const [contentsName, setContentsName] = useState()
   const [contentsHtml, setContentsHtml] = useState()
+  const [contentsMemo, setContentsMemo] = useState()
 
   const _getContentsView = () => {
     const id = location.search.split("=")[1];
@@ -81,6 +82,7 @@ function ContentView(props) {
       setContentsId(data[0].contents_id);
       setContentsName(data[0].contents_name);
       setContentsHtml(data[0].contents_html);
+      setContentsMemo(data[0].contents_memo);
     })
     .catch(error => {
       console.log(error)
@@ -99,6 +101,7 @@ function ContentView(props) {
         contentsId={contentsId}
         contentsName={contentsName}
         contentsHtml={contentsHtml}
+        contentsMemo={contentsMemo}
         />
       </div>
     </div>

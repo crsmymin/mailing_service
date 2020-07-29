@@ -4,6 +4,7 @@ import axios from "axios";
 function View(props) {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
+  const [memo, setMemo] = useState("");
   const [sendDate, setSendDate] = useState("");
   const [sendCnt, setSendCnt] = useState("");
   const [waitCnt, setWaitCnt] = useState("");
@@ -76,6 +77,7 @@ function View(props) {
       const data = res.data
       console.log(data)
       setTitle(data[0].send_subject);
+      setMemo(data[0].send_memo);
       setContent(data[0].contents_id);
       setSendDate(data[0].send_datetime);
       setSendCnt(data[0].send_cnt);
@@ -132,6 +134,7 @@ function View(props) {
           <div className="box state-send">
             <ul>
               <li className="title">메일제목: <em>{title}</em></li>
+              <li className="memo">Memo: <em>{memo}</em></li>
               <li className="date">발송일시: <em>{sendDate.split(".")[0]}</em></li>
               <li className="result">
                 <span>발송: <em>{sendCnt}</em></span>

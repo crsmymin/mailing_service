@@ -123,6 +123,7 @@ function List(props) {
                     />
                   </label>
                 </th>
+                <th>구분</th>
                 <th>컨텐츠 명</th>
                 <th>등록일</th>
                 <th>메일 발송</th>
@@ -146,6 +147,7 @@ function List(props) {
                       />
                     </label>
                   </td>
+                  <td>{currentLists.contents_memo}</td>
                   <td><a href={"/view_content?id=" + currentLists.contents_id}>{currentLists.contents_name}</a></td>
                   <td>{currentLists.req_date.split(" ")[0]}</td>
                   <td>
