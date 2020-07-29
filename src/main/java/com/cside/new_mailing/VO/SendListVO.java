@@ -9,6 +9,7 @@ public class SendListVO {
 	private String delete_date;
 	private String send_status;
 	private String send_mail_list;
+	private String send_memo;
 	
 	private String send_cnt;
 	private String send_w_cnt;
@@ -101,6 +102,12 @@ public class SendListVO {
 	}
 	public void setMail_reject(String mail_reject) {
 		this.mail_reject = mail_reject;
+	}
+	public String getSend_memo() {
+		return send_memo;
+	}
+	public void setSend_memo(String send_memo) {
+		this.send_memo = send_memo;
 	}
 	
 	

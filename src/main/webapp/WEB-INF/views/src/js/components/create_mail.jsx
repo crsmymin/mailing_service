@@ -15,6 +15,7 @@ function Create(props) {
   const [startDate, setStartDate] = useState();
   const [sendOption, setSendOption] = useState("direct");
   const [mailTitle, setMailTitle] = useState("");
+  const [memo, setMemo] = useState("");
   const [contentsId, setContentsId] = useState();
   const [contentsName, setContentsName] = useState();
   const [contentsHtml, setContentsHtml] = useState();
@@ -149,7 +150,6 @@ function Create(props) {
 
   const saveContents = () => {
     let send_date = "";
-    
     var st = $("input:radio[name=sendOption]:checked").val();
     if (st==='booked')
       send_date = document.getElementById("bookedTime").value;
@@ -161,7 +161,8 @@ function Create(props) {
         send_subject: mailTitle,      
         send_mail_list: sendList,
         contents_id: contentsId,
-        send_datetime: send_date
+        send_datetime: send_date,
+        send_memo: memo
       },
       headers: { 
         'Content-Type': 'application/json; charset=utf-8' 
@@ -214,6 +215,17 @@ function Create(props) {
                 placeholder="메일제목"
                 value={mailTitle}
                 onChange={e => setMailTitle(e.target.value)}
+                />
+              </label>
+            </div>
+            <div className="title-area">
+              <label htmlFor="mailMemo">
+                <input 
+                id="memo" 
+                type="text" 
+                placeholder="Memo"
+                value={memo}
+                onChange={e => setMemo(e.target.value)}
                 />
               </label>
             </div>

@@ -13,11 +13,13 @@ import 'bootstrap/js/dist/tooltip';
 function View(props) {
   const [contentName, setContentName] = useState("");
   const [contentHtml, setContentHtml] = useState("");
+  const [contentMemo, setContentMemo] = useState("");
   
   useEffect(
     () => {
       setContentName(props.contentsName);
       setContentHtml(props.contentsHtml);
+      setContentMemo(props.contentsMemo);
     }, 
     [props]
   );
@@ -36,7 +38,8 @@ function View(props) {
       data: {
         contents_id: props.contentsId,
         contents_name : contentName,
-        contents_html: contentHtml
+        contents_html: contentHtml,
+        contents_memo : contentMemo,
       }
     })
     .then(res => {
@@ -60,6 +63,7 @@ function View(props) {
           <form id="frmMailContent" onSubmit={onSubmit}>
             <div className="title-area">
               <label>
+              <input id="memo" type="text" name="memo" placeholder="구분" defaultValue={props.contentsMemo} onChange={e => setContentMemo(e.target.value)}/>
                 <input id="title" type="text" name="title" placeholder="타이틀" defaultValue={props.contentsName} onChange={e => setContentName(e.target.value)}/>
               </label>
             </div>
