@@ -47,9 +47,9 @@
     "@popperjs/core": "^2.4.4",
     "axios": "^0.19.2",
     "react-app-polyfill": "^1.0.6",
+    "react-data-table-component": "^6.9.8",
     "react-datepicker": "^3.0.0",
-    "react-js-pagination": "^3.0.3",
-    "react-modal": "^3.11.2",
+    "react-excel-workbook": "0.0.4",
     "react-summernote": "^2.0.2",
     "styled-components": "^5.1.1"
   }

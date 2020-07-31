@@ -104,6 +104,10 @@
           &.result {
             margin: 0 0 5px;
             overflow: hidden;
+            .btn-download {
+              margin: 0 10px 0 0;
+              background-color: #95c638;
+            }
             #viewContent {
               color: #333;
               font-size: 18px;

@@ -1,5 +1,6 @@
 import React, { useState, useEffect, Fragment } from "react";
 import axios from "axios";
+import Workbook from 'react-excel-workbook'
 
 function View(props) {
   const [title, setTitle] = useState("");
@@ -75,7 +76,7 @@ function View(props) {
     })
     .then(res => {
       const data = res.data
-      console.log(data)
+      console.log(data[0]);
       setTitle(data[0].send_subject);
       setMemo(data[0].send_memo);
       setContent(data[0].contents_id);
@@ -91,8 +92,19 @@ function View(props) {
     .catch(error => {
       console.log(error)
     })
-  }
-  const elements=[];
+  } 
+
+  const sheet2 = [{
+    mail_title : title,
+    count : sendCnt,
+    success : succCnt,
+    fail : failCnt,
+    memo : memo,
+    check : mailCheck,
+    reject : mailReject,
+    send_date : sendDate,
+  }]
+
   const _getMailListView = () => {
     setLoading(true);
     const id = location.search.split("=")[1];
@@ -105,7 +117,7 @@ function View(props) {
     })
     .then(res => {
       const data = res.data
-      console.log(data)
+      console.log(typeof(data));
       setMailList(data);
       setLoading(false);
     })
@@ -118,7 +130,7 @@ function View(props) {
     _getMailView();
     _getMailListView();
   }, [])
-
+  
   return (
     <Fragment>
       <h2 className="page-title">
@@ -144,13 +156,32 @@ function View(props) {
                 <span>수신확인: <em>{mailCheck}</em></span>
                 <span>수신거부: <em>{mailReject}</em></span>
                 <span className="fr">
+                  <Workbook filename={title + ".xlsx"} element={<button className="btn btn-download">Excel 다운로드</button>}>
+                    <Workbook.Sheet data={mailList} name="발송리스트">
+                      <Workbook.Column label="메일주소" value="send_mail" />
+                      <Workbook.Column label="이름" value="member_name" />
+                      <Workbook.Column label="상태" value="send_result_yn" />
+                      <Workbook.Column label="수신확인일" value="send_mail_check_date" />
+                      <Workbook.Column label="수신거부일" value="reject_date" />
+                    </Workbook.Sheet>
+                    <Workbook.Sheet data={sheet2} name="발송요약">
+                      <Workbook.Column label="메일제목" value="mail_title" />
+                      <Workbook.Column label="메모" value="memo" />
+                      <Workbook.Column label="발송" value="count" />
+                      <Workbook.Column label="발송 성공" value="success" />
+                      <Workbook.Column label="발송 실패" value="fail" />
+                      <Workbook.Column label="수신 확인" value="check" />
+                      <Workbook.Column label="수신 거부" value="reject" />
+                      <Workbook.Column label="발송일시" value="send_date" />
+                    </Workbook.Sheet>
+                  </Workbook>
                   <a id="viewContent" href={"/view_content?id=" + content}>[ 컨텐츠 내용보기 ]</a>
                 </span>
               </li>
             </ul>
           </div>
           <div className="box list-receiver">
-            <table>
+            <table id="tblSendList">
               <thead>
                 <tr>
                   <th>메일주소</th>
