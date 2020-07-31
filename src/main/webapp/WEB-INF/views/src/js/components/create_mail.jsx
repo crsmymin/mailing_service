@@ -38,7 +38,7 @@ function Create(props) {
     })
     .then(res => {
       const data = res.data
-      console.log(data)
+      //console.log(data)
       setContentsId(data[0].contents_id);
       setContentsName(data[0].contents_name);
       setContentsHtml(data[0].contents_html);
@@ -56,7 +56,7 @@ function Create(props) {
     .then(res => {
       const data = res.data;
       setInitGroup(data);
-      console.log(data)
+      //console.log(data)
     })
     .catch(error => {
       console.log(error)
@@ -81,7 +81,6 @@ function Create(props) {
     })
     .then(res => {
       const data = res.data;
-      console.log(data);
       setInitMember([]);
       setInitMember(data);
       })
@@ -109,43 +108,68 @@ function Create(props) {
   }
 
   const addReceiverList = () => {
-    let addList = $("#willSelectList option:selected");
-    for(let i=0; i < addList.length; i++) {
-      let cln = addList[i].cloneNode(true);
-      let didSelectList=document.getElementById("didSelectList").innerHTML;
-      if(didSelectList.indexOf(cln.innerHTML)==-1)
-      document.getElementById("didSelectList").appendChild(cln);
-    }
-    //alert("리스트에 목록이 추가되었습니다.");
+    let addList = $("#memberTbl input[name=chkMember]:checked");
+    addList.each(function(i){
+      let tr = addList.parent().parent().eq(i);
+      let inner="";
+      for(let j=0; j < tr.length; j++) {
+        let didSelectList=document.getElementById("didMemberTbl").innerHTML;
+        if(didSelectList.indexOf(tr[j].innerHTML)==-1){
+          inner +="<tr className='tr-members created'>"+tr[j].innerHTML+"</tr>";
+        }
+      }
+      //console.log(data_array)
+      $("#didMemberTbl").append(inner);
+
+      $("#didMemberTbl tr").off("click");
+      $("#didMemberTbl tr").click(function(e){
+        if(e.target.nodeName==='TD'){
+          if($(e.target.parentElement.firstChild.firstChild).prop("checked")) { 
+            $(e.target.parentElement.firstChild.firstChild).prop("checked",false); 
+            $(e.target.parentElement).removeClass("checked");
+          } else{
+            $(e.target.parentElement.firstChild.firstChild).prop("checked",true); 
+            $(e.target.parentElement).addClass("checked");
+          }
+        }else{
+          if($(e.target).prop("checked")) { 
+            $(e.target.parentElement.parentElement).addClass("checked");
+          } else{
+            $(e.target.parentElement.parentElement).removeClass("checked");
+          }
+        }
+      });
+    });
   }
 
   const removeReceiverList = () => {
-    let removeList = $("#didSelectList option:selected");
-    for (let i = 0; i < removeList.length; i++) {
-      removeList[i].remove();
-    }
+    let removeList = $("#didMemberTbl input[name=chkMember]:checked");
+    removeList.each(function(i){
+      let tr = removeList.parent().parent();
+      tr.remove();  
+    });
+
+    $("#didMemberTbl input[name=chkMember]").prop("checked",false); 
+    $("#didMemberTbl tr").removeClass("checked");
+
     //alert("리스트에 목록이 제외되었습니다.");
   }
 
   const saveReceiverList = () => {
-    let sendList = $("#didSelectList option");
-    if(sendList.length === 0) {
-      alert("선택된 목록이 없습니다.");
-    } else {
-      if(sendMailList!=''){
-        sendMailList+=', ';
-      }
-      let sendMailList = "";
-      for (let i = 0; i < sendList.length; i++) {
-        let cln = sendList[i].cloneNode(true);
-        if(sendMailList.indexOf(cln.innerHTML)==-1)
-        sendMailList += cln.innerText+", "
-      }
-      sendMailList=sendMailList.substr(0,sendMailList.length-2);
-      setSendList(sendMailList);
-      //alert("수신인 저장");
-      setVisible(false)
+    let sendList = $("#didMemberTbl tr");
+    let sendMailList="";
+    let tr= $("#didMemberTbl tr");
+    for(let i=0;i<sendList.length;i++){
+      let text= tr[i].innerText;
+      let array=text.split('	');
+      sendMailList += "["+array[1]+"] "+array[2]+", ";
     }
+    
+    sendMailList=sendMailList.substr(0,sendMailList.length-2);
+    setSendList(sendMailList);
+    //alert("수신인 저장");
+    setVisible(false);
+
   }
 
   const saveContents = () => {
@@ -195,10 +219,55 @@ function Create(props) {
     })
   }
 
+  const chkAllMember = e => {
+    // 멤버 삭제 전체선택
+    const { target: {value}} = e;
+    if($("#chkAllMember").prop("checked")) { 
+      $("#memberTbl input[name=chkMember]").prop("checked",true); 
+      $("#memberTbl tr").addClass("checked");
+    } else {
+      $("#memberTbl input[name=chkMember]").prop("checked",false); 
+      $("#memberTbl tr").removeClass("checked");
+    }
+  }
+  
+  const chkDidMember = e => {
+    // 멤버 삭제 전체선택
+    const { target: {value}} = e;
+    if($("#chkDidMember").prop("checked")) { 
+      $("#didMemberTbl input[name=chkMember]").prop("checked",true); 
+      $("#didMemberTbl tr").addClass("checked");
+    } else {
+      $("#didMemberTbl input[name=chkMember]").prop("checked",false); 
+      $("#didMemberTbl tr").removeClass("checked");
+    }
+  }
+
+  const memberClick = e => {
+    // 멤버 삭제 전체선택
+    const { target: {value}} = e;
+    let tr = e.target.parentElement;
+    if(e.target.nodeName==='TD'){
+      if($(e.target.parentElement.firstChild.firstChild).prop("checked")) { 
+        $(e.target.parentElement.firstChild.firstChild).prop("checked",false); 
+        $(e.target.parentElement).removeClass("checked");
+      } else{
+        $(e.target.parentElement.firstChild.firstChild).prop("checked",true); 
+        $(e.target.parentElement).addClass("checked");
+      }
+    }else{
+      if($(e.target).prop("checked")) { 
+        $(e.target.parentElement.parentElement).addClass("checked");
+      } else{
+        $(e.target.parentElement.parentElement).removeClass("checked");
+      }
+    }
+  }
+  
   useEffect(() => {
     _getContentsView();
+    //alert("리스트에 목록이 추가되었습니다.");
   }, [])
-
   return (
     <Fragment>
       <h2 className="page-title">
@@ -319,25 +388,26 @@ function Create(props) {
             </div>                
             <div className="box will-add-list">
               <div className="title">
+                <span><input type="checkbox" name="chkAllMember" id="chkAllMember" onClick={chkAllMember}/></span>
                 <span>이름</span>
                 <span>이메일</span>
               </div>
               <div className="list">
-                <select 
-                multiple
-                name="willSelectList" 
-                id="willSelectList"
-                >
-                  {initMember.map(
-                  (initMember) =>
-                    <option key={"member_"+initMember.member_id} value={initMember.member_id}>
-                      [{initMember.member_name}] {initMember.member_mail}
-                    </option>
-                  )}
-                </select>
+              <table>
+                <tbody id="memberTbl">
+                {initMember.map(
+                      (initMember,index) =>
+                <tr className="tr-members created" key={index} onClick={memberClick}>
+                    <td><input type="checkbox" name="chkMember" id={initMember.member_id}/></td>
+                    <td>{initMember.member_name}</td>
+                    <td>{initMember.member_mail}</td>
+                </tr>
+                )}
+                </tbody>
+              </table>
               </div>
             </div>
-
+            
             <div className="box indicator">
               <button id="btnAddList" className="btn-save" type="button" onClick={addReceiverList}>추가</button>
               <button id="btnRemoveList" className="btn-del" type="button" onClick={removeReceiverList}>제거</button>
@@ -345,16 +415,15 @@ function Create(props) {
 
             <div className="box did-add-list">
               <div className="title">
+                <span><input type="checkbox" name="chkDidMember" id="chkDidMember" onClick={chkDidMember}/></span>
                 <span>이름</span>
                 <span>이메일</span>
               </div>
               <div className="list">
-                <select 
-                name="didSelectList" 
-                id="didSelectList" 
-                multiple
-                >
-                </select>
+              <table>
+                <tbody id="didMemberTbl">
+                </tbody>
+                </table>
               </div>
             </div>
           </div>

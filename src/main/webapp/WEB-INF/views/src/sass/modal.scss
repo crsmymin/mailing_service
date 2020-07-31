@@ -13,7 +13,7 @@
   }
 
   #modalWrap {
-    width: 700px;
+    width: 806px;
     padding: 20px;
     position: fixed;
     top: 50%;
@@ -43,7 +43,7 @@
         overflow: hidden;
 
         .will-add {
-          width: 280px;
+          width: 333px;
           float: left;
           margin: 0 100px 0 0;
           overflow: hidden;
@@ -52,7 +52,7 @@
             float: left;
 
             select {
-              width: 80px;
+              width: 118px;
               height: 38px;
               padding: 4px 5px;
               border: 1px solid grey;
@@ -67,7 +67,7 @@
 
           input {
             float: left;
-            width: 185px;
+            width: 202px;
             height: 38px;
             padding: 5px 10px;
             margin: 0 0 0 13px;
@@ -100,30 +100,57 @@
 
       .box {
         float: left;
-        height: 360px;
-
         .title {
           overflow: hidden;
           border-bottom: 1px solid grey;
 
           span {
             float: left;
-            padding: 5px 10px;
+            padding: 5px 5px;
 
             &:nth-child(1) {
-              width: 30%;
-              border-right: 1px solid grey;
+              width: 10%;
             }
 
             &:nth-child(2) {
-              width: 70%;
+              width: 25%;
+              border-right: 1px solid grey;
             }
+            &:nth-child(3) {
+              width: 65%;
+            }
+          }
+        }
+        .list{
+
+          height: 325px;    
+          overflow: auto;
+        }
+        table {
+          width: 100%;
+          td {
+            text-align: left;
+            &:nth-child(1) {
+              width: 10%;
+              text-align: center;
+            }
+            &:nth-child(2) {
+              width: 25%;
+            }
+            &:nth-child(3) {
+              width: 65%;
+            }
+          }
+          tr.checked {
+            background-color: #97b8f4;
+            color: #fff;
           }
         }
 
         &.will-add-list,
         &.did-add-list {
-          width: 280px;
+          height: 360px;
+          width: 333px;
           border: 1px solid grey;
           border-radius: 5px;
           -webkit-border-radius: 5px;
