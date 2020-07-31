@@ -51,9 +51,13 @@ public class AdminController {
 	@Autowired
 	private MailService mailService;
 
+	@RequestMapping(value = "/receiver")
+	public String receiver() {
+		return "/index";
+	}
 	@RequestMapping(value = "/")
 	public String main() {
-		return "/index";
+		return "cms/login";
 	}
 
 	@RequestMapping(value = "/admin")

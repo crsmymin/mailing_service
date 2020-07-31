@@ -31,7 +31,7 @@ $(document).ready(function(){
 	   	        	if(id=="undefined" || id=="" || id==null){
 	   	        		alert("입력한 계정정보가 존재하지 않습니다.");
 	   	        	}else{
-	   	        		window.location.href ="/reverseCinema";	
+	   	        		window.location.href ="/receiver";	
 	   	        	}
 	   	        },
 	   	        error:function(e){  

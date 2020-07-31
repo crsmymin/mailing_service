@@ -35,9 +35,9 @@ http://www.springframework.org/schema/context/spring-context.xsd">
 			<mvc:mapping path="/**" /> 
 			<!-- /user/login은 또 다른 interceptor가 처리한다. 즉 컨트롤러에 매핑되어 있는 것이 아니므로 제외시킨다. -->
 			<mvc:exclude-mapping path="/admin"/>
-			<mvc:exclude-mapping path="/"/>
 			<mvc:exclude-mapping path="/login_action"/>
 			<mvc:exclude-mapping path="/dist/**"/>
+			<mvc:exclude-mapping path="/assets/**"/>
 			<bean class="com.cside.new_mailing.Interceptor.CommonInterceptor" />	
 		</mvc:interceptor>
 	</mvc:interceptors>

@@ -13,9 +13,9 @@ public class CommonInterceptor extends HandlerInterceptorAdapter{
             throws Exception {
         
         //System.out.println("===================       START       ===================");
-        //System.out.println(" Request URI \t:  " + request.getRequestURI());
         HttpSession session = request.getSession();
- 		if( session.getAttribute("loginID") == null && ( request.getRequestURI().contains("admin") || request.getRequestURI().contains("campaign")) ) {
+        //System.out.println(" Request URI \t:  " + request.getRequestURI()+"; "+session.getAttribute("loginID"));
+ 		if( session.getAttribute("loginID") == null) {
  			// 로그인 화면으로 이동
  			response.sendRedirect(request.getContextPath() + "/admin");
  			return false;
