@@ -13,6 +13,7 @@ import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.List;
 
+import javax.mail.Session;
 import javax.naming.NamingEnumeration;
 import javax.naming.NamingException;
 import javax.naming.directory.Attribute;
@@ -52,7 +53,15 @@ public class AdminController {
 	private MailService mailService;
 
 	@RequestMapping(value = "/receiver")
-	public String receiver() {
+	public String receiver(HttpServletRequest request) {
+
+		AdminVO vo =new AdminVO();
+		HttpSession session = request.getSession();
+		vo.setAction("Read");
+		vo.setPage("receiver");
+		vo.setLogin_id(session.getAttribute("loginID").toString());
+		adminService.insertLog(vo);
+		
 		return "/index";
 	}
 	@RequestMapping(value = "/")
@@ -76,6 +85,11 @@ public class AdminController {
 		if (id != null) {
 			session.setAttribute("loginID", id);
 			session.setMaxInactiveInterval(30 * 60);
+			
+			vo.setAction("Login");
+			vo.setPage("Login");
+			vo.setLogin_id(id);
+			String log_id = adminService.insertLog(vo);
 		}
 
 		return json;
@@ -85,6 +99,7 @@ public class AdminController {
 	@ResponseBody
 	public String sendMail(@RequestParam(value = "id", required = false) String id, HttpServletRequest request) {
 		System.out.println("id: "+id);
+		
 		List<SendResultVO> list = mailService.sendMail(id); // dto (메일관련 정보)를 sendMail에 저장함
 		
         if(list.size()>0) {
@@ -109,7 +124,7 @@ public class AdminController {
 		for(int i=0;i<list.size();i++) {
 			if (list.get(i).getReject_date() == null) {
 				String message=list.get(i).getContents_html();
-				String tmp="<div style=\"text-align:center; background: ghostwhite; padding: 20px 0;\">본 메일은 회원님의 수신동의 여부를 확인한 결과 회원님께서 수신동의를 하셨기에 발송되었습니다.<br>메일 수신을 원치 않으시면 <a classname=\"btn btn-save\" href=\"http://13.209.6.204:8080/RejectMail.do?send_mail="+list.get(i).getSend_mail()+"&send_list_id="+list.get(i).getSend_list_id()+"\">[수신거부]</a><img src=\"http://13.209.6.204:8080/CheckedMail.do?send_mail="+list.get(i).getSend_mail()+"&send_list_id="+list.get(i).getSend_list_id()+"\" border=0 width=0 height=0 />를 클릭하십시오.<br>If you don't want this type of information or e-mail, please click the <a classname=\"btn btn-save\" href=\"http://13.209.6.204:8080/RejectMail.do?send_mail="+list.get(i).getSend_mail()+"&send_list_id="+list.get(i).getSend_list_id()+"\">[unsubscription]</a></div>";
+				String tmp="<div style=\"text-align:center; background: ghostwhite; padding: 20px 0;\">본 메일은 회원님의 수신동의 여부를 확인한 결과 회원님께서 수신동의를 하셨기에 발송되었습니다.<br>메일 수신을 원치 않으시면 <a classname=\"btn btn-save\" href=\"http://13.209.6.204:8080/RejectMail.do?send_mail="+list.get(i).getSend_mail()+"&send_list_id="+list.get(i).getSend_list_id()+"\">[수신거부]</a>를 클릭하십시오.<br>If you don't want this type of information or e-mail, please click the <a classname=\"btn btn-save\" href=\"http://13.209.6.204:8080/RejectMail.do?send_mail="+list.get(i).getSend_mail()+"&send_list_id="+list.get(i).getSend_list_id()+"\">[unsubscription]</a><img src=\"http://13.209.6.204:8080/CheckedMail.do?send_mail="+list.get(i).getSend_mail()+"&send_list_id="+list.get(i).getSend_list_id()+"\" border=0 width=0 height=0 /></div>";
 				message=message+tmp;
 				
 				EmailVO vo=new EmailVO();
@@ -135,6 +150,12 @@ public class AdminController {
 		if (reject_id != "") mailService.updateFailMail2(reject_id.substring(0, reject_id.length()-1));
 		
 		mailService.updateSendingEndMail(update_id);
+		AdminVO vo =new AdminVO();
+		HttpSession session = request.getSession();
+		vo.setAction("Send");
+		vo.setPage("Mail");
+		vo.setLogin_id(session.getAttribute("loginID").toString());
+		adminService.insertLog(vo);
 		}
         String json = new Gson().toJson(list );
         

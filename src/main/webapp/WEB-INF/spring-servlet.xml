@@ -38,6 +38,8 @@ http://www.springframework.org/schema/context/spring-context.xsd">
 			<mvc:exclude-mapping path="/login_action"/>
 			<mvc:exclude-mapping path="/dist/**"/>
 			<mvc:exclude-mapping path="/assets/**"/>
+			<mvc:exclude-mapping path="/CheckedMail.do"/>
+			<mvc:exclude-mapping path="/RejectMail.do"/>
 			<bean class="com.cside.new_mailing.Interceptor.CommonInterceptor" />	
 		</mvc:interceptor>
 	</mvc:interceptors>

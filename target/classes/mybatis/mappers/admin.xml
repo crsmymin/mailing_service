@@ -12,4 +12,15 @@
                ]]>
 
      </select>
+     
+      <insert id="insertLog" useGeneratedKeys="true" keyProperty="log_id" parameterType="AdminVO">
+     
+     			INSERT INTO reverse_mail.mail_log
+						(login_id,
+						action,
+						page,
+						etc)
+						VALUES	
+              			(#{login_id}, #{action}, #{page}, #{etc})
+     </insert>
 </mapper>

@@ -268,8 +268,17 @@ function Reciever(props) {
     const updateMemberNameList = Array.from(updateMemberName.reduce((m, t) => m.set(t.id,t), new Map()).values());
     const updateMemberMailList = Array.from(updateMemberMail.reduce((m, t) => m.set(t.id,t), new Map()).values());
     const updateMemberList = updateMemberNameList.concat(updateMemberMailList);
+    let checkbox = $("input[name=chkMember]:checked");
+    let delete_id="";
+    
+    for(let i=0;i<checkbox.length;i++){
+      delete_id+=checkbox[i].id+',';
+    }
+    
+    delete_id=delete_id.substring(0, delete_id.lastIndexOf(","));
 
-    if (updateMemberList.length > 0 || memberRows.length > 0) {
+    console.log($("#chkAllMember").prop("checked"));
+    if (updateMemberList.length > 0 || memberRows.length > 0 || delete_id.length > 0) {
       let emailCompare = /^([a-z0-9_.-]+)@([da-z.-]+).([a-z.]{2,6})$/;
       //console.log(memberRows)
       // validate for will add members
@@ -312,7 +321,8 @@ function Reciever(props) {
         url: '/MemberSave.do',
         data: {
           insert: memberRows,
-          update: updateMemberList
+          update: updateMemberList,
+          delete: delete_id
         },
         headers: {
           'Content-Type': 'application/json; charset=utf-8'

@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -19,7 +20,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.cside.new_mailing.Service.AdminService;
 import com.cside.new_mailing.Service.MemberService;
+import com.cside.new_mailing.VO.AdminVO;
 import com.cside.new_mailing.VO.ContentsVO;
 import com.cside.new_mailing.VO.GroupVO;
 import com.cside.new_mailing.VO.MemberVO;
@@ -34,6 +37,8 @@ public class MemberController {
 	@Autowired
 	private MemberService memberService;
 
+	@Autowired
+	private AdminService adminService;
 	
 	@RequestMapping(value = "/GroupSearch.do", method = RequestMethod.GET, produces = "application/json; charset=utf8")
 	@ResponseBody
@@ -91,6 +96,14 @@ public class MemberController {
 	        } catch (JSONException e) {
 	            System.out.println(e.getMessage());
 	        }
+
+			AdminVO vo =new AdminVO();
+			HttpSession session = request.getSession();
+			vo.setAction("Save");
+			vo.setPage("receiver");
+			vo.setEtc("GroupSave");
+			vo.setLogin_id(session.getAttribute("loginID").toString());
+			adminService.insertLog(vo);
 	        
 	    }catch(Exception e) {
 	        System.out.println("Error reading JSON string: " + e.toString());
@@ -137,13 +150,23 @@ public class MemberController {
 	            	result+=memberService.updateMember(list_u);
 	            
 	            String delete_id=o.get("delete").toString().replaceAll("\"", "");
-	            if(!delete_id.equals(null))
+	            System.out.println("delete_id"+delete_id);
+	            if(!(delete_id.equals(null)||delete_id.equals("")))
 	            	result+=memberService.deleteMember(delete_id);
 	            
 	        } catch (JSONException e) {
 	            System.out.println(e.getMessage());
 	        }
-	        
+
+			AdminVO vo =new AdminVO();
+			HttpSession session = request.getSession();
+			vo.setAction("Save");
+			vo.setPage("receiver");
+			vo.setEtc("MemberSave");
+			vo.setLogin_id(session.getAttribute("loginID").toString());
+			System.out.println("log:::"+session.getAttribute("loginID").toString());
+			adminService.insertLog(vo);
+			
 	    }catch(Exception e) {
 	        System.out.println("Error reading JSON string: " + e.toString());
 	    }

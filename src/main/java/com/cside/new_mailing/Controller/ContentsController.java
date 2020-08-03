@@ -3,6 +3,7 @@ package com.cside.new_mailing.Controller;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -14,7 +15,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.cside.new_mailing.DAO.ContentsDAO;
+import com.cside.new_mailing.Service.AdminService;
 import com.cside.new_mailing.Service.ContentsService;
+import com.cside.new_mailing.VO.AdminVO;
 import com.cside.new_mailing.VO.ContentsVO;
 import com.google.gson.Gson;
 
@@ -24,9 +27,21 @@ public class ContentsController {
 	
 	@Autowired
 	private ContentsService contentsService;
+	
+	@Autowired
+	private AdminService adminService;
 
 	@RequestMapping(value = "/list_content")
-	public String list_content() {
+	public String list_content(HttpServletRequest request) {
+		
+		AdminVO vo =new AdminVO();
+		HttpSession session = request.getSession();
+		vo.setAction("Read");
+		vo.setPage("content");
+		vo.setEtc("list_content");
+		vo.setLogin_id(session.getAttribute("loginID").toString());
+		adminService.insertLog(vo);
+		
 		return "/list_content";
 	}
 	
@@ -37,7 +52,7 @@ public class ContentsController {
 	
 	@RequestMapping(value = "/view_content" )
 	@ResponseBody
-	public ModelAndView view_content(@RequestParam(value = "id", required = false) String id) {
+	public ModelAndView view_content(@RequestParam(value = "id", required = false) String id, HttpServletRequest request) {
 		ModelAndView mav = new ModelAndView();
 		if(id != null) {
 			List<ContentsDAO> list = contentsService.getContentsList(id);
@@ -45,6 +60,15 @@ public class ContentsController {
 			mav.addObject("data", json);
 		}
 		mav.setViewName("view_content");
+
+		AdminVO vo =new AdminVO();
+		HttpSession session = request.getSession();
+		vo.setAction("Read");
+		vo.setPage("content");
+		vo.setEtc("view_content");
+		vo.setLogin_id(session.getAttribute("loginID").toString());
+		adminService.insertLog(vo);
+		
 		return mav;
 	}
 	
@@ -55,24 +79,40 @@ public class ContentsController {
 		
 		List<ContentsDAO> list = contentsService.getContentsList(id);
 		String json = new Gson().toJson(list );
+		
 		return json;
     }   
 
 	@RequestMapping(value = "/ContentsInsert.do" , method = RequestMethod.POST, produces = "application/json; charset=utf8")
 	@ResponseBody
-	public String ContentsInsert(@RequestBody ContentsVO vo){
+	public String ContentsInsert(@RequestBody ContentsVO vo2,HttpServletRequest request){
 		
-		String a = contentsService.insertContents(vo);
-		boolean b =  Integer.parseInt(vo.getContents_id())>=1 ;
+		String a = contentsService.insertContents(vo2);
+		boolean b =  Integer.parseInt(vo2.getContents_id())>=1 ;
+
+		AdminVO vo =new AdminVO();
+		HttpSession session = request.getSession();
+		vo.setAction("Create");
+		vo.setPage("content");
+		vo.setLogin_id(session.getAttribute("loginID").toString());
+		adminService.insertLog(vo);
+		
 		return Boolean.toString(b);
     } 
 	
 	@RequestMapping(value = "/ContentsUpdate.do" , method = RequestMethod.POST, produces = "application/json; charset=utf8")
 	@ResponseBody
-    public String ContentsUpdate(@RequestBody ContentsVO vo){
+    public String ContentsUpdate(@RequestBody ContentsVO vo2,HttpServletRequest request){
         
-		boolean a = contentsService.updateContents(vo);
+		boolean a = contentsService.updateContents(vo2);
 		System.out.println("updateContents : "+a);
+
+		AdminVO vo =new AdminVO();
+		HttpSession session = request.getSession();
+		vo.setAction("Update");
+		vo.setPage("content");
+		vo.setLogin_id(session.getAttribute("loginID").toString());
+		adminService.insertLog(vo);
 		
 		return Boolean.toString(a);
     }
@@ -83,6 +123,13 @@ public class ContentsController {
 		String id=request.getParameter("id");
 		boolean a = contentsService.deleteContents(id);
 		System.out.println("deleteContents : "+a);
+		
+		AdminVO vo =new AdminVO();
+		HttpSession session = request.getSession();
+		vo.setAction("Delete");
+		vo.setPage("content");
+		vo.setLogin_id(session.getAttribute("loginID").toString());
+		adminService.insertLog(vo);
 		
 		return Boolean.toString(a);
     }

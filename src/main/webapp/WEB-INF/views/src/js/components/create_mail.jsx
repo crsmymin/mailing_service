@@ -178,30 +178,38 @@ function Create(props) {
     if (st==='booked')
       send_date = document.getElementById("bookedTime").value;
     
-    axios({
-      method: 'post',
-      url: '/SendMailInsert.do',
-      data: {
-        send_subject: mailTitle,      
-        send_mail_list: sendList,
-        contents_id: contentsId,
-        send_datetime: send_date,
-        send_memo: memo
-      },
-      headers: { 
-        'Content-Type': 'application/json; charset=utf-8' 
-      }
-    })
-    .then(res => {
-      const data = res.data;
-      alert("저장되었습니다.");
-      if (st==='direct')
-        sendMail(data);
-      location.href="/list_mail"
-    })
-    .catch(error => {
-      console.log(error)
-    })
+    console.log(mailTitle.length);
+    if(mailTitle.length===0){
+      alert("메일 제목을 입력하세요.");
+    }else if(sendList.length===0){
+      alert("수신인을 선택하세요.");
+    }else{
+      axios({
+        method: 'post',
+        url: '/SendMailInsert.do',
+        data: {
+          send_subject: mailTitle,      
+          send_mail_list: sendList,
+          contents_id: contentsId,
+          send_datetime: send_date,
+          send_memo: memo
+        },
+        headers: { 
+          'Content-Type': 'application/json; charset=utf-8' 
+        }
+      })
+      .then(res => {
+        const data = res.data;
+        alert("저장되었습니다.");
+        if (st==='direct')
+          sendMail(data);
+        location.href="/list_mail"
+      })
+      .catch(error => {
+        console.log(error)
+      })
+    }
+    
   }
   const sendMail = id => {
     axios({
@@ -350,7 +358,7 @@ function Create(props) {
               <a className="btn btn-save" onClick={saveContents}>저장</a>
             </div>
             <div className="content-title-area">
-              콘텐츠 <strong>[ {contentsName} ]</strong> 
+              콘텐츠 <strong>{contentsName}</strong> 
             </div>
             <div className="content-area">
               <div id="loaded-content" dangerouslySetInnerHTML={{__html: contentsHtml}}></div>

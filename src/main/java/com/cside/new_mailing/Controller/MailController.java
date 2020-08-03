@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -16,8 +17,10 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.cside.new_mailing.DAO.ContentsDAO;
 import com.cside.new_mailing.DAO.MailDAO;
+import com.cside.new_mailing.Service.AdminService;
 import com.cside.new_mailing.Service.MailService;
 import com.cside.new_mailing.Service.MemberService;
+import com.cside.new_mailing.VO.AdminVO;
 import com.cside.new_mailing.VO.GroupVO;
 import com.cside.new_mailing.VO.SendListVO;
 import com.cside.new_mailing.VO.SendResultVO;
@@ -30,8 +33,9 @@ public class MailController {
 	
 	@Autowired
 	private MailService mailService;
+
 	@Autowired
-	private MemberService memberService;
+	private AdminService adminService;
 
 	@RequestMapping(value = "/create_mail")
 	public String create_mail() {
@@ -39,12 +43,29 @@ public class MailController {
 	}
 
 	@RequestMapping(value = "/list_mail")
-	public String list_mail() {
+	public String list_mail(HttpServletRequest request) {
+		
+
+		AdminVO voA =new AdminVO();
+		HttpSession session = request.getSession();
+		voA.setAction("Read");
+		voA.setPage("Mail");
+		voA.setEtc("list_mail");
+		voA.setLogin_id(session.getAttribute("loginID").toString());
+		adminService.insertLog(voA);
+		
 		return "/list_mail";
 	}
 
 	@RequestMapping(value = "/view_mail")
-	public String view_mail() {
+	public String view_mail(HttpServletRequest request) {
+		AdminVO voA =new AdminVO();
+		HttpSession session = request.getSession();
+		voA.setAction("Read");
+		voA.setPage("Mail");
+		voA.setEtc("view_mail");
+		voA.setLogin_id(session.getAttribute("loginID").toString());
+		adminService.insertLog(voA);
 		return "/view_mail";
 	}
 	
@@ -60,7 +81,7 @@ public class MailController {
 	
 	@RequestMapping(value = "/SendMailInsert.do" , method = RequestMethod.POST, produces = "application/json; charset=utf8")
 	@ResponseBody
-	public String ContentsInsert(@RequestBody SendListVO vo){
+	public String ContentsInsert(@RequestBody SendListVO vo,HttpServletRequest request){
 		
 		int result = mailService.insertSendMail(vo);
 		
@@ -76,6 +97,14 @@ public class MailController {
         }
 		
 		int a1 = mailService.insertSendResult(list);
+
+		AdminVO voA =new AdminVO();
+		HttpSession session = request.getSession();
+		voA.setAction("Create");
+		voA.setPage("Mail");
+		voA.setLogin_id(session.getAttribute("loginID").toString());
+		adminService.insertLog(voA);
+		
 		
 		return vo.getSend_list_id();
     }
@@ -86,6 +115,13 @@ public class MailController {
     public String ContentsDelete(HttpServletRequest request){
 		String id=request.getParameter("id");
 		boolean a = mailService.deleteMailList(id);
+
+		AdminVO voA =new AdminVO();
+		HttpSession session = request.getSession();
+		voA.setAction("Delete");
+		voA.setPage("Mail");
+		voA.setLogin_id(session.getAttribute("loginID").toString());
+		adminService.insertLog(voA);
 		
 		return Boolean.toString(a);
     }
