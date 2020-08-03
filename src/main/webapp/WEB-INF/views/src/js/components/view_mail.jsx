@@ -150,9 +150,11 @@ function View(props) {
               <li className="date">발송일시: <em>{sendDate.split(".")[0]}</em></li>
               <li className="result">
                 <span>발송: <em>{sendCnt}</em></span>
+                <span><em>/</em></span>
                 <span>대기: <em>{waitCnt}</em></span>
                 <span>성공: <em>{succCnt}</em></span>
                 <span>실패: <em>{failCnt}</em></span>
+                <span><em>/</em></span>
                 <span>수신확인: <em>{mailCheck}</em></span>
                 <span>수신거부: <em>{mailReject}</em></span>
                 <span className="fr">

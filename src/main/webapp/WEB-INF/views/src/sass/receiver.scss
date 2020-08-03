@@ -61,7 +61,6 @@
           width: 100%;
           padding: 5px;
           border: 0;
-          text-align: center;
           font-size: .9rem;
           border: 1px solid #ccc;
           border-radius: 5px;
@@ -69,6 +68,7 @@
           -moz-border-radius: 5px;
           -ms-border-radius: 5px;
           -o-border-radius: 5px;
+          text-align: left;
         }
         select {
           width: 70%;
@@ -85,7 +85,7 @@
       }
     }
     &.group {
-      width: 40%;
+      width: 33%;
       margin: 0 35px 0 0;
       table {
         tr {
@@ -113,6 +113,7 @@
           cursor: pointer;
           input {
             background-color:#fff;
+            text-align: left;
           }
           &:nth-child(1) {
             border-left: 0;
@@ -126,7 +127,7 @@
       }
     }
     &.member {
-      width: 60%;
+      width: 65%;
       table {
         th {
           &:nth-child(1) {
