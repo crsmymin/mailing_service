@@ -75,7 +75,7 @@ public class AdminController {
 		HttpSession session = request.getSession();
 		if (id != null) {
 			session.setAttribute("loginID", id);
-			session.setMaxInactiveInterval(15 * 60);
+			session.setMaxInactiveInterval(30 * 60);
 		}
 
 		return json;
@@ -109,7 +109,7 @@ public class AdminController {
 		for(int i=0;i<list.size();i++) {
 			if (list.get(i).getReject_date() == null) {
 				String message=list.get(i).getContents_html();
-				String tmp="<div><a classname=\"btn btn-save\" href=\"http://13.209.6.204:8080/RejectMail.do?send_mail="+list.get(i).getSend_mail()+"&send_list_id="+list.get(i).getSend_list_id()+"\">수신거부</a><img src=\"http://13.209.6.204:8080/CheckedMail.do?send_mail="+list.get(i).getSend_mail()+"&send_list_id="+list.get(i).getSend_list_id()+"\" border=0 width=0 height=0 /></div>";
+				String tmp="<div style=\"text-align:center; background: ghostwhite; padding: 20px 0;\">본 메일은 회원님의 수신동의 여부를 확인한 결과 회원님께서 수신동의를 하셨기에 발송되었습니다.<br>메일 수신을 원치 않으시면 <a classname=\"btn btn-save\" href=\"http://13.209.6.204:8080/RejectMail.do?send_mail="+list.get(i).getSend_mail()+"&send_list_id="+list.get(i).getSend_list_id()+"\">[수신거부]</a><img src=\"http://13.209.6.204:8080/CheckedMail.do?send_mail="+list.get(i).getSend_mail()+"&send_list_id="+list.get(i).getSend_list_id()+"\" border=0 width=0 height=0 />를 클릭하십시오.<br>If you don't want this type of information or e-mail, please click the <a classname=\"btn btn-save\" href=\"http://13.209.6.204:8080/RejectMail.do?send_mail="+list.get(i).getSend_mail()+"&send_list_id="+list.get(i).getSend_list_id()+"\">[unsubscription]</a></div>";
 				message=message+tmp;
 				
 				EmailVO vo=new EmailVO();

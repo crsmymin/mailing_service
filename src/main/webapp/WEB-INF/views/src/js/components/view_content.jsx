@@ -63,7 +63,7 @@ function View(props) {
           <form id="frmMailContent" onSubmit={onSubmit}>
             <div className="title-area">
               <label>
-              <input id="memo" type="text" name="memo" placeholder="구분" defaultValue={props.contentsMemo} onChange={e => setContentMemo(e.target.value)}/>
+                <input id="memo" type="text" name="memo" placeholder="구분" defaultValue={props.contentsMemo} onChange={e => setContentMemo(e.target.value)}/>
                 <input id="title" type="text" name="title" placeholder="타이틀" defaultValue={props.contentsName} onChange={e => setContentName(e.target.value)}/>
               </label>
             </div>
@@ -77,6 +77,7 @@ function View(props) {
                   toolbar: [
                     ['fontname', ['fontname']],
                     ['font', ['bold', 'underline', 'clear']],
+                    ['color', ['color']],
                     ['para', ['paragraph']],
                     ['table', ['table']],
                     ['insert', ['link']],

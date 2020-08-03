@@ -13,6 +13,7 @@ import 'bootstrap/js/dist/tooltip';
 function Create(props) {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
+  const [memo, setMemo] = useState("");
   
   const onSubmit = e => {
     e.preventDefault();
@@ -27,7 +28,8 @@ function Create(props) {
       url :'/ContentsInsert.do',
       data: {
         contents_name : title,
-        contents_html : content
+        contents_html : content,
+        contents_memo : memo,
       }
     })
     .then(res => {
@@ -58,6 +60,7 @@ function Create(props) {
           <form id="frmMailContent" onSubmit={onSubmit}>
             <div className="title-area">
               <label>
+              <input id="memo" type="text" name="memo" placeholder="구분" onChange={e => setMemo(e.target.value)}/>
                 <input id="title" type="text" name="title" placeholder="타이틀" onChange={e => setTitle(e.target.value)}/>
               </label>
             </div>
@@ -71,6 +74,7 @@ function Create(props) {
                   toolbar: [
                     ['fontname', ['fontname']],
                     ['font', ['bold', 'underline', 'clear']],
+                    ['color', ['color']],
                     ['para', ['paragraph']],
                     ['table', ['table']],
                     ['insert', ['link']],

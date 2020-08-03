@@ -116,7 +116,8 @@ public class MailController {
 	
 	@RequestMapping(value = "/RejectMail.do" )
 	@ResponseBody
-	public String RejectMail(@RequestParam(value = "send_mail", required = false) String send_mail,@RequestParam(value = "send_list_id", required = false) String send_list_id) {
+	public ModelAndView RejectMail(@RequestParam(value = "send_mail", required = false) String send_mail,@RequestParam(value = "send_list_id", required = false) String send_list_id) {
+		ModelAndView mav = new ModelAndView();
 		SendResultVO vo = new SendResultVO();
 		
 		vo.setSend_list_id(send_list_id);
@@ -126,7 +127,9 @@ public class MailController {
 			a = mailService.updateRejectMail(vo);
 			//a = memberService.updateRejectMember(send_mail);
 		}
-		return Boolean.toString(a);
+		mav.addObject("data", a);
+		mav.setViewName("mail_reject");
+		return mav;
 	}
 	
 }
