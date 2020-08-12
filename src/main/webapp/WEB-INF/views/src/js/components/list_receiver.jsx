@@ -1,4 +1,5 @@
 import React, { Fragment, useState, useEffect, useReducer, useRef } from "react";
+import { OutTable, ExcelRenderer } from 'react-excel-renderer';
 import axios from "axios";
 
 let group_id = "";
@@ -17,6 +18,11 @@ function Reciever(props) {
   const [loadingGroup, setLoadingGroup] = useState(false);
   const [loadingMember, setLoadingMember] = useState(false);
   const [deforesaveMember, setSaveMember] = useState(false);
+  const [dataLoaded, setDataLoaded] = useState(false);
+  const [uploadFile, setUploadFile] = useState("");
+  const [rows, setRows] = useState([])
+  const [cols, setCols] = useState([])
+  const [importData, setImportData] = useState([])
 
   // functions
   const _getMember = id => {
@@ -200,9 +206,10 @@ function Reciever(props) {
       email: "",
       group: group_id,
     }
+    console.log(memberRows);
     setMemberRows([...memberRows, data]);
     setSaveMember(true);
-    }else{
+    } else {
       alert('그룹을 선택하세요.');
     }
   }
@@ -359,10 +366,103 @@ function Reciever(props) {
     setSaveMember(true);
   }
 
+  // data upload by sheet
+  const _fileHandler = (event) => {
+    if (group_id != '') {
+      var extension = /(.*?)\.(xlsx)$/;
+      let fileObj = event.target.files[0];
+      let upFile = document.getElementById("upFile").value;
+      let fileName = upFile.split("\\")[2].toLocaleLowerCase();
+
+      if (!fileName.match(extension)) {
+        alert("업로드할수 있는 파일형식은 ( .xlsx ) 확장만 가능합니다");
+        return false;
+      } else {
+        setUploadFile(fileName);
+        ExcelRenderer(fileObj, (err, resp) => {
+          if (err) {
+            console.log(err);
+          } else {
+            const { cols, rows } = resp;
+            setDataLoaded(true);
+            setRows(rows);
+            setCols(cols);
+  
+            const dataArr = [];
+            
+            for(let i = 1; i < rows.length; i++) {
+              const data = {
+                id: i,
+                name: rows[i][0],
+                email: rows[i][1],
+                group: group_id,
+              }   
+              dataArr.push(data);
+            }
+            setImportData(dataArr);
+          }
+        });
+      }
+    } else {
+      event.preventDefault();
+      alert('그룹을 선택하세요.');
+      document.getElementById("upFile").value = "";
+    }
+  }
+
+  const _saveImportedData = () => {
+    let result = confirm("해당 데이터를 저장하시겠습니까?");
+    let emailCompare = /^([a-z0-9_.-]+)@([da-z.-]+).([a-z.]{2,6})$/;
+    if(result) {
+      for (let i = 0; i < importData.length; i++) {
+        if (importData[i].name === undefined || importData[i].email === undefined) {
+          alert("셀내 비어있는 값이 있습니다.");
+          return false;
+        } else if (!emailCompare.test(importData[i].email)) {
+          alert("형식에 맞지 않는 이메일 내역이 있습니다.");
+          return false;
+        }
+      }
+      axios({
+        method: 'post',
+        url: '/MemberSave.do',
+        data: {
+          insert: importData,
+        },
+        headers: {
+          'Content-Type': 'application/json; charset=utf-8'
+        }
+      })
+      .then(res => {
+        const data = res.data;
+        console.log(importData);
+        setSaveMember(false);
+        setMembers([]);
+        setMemberRows([]);
+        _getMember(group_id);
+        _getGroup();
+        alert("저장되었습니다.");
+        setDataLoaded(false);
+      })
+      .catch(error => {
+        console.log(error)
+      })
+    } else {
+      return false;  
+    }
+  }
+
+  const _cancelImportFile = () => {
+    setDataLoaded(false);
+    setRows([]);
+    setCols([]);
+    setImportData([]);
+    document.getElementById("upFile").value = "";
+  }
+
   useEffect(() => {
     _getMember('');
     _getGroup();
-
   }, [props])
 
   return (
@@ -463,6 +563,17 @@ function Reciever(props) {
             onKeyPress={memberSearch()}
           />
         </div>
+        <div id="uploadSheet">
+          <label htmlFor="upFile">
+            Excel 업로드
+            <input 
+            type="file" 
+            name="upFile" 
+            id="upFile" 
+            onChange={_fileHandler.bind(this)}
+            />
+          </label>
+        </div>
         <form>
           {loadingMember === true ? (
             <div className="loading-indicator members">
@@ -544,6 +655,28 @@ function Reciever(props) {
       </div>
       {/* end add member */}
     </div>
+    {dataLoaded === false ? (""):(
+    <div id="overLay">
+      <div id="modalWrap">
+        <h3>
+          *<strong>( 주의 )</strong> 업로드 시트파일 <em>첫번째 열</em>은 저장할 데이터 <em>컬럼명을</em> 필요로합니다<br/>
+          그렇지 않을경우 정상적으로 업로드되지 않을수있습니다.<br />
+          <a href="http://52.79.249.132/sample.xlsx" download>샘플시트 다운로드</a>
+        </h3>
+        <h4>파일명 : {uploadFile}</h4>
+        <OutTable
+        data={rows} 
+        columns={cols} 
+        tableClassName="imported-sheet" 
+        tableHeaderRowClass="heading" 
+        />
+        <div className="btn-wrap">
+          <button onClick={_saveImportedData} className="btn btn-save" type="button">바로저장</button>
+          <button onClick={_cancelImportFile} className="btn btn-del" type="button">취소</button>
+        </div>
+      </div>
+    </div>
+    )}
   </Fragment>
   )
 }

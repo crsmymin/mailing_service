@@ -22,7 +22,6 @@
     form {
       position: relative;
       width: 100%;
-      height: 1px;
     }
     table {
       width: 100%;
@@ -88,6 +87,7 @@
       width: 33%;
       margin: 0 35px 0 0;
       table {
+        margin: 70px 0 0;
         tr {
           &:hover {
             background-color: grey;
@@ -165,6 +165,96 @@
           }
           &:nth-child(5) {
             width: 20%;
+          }
+        }
+      }
+      #uploadSheet {
+        margin: 0 0 15px;
+        width: 100%;
+        height: 40px;
+        overflow: hidden;
+        label {
+          float: right;
+          width: 27%;
+          height: 100%;
+          text-align: center;
+          line-height: 39px;
+          color: #fff;
+          font-size: 13px;
+          background-color: #95c638;
+          border-radius: 10px;
+          -webkit-border-radius: 10px;
+          -moz-border-radius: 10px;
+          -ms-border-radius: 10px;
+          -o-border-radius: 10px;
+          cursor: pointer;
+          input {
+            display: none;
+          }
+        }
+      }
+    }
+  }
+}
+
+// receiver import data modal
+#app {
+  &.receiver {
+    #overLay {
+      display: block;
+      #modalWrap {
+        h3 {
+          text-align: center;
+          font-weight: 400;
+          font-size: 16px;
+          strong {
+            color: red;
+            font-weight: bold;
+            font-size: 17px;
+          }
+          em {
+            font-weight: bold;
+            text-decoration: underline;
+            font-style: normal;
+          }
+          a {
+            text-decoration: underline;
+          }
+        }
+        h4 {
+          font-size: 16px;
+          font-weight: 400;
+          margin: 0 0 15px;
+        }
+        > div {
+          max-height: 350px;
+          overflow-y: scroll;
+        }
+        table {
+          width: 100%;
+          tr {
+            background-color: #c6e6f5;
+            &:first-of-type {
+              display: none;
+            }
+            &:nth-of-type(2) {
+              background-color: #3d5662 !important;
+              color: #fff;
+            }
+            &:nth-of-type(even) {
+              background-color: #e6fbff;
+            }
+            th {
+              padding: 6px 12px;
+              font-size: 14.5px;
+            }
+            td {
+              padding: 6px 12px 7px;
+              font-size: 13.5px;
+              border-top: 1px solid #fff;
+              border-bottom: 1px solid #fff;
+              border-left: 2px solid #fff;
+            }
           }
         }
       }
