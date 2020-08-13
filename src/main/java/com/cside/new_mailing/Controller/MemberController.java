@@ -175,20 +175,21 @@ public class MemberController {
 	@RequestMapping(value = "/MemberSearch.do", method = RequestMethod.GET, produces = "application/json; charset=utf8")
 	@ResponseBody
     public String memberSearchList(HttpServletRequest request){
+		String json = "";
+		try {
+			request.setCharacterEncoding("utf-8");
 		
-		String value=request.getParameter("searchValue");
-		String groupID=request.getParameter("groupID");
-		if(value != null)
-			try {
-				value = new String(value.getBytes("8859_1"), "utf8");
-			} catch (UnsupportedEncodingException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-        List<MemberVO> list = memberService.getMemberList(groupID, value);
+			String value=request.getParameter("searchValue");
+			String groupID=request.getParameter("groupID");
+			//System.out.println(value);
+			
+			 List<MemberVO> list = memberService.getMemberList(groupID, value);
+			json = new Gson().toJson(list );
 		
-		String json = new Gson().toJson(list );
-		
+		} catch (UnsupportedEncodingException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}   
 		return json;
     }
 }

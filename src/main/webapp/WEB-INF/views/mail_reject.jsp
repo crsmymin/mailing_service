@@ -148,6 +148,6 @@ h1, h2 {
 <link href="https://fonts.googleapis.com/css?family=Encode+Sans+Semi+Condensed:100,200,300,400" rel="stylesheet">
 <body>
   <h1>수신거부가 완료되었습니다.</h1>
-  <h2><b>(</b>Unsubscribe request has been completed. :( <b>)</b></h2>
+  <h2><b>Unsubscribe request has been completed. :)</b></h2>
 </body>
 </html>

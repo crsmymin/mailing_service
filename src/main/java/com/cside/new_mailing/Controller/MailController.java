@@ -151,7 +151,7 @@ public class MailController {
 	}
 	
 	@RequestMapping(value = "/RejectMail.do" )
-	@ResponseBody
+	@ResponseBody 
 	public ModelAndView RejectMail(@RequestParam(value = "send_mail", required = false) String send_mail,@RequestParam(value = "send_list_id", required = false) String send_list_id) {
 		ModelAndView mav = new ModelAndView();
 		SendResultVO vo = new SendResultVO();

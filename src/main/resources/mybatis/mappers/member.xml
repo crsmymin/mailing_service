@@ -57,6 +57,7 @@
 		<if test="id != null and !id.equals('')" >
 			AND m.group_id=#{id}
 		</if>
+		GROUP BY member_mail
 		ORDER BY member_name
      </select>
      
