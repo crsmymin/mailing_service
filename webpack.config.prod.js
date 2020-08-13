@@ -1,6 +1,7 @@
 const path = require('path');
 const webpack = require('webpack');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
 module.exports = {
   mode: 'production',
@@ -8,7 +9,10 @@ module.exports = {
     vendors: [
       'jquery',
       'react',
-      'react-dom'
+      'react-dom',
+      'react-app-polyfill/ie11',
+      'react-app-polyfill/stable',
+      'axios'
     ],
     index: "./src/main/webapp/WEB-INF/views/src/index.js",
     content: "./src/main/webapp/WEB-INF/views/src/content.js",
@@ -68,11 +72,12 @@ module.exports = {
   optimization: {
     splitChunks: {
       cacheGroups: {
-        vendors: {
-          test: /[\\/]node_modules[\\/]/,
+        commons: {
+          // test: /[\\/]node_modules[\\/]/,
+          test: 'vendors',
+          chunks: 'initial',
           name: 'vendors',
           enforce: true,
-          chunks: 'all'
         }
       }
     }
@@ -85,6 +90,7 @@ module.exports = {
     new ExtractTextPlugin('app.css'),
     new webpack.DefinePlugin({
       'process.env.NODE_ENV': JSON.stringify('production')
-    })
+    }),
+    new BundleAnalyzerPlugin(), 
   ],
 };

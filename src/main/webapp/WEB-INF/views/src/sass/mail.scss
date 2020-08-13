@@ -107,7 +107,8 @@
             overflow: hidden;
             .btn-download {
               margin: 0 10px 0 0;
-              background-color: #95c638;
+              background: -webkit-gradient(linear, left top, left bottom, from(#97c73d), to(#8fb65b));
+              border: 1px solid forestgreen;
             }
             #viewContent {
               color: #333;

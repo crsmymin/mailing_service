@@ -564,7 +564,7 @@ function Reciever(props) {
           />
         </div>
         <div id="uploadSheet">
-          <label htmlFor="upFile">
+            <label htmlFor="upFile" className="btn">
             Excel 업로드
             <input 
             type="file" 
@@ -659,7 +659,7 @@ function Reciever(props) {
     <div id="overLay">
       <div id="modalWrap">
         <h3>
-          *<strong>( 주의 )</strong> 업로드 시트파일 <em>첫번째 열</em>은 저장할 데이터 <em>컬럼명을</em> 필요로합니다<br/>
+          *<strong>( 주의 )</strong> 업로드 시트파일은 <em>첫번째 열</em>에 저장할 데이터 <em>컬럼명을</em> 필요로합니다,<br/>
           그렇지 않을경우 정상적으로 업로드되지 않을수있습니다.<br />
           <a href="http://52.79.249.132/sample.xlsx" download>샘플시트 다운로드</a>
         </h3>
