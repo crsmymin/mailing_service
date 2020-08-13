@@ -64,7 +64,7 @@
 	
 
      <select id="getSendResultList" parameterType="String" resultType="SendResultVO" >
-               
+            
 		SELECT send_result_id,
 			r.send_list_id,
 			send_mail,
@@ -80,6 +80,7 @@
 		<if test='value != null and value != ""'>
 			AND r.send_list_id = ${value}
 		</if>
+		GROUP BY send_mail
 		ORDER BY send_list_id desc
      </select>
      
@@ -96,7 +97,7 @@
      </insert>
      
      <select id="sendMail" parameterType="String" resultType="SendResultVO" >
-        SELECT * FROM (   
+        
 		SELECT send_result_id,
 			r.send_list_id,
 			send_mail,
@@ -125,8 +126,8 @@
         	 <![CDATA[ and send_datetime <= now()]]>
         </otherwise>
         </choose>
-        ORDER BY send_list_id desc) tbl 
         group by send_mail
+				ORDER BY send_list_id desc
      </select>
      
      <update id="updateSuccMail" parameterType="String" >
