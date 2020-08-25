@@ -3,24 +3,23 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="admin">
-	<select id="getList" parameterType="AdminVO" resultType="string">
+	<select id="getList" parameterType="AccountVO"
+		resultType="java.util.Map">
+		SELECT id,account_group_id
+		FROM mail_account
+		WHERE id=#{id} AND password=#{password}
+		AND delete_date is null
+	</select>
 
-               <![CDATA[
-                       SELECT id
-                       FROM admin
-                       WHERE id=#{id} AND password=#{password}
-               ]]>
+	<insert id="insertLog" useGeneratedKeys="true"
+		keyProperty="log_id" parameterType="AccountVO">
 
-     </select>
-     
-      <insert id="insertLog" useGeneratedKeys="true" keyProperty="log_id" parameterType="AdminVO">
-     
-     			INSERT INTO reverse_mail.mail_log
-						(login_id,
-						action,
-						page,
-						etc)
-						VALUES	
-              			(#{login_id}, #{action}, #{page}, #{etc})
-     </insert>
+		INSERT INTO reverse_mail.mail_log
+		(login_id, 
+		action,
+		page,
+		etc)
+		VALUES
+		(#{login_id}, #{action}, #{page}, #{etc})
+	</insert>
 </mapper>

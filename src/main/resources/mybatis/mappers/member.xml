@@ -3,95 +3,117 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="member">
-	<select id="getGroupList" parameterType="String" resultType="GroupVO">
-               <![CDATA[
-                       SELECT group_id,
-						    group_name,
-						    req_date,
-						    delete_date,
-						    (select count(*) from mail_member as m where g.group_id = m.group_id and m.delete_date is null) AS member_cnt
-						FROM reverse_mail.mail_group g
-						WHERE delete_date IS NULL
-						ORDER BY group_name
-               ]]>
-     </select>
-	 
-	 <insert id="insertGroup" parameterType="java.util.List">
-	    INSERT INTO mail_group (group_name) VALUES
-	    <foreach collection="list" item="item" separator=" , " >
-	        (#{item.group_name})
-	    </foreach>
+	<select id="getGroupList" parameterType="String"
+		resultType="GroupVO">
+		SELECT group_id,
+		group_name,
+		req_date,
+		delete_date,
+		(select
+		count(*) from mail_member as m where g.group_id = m.group_id and
+		m.delete_date is null) AS member_cnt
+		FROM reverse_mail.mail_group g
+		WHERE delete_date IS NULL
+		AND login_group =${value}
+		ORDER BY group_name
+	</select>
+
+	<insert id="insertGroup" parameterType="java.util.List">
+		INSERT INTO mail_group (group_name,login_group) VALUES
+		<foreach collection="list" item="item" separator=" , ">
+			(#{item.group_name},#{item.login_group})
+		</foreach>
 	</insert>
-	
-	 <update id="updateGroup" parameterType="java.util.List" >
-	  <foreach collection="list" item="item" separator=" ; " >
-	 	 update reverse_mail.mail_group set 
-		    group_name = #{item.group_name}
-		  where group_id = ${item.group_id}
-	   </foreach>
+
+	<update id="updateGroup" parameterType="java.util.List">
+		<foreach collection="list" item="item" separator=" ; ">
+			update
+			reverse_mail.mail_group set
+			group_name = #{item.group_name}
+			where
+			group_id = ${item.group_id}
+			and login_group = ${item.login_group}
+		</foreach>
 	</update>
-	
-	 <update id="deleteGroup" parameterType="String" >
-	  update reverse_mail.mail_group set
-		     delete_date = now()
-		  where group_id in (${value})
+
+	<update id="deleteGroup" parameterType="String">
+		update
+		reverse_mail.mail_group set
+		delete_date = now()
+		where group_id in
+		(${id})
+		and login_group = ${login_group}
 	</update>
-     
-     <select id="getMemberList" parameterType="java.util.HashMap" resultType="MemberVO">
-        SELECT member_id,
-		    m.group_id,
-		    g.group_name,
-		    member_name,
-		    member_mail,
-		    m.req_date,
-		    m.delete_date,
-		    j.req_date as rejection_date
-		FROM reverse_mail.mail_member m
-        JOIN mail_group g ON g.group_id = m.group_id
-        LEFT OUTER JOIN mail_rejection j ON j.rejection_mail=m.member_mail
-		WHERE m.delete_date IS NULL
-        AND g.delete_date IS NULL
+
+	<select id="getMemberList" parameterType="java.util.HashMap"
+		resultType="MemberVO">
+		SELECT member_id,
+		m.group_id,
+		g.group_name,
+		member_name,
+		member_mail,
+		m.req_date,
+		m.delete_date,
+		j.req_date as rejection_date
+		FROM
+		reverse_mail.mail_member m
+		JOIN mail_group g ON g.group_id = m.group_id
+		LEFT OUTER JOIN mail_rejection j ON j.rejection_mail=m.member_mail
+		WHERE
+		m.delete_date IS NULL
+		AND g.delete_date IS NULL
 		<if test='value != null'>
-			AND (member_name like CONCAT('%',#{value},'%') OR member_mail like CONCAT('%',#{value},'%'))
+			AND (member_name like CONCAT('%',#{value},'%') OR
+			member_mail like CONCAT('%',#{value},'%'))
 		</if>
-		<if test="id != null and !id.equals('')" >
+		<if test="id != null and !id.equals('')">
 			AND m.group_id=#{id}
+		</if>
+		<if test="login_group != null and !login_group.equals('')">
+			AND m.login_group=#{login_group}
 		</if>
 		GROUP BY member_mail
 		ORDER BY member_name
-     </select>
-     
-     
-	 <insert id="insertMember" parameterType="java.util.List">
-	    INSERT INTO mail_member (member_name,member_mail,group_id) VALUES
-	    <foreach collection="list" item="item" separator=" , " >
-	        (#{item.member_name},#{item.member_mail},#{item.group_id})
-	    </foreach>
+	</select>
+
+	<insert id="insertMember" parameterType="java.util.List">
+		INSERT INTO mail_member (member_name,member_mail,group_id,login_group) VALUES
+		<foreach collection="list" item="item" separator=" , ">
+			(#{item.member_name},#{item.member_mail},#{item.group_id},#{item.login_group})
+		</foreach>
 	</insert>
-	
-     <update id="updateMember" parameterType="java.util.List" >
-	  <foreach collection="list" item="item" separator=" ; " >
-	 	 update reverse_mail.mail_member set
-		    <if test='item.member_name != null'>
-				 member_name = #{item.member_name}
+
+	<update id="updateMember" parameterType="java.util.List">
+		<foreach collection="list" item="item" separator=" ; ">
+			update reverse_mail.mail_member set
+			<if test='item.member_name != null'>
+				member_name = #{item.member_name}
 			</if>
 			<if test='item.member_mail != null'>
-				 member_mail = #{item.member_mail}
+				member_mail = #{item.member_mail}
 			</if>
-		  where member_id = #{item.member_id}
-	   </foreach>
+			where member_id = #{item.member_id}
+			and login_group = #{item.login_group}
+		</foreach>
 	</update>
-	
-	<update id="deleteMember" parameterType="String" >
-	  update reverse_mail.mail_member set
-		     delete_date = now()
-		  where member_id in (${value})
+
+	<update id="deleteMember" parameterType="String">
+		update
+		reverse_mail.mail_member set
+		delete_date = now()
+		where member_id in
+		(${id})
+		and login_group = #{login_group}
 	</update>
-	
-	<update id="updateRejectMember" parameterType="String" >
-		UPDATE  mail_member A INNER JOIN mail_send_result B
-		ON A.member_mail = B.send_mail
-		SET A.rejection_date = now()
+
+	<update id="updateRejectMember" parameterType="String">
+		UPDATE
+		mail_member
+		A INNER JOIN mail_send_result B
+		ON A.member_mail =
+		B.send_mail
+		SET
+		A.rejection_date = now()
 		WHERE B.send_mail = #{value}
 	</update>
 </mapper>

@@ -21,6 +21,7 @@ function Create(props) {
   const [contentsHtml, setContentsHtml] = useState();
   const [searchWord, setSearchWord] = useState("");
   const [sendList, setSendList] = useState("");
+  const [auth, setAuth] = useState(window.sessionStorage.getItem('auth'));
 
   const _getContentsView = () => {
     const loadDt = new Date();
@@ -33,7 +34,7 @@ function Create(props) {
       method: 'get',
       url: '/ContentsSearch.do',
       params : {
-        id : id,
+        id : id
       }
     })
     .then(res => {
@@ -51,7 +52,10 @@ function Create(props) {
   const settingGroup = () => {
     axios({
       method: 'get',
-      url: '/GroupSearch.do'
+      url: '/GroupSearch.do',
+      params: {
+        login_group : auth
+      }
     })
     .then(res => {
       const data = res.data;
@@ -75,7 +79,8 @@ function Create(props) {
       url: '/MemberSearch.do',
       params: {
         searchValue : searchWord,
-        groupID: group_id
+        groupID: group_id,
+        login_group : auth
       },
       headers: { 'Content-Type': 'application/json; charset=utf-8' }
     })
@@ -192,7 +197,8 @@ function Create(props) {
           send_mail_list: sendList,
           contents_id: contentsId,
           send_datetime: send_date,
-          send_memo: memo
+          send_memo: memo,
+          login_group : auth
         },
         headers: { 
           'Content-Type': 'application/json; charset=utf-8' 

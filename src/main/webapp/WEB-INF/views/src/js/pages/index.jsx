@@ -4,10 +4,14 @@ import axios from "axios"
 
 // import components
 import Nav from '../layouts/nav.jsx'
-import Receiver from '../components/list_receiver.jsx'
+import ReceiverList from '../components/list_receiver.jsx'
+import AccountList from '../components/list_account.jsx'
 
-function App(props) {
-  
+const url = window.location.pathname.split("_")[0]
+const pathAccount = "/account";
+const pathReceiver = "/receiver";
+
+function Receiver(props) {
   useEffect(() => {
     
   }, [])
@@ -16,12 +20,31 @@ function App(props) {
     <div className="container">
       <Nav />
       <div className="content">
-        <Receiver />
+        <ReceiverList />
       </div>
     </div>
   )
 }
 
-export default App;
+function Account(props) {
+  useEffect(() => {
+    
+  }, [])
+  
+  return (
+    <div className="container">
+      <Nav />
+      <div className="content">
+        <AccountList />
+      </div>
+    </div>
+  )
+}
 
-ReactDom.render(<App />, document.getElementById("app"));
+export default [Receiver,Account];
+
+if(url === pathReceiver) {
+  ReactDom.render(<Receiver />, document.getElementById("app"));
+} else if (url === pathAccount) {
+  ReactDom.render(<Account />, document.getElementById("app"));
+}

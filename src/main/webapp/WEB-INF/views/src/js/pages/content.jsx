@@ -28,6 +28,7 @@ function ContentList(props) {
 
   const [contents, setContents] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [auth, setAuth] = useState(window.sessionStorage.getItem('auth'));
 
   const _getContents = () => {
     setLoading(true);
@@ -66,6 +67,7 @@ function ContentView(props) {
   const [contentsName, setContentsName] = useState()
   const [contentsHtml, setContentsHtml] = useState()
   const [contentsMemo, setContentsMemo] = useState()
+  const [auth, setAuth] = useState(window.sessionStorage.getItem('auth'));
 
   const _getContentsView = () => {
     const id = location.search.split("=")[1];
@@ -73,7 +75,7 @@ function ContentView(props) {
       method: 'get',
       url: '/ContentsSearch.do',
       params : {
-        id : id,
+        id : id
       }
     })
     .then(res => {

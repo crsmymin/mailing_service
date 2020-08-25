@@ -12,6 +12,7 @@ function List(props) {
   const totalPosts = props.contents.length;
   const totalPages = totalPosts / listsPerPage;
   const pageNumber = [];
+  const [auth, setAuth] = useState(window.sessionStorage.getItem('auth'));
 
   for (let i = 1; i <= Math.ceil(totalPages); i++) {
     pageNumber.push(i);
@@ -57,7 +58,8 @@ function List(props) {
           method: 'get',
           url: '/ContentsDelete.do',
           params: {
-            id: delete_id
+            id: delete_id,
+            login_group : auth
           }
         })
           .then(res => {

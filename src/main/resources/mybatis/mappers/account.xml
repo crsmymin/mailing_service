@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="account">
+	<select id="getGroupList" parameterType="String"
+		resultType="AccountVO">
+		SELECT group_id,
+		group_name,
+		req_date,
+		delete_date,
+		(select count(*) from mail_account as a where g.group_id = a.account_group_id
+		and a.delete_date is null) AS account_cnt
+		FROM account_group g
+		WHERE g.delete_date IS NULL
+	</select>
+
+	<insert id="insertGroup" parameterType="java.util.List">
+		INSERT INTO account_group (group_name) VALUES
+		<foreach collection="list" item="item" separator=" , ">
+			(#{item.group_name})
+		</foreach>
+	</insert>
+
+	<update id="updateGroup" parameterType="java.util.List">
+		<foreach collection="list" item="item" separator=" ; ">
+			update reverse_mail.account_group set
+			group_name = #{item.group_name}
+			where group_id = ${item.group_id}
+		</foreach>
+	</update>
+
+	<update id="deleteGroup" parameterType="String">
+		update reverse_mail.account_group set
+		delete_date = now()
+		where group_id in (${value})
+	</update>
+
+	<select id="getAccountList" parameterType="java.util.HashMap"
+		resultType="AccountVO">
+		SELECT account_id,
+		id,
+		password,
+		req_date,
+		delete_date,
+		account_group_id,
+		(select group_name from account_group where group_id =account_group_id) as
+		group_name
+		FROM mail_account
+		WHERE delete_date IS NULL
+		<if test="id != null and !id.equals('')">
+			AND account_group_id=#{id}
+		</if>
+	</select>
+
+
+	<insert id="insertAccount" parameterType="java.util.List">
+		INSERT INTO mail_account (id,password,account_group_id) VALUES
+		<foreach collection="list" item="item" separator=" , ">
+			(#{item.id},#{item.password},#{item.group_id})
+		</foreach>
+	</insert>
+
+	<update id="updateAccount" parameterType="java.util.List">
+		<foreach collection="list" item="item" separator=" ; ">
+			update reverse_mail.mail_account set
+			<if test='item.id != null'>
+				id = #{item.id}
+			</if>
+			<if test='item.password != null'>
+				password = #{item.password}
+			</if>
+			where account_id = #{item.account_id}
+		</foreach>
+	</update>
+
+	<update id="deleteAccount" parameterType="String">
+		update reverse_mail.mail_account set
+		delete_date = now()
+		where account_id in (${value})
+	</update>
+
+</mapper>

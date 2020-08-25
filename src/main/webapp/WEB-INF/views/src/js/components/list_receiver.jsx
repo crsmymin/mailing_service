@@ -4,7 +4,7 @@ import axios from "axios";
 
 let group_id = "";
 
-function Reciever(props) {
+function RecieverList(props) {
 
   // initial states
   const [memberRows, setMemberRows] = useState([]);
@@ -23,6 +23,7 @@ function Reciever(props) {
   const [rows, setRows] = useState([])
   const [cols, setCols] = useState([])
   const [importData, setImportData] = useState([])
+  const [auth, setAuth] = useState(window.sessionStorage.getItem('auth'));
 
   // functions
   const _getMember = id => {
@@ -32,7 +33,8 @@ function Reciever(props) {
       method: 'get',
       url: '/MemberSearch.do',
       params: {
-        groupID: id
+        groupID: id,
+        login_group : auth
       },
     })
     .then(res => {
@@ -52,7 +54,10 @@ function Reciever(props) {
     setLoadingGroup(true);
     axios({
       method: 'get',
-      url: '/GroupSearch.do'
+      url: '/GroupSearch.do',
+      params: {
+        login_group : auth
+      }
     })
     .then(res => {
       const data = res.data;
@@ -102,7 +107,8 @@ function Reciever(props) {
             url: '/MemberSearch.do',
             params: {
               searchValue : searchWord,
-              groupID: group_id
+              groupID: group_id,
+              login_group : auth
             },
             headers: { 'Content-Type': 'application/json; charset=utf-8' }
           })
@@ -250,7 +256,8 @@ function Reciever(props) {
         data: {
           insert: groupRows,
           update: updateGroupList,
-          delete: delete_id
+          delete: delete_id,
+          login_group : auth
         },
         headers: { 'Content-Type': 'application/json; charset=utf-8' }
       })
@@ -329,7 +336,8 @@ function Reciever(props) {
         data: {
           insert: memberRows,
           update: updateMemberList,
-          delete: delete_id
+          delete: delete_id,
+          login_group : auth
         },
         headers: {
           'Content-Type': 'application/json; charset=utf-8'
@@ -428,6 +436,7 @@ function Reciever(props) {
         url: '/MemberSave.do',
         data: {
           insert: importData,
+          login_group : auth
         },
         headers: {
           'Content-Type': 'application/json; charset=utf-8'
@@ -681,4 +690,4 @@ function Reciever(props) {
   )
 }
 
-export default Reciever;
+export default RecieverList;

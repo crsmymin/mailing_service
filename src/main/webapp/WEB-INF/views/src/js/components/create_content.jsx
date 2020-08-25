@@ -14,7 +14,8 @@ function Create(props) {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const [memo, setMemo] = useState("");
-  
+  const [auth, setAuth] = useState(window.sessionStorage.getItem('auth'));
+
   const onSubmit = e => {
     e.preventDefault();
     if (title === '' || title === ' ') {
@@ -30,6 +31,7 @@ function Create(props) {
         contents_name : title,
         contents_html : content,
         contents_memo : memo,
+        login_group : auth
       }
     })
     .then(res => {

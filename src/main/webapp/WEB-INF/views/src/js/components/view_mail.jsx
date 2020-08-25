@@ -25,6 +25,7 @@ function View(props) {
   const totalPages = totalPosts / listsPerPage;
   const pageNumber = [];
   const [loading, setLoading] = useState(false);
+  const [auth, setAuth] = useState(window.sessionStorage.getItem('auth'));
 
   for (let i = 1; i <= Math.ceil(totalPages); i++) {
     pageNumber.push(i);
@@ -71,7 +72,7 @@ function View(props) {
       method: 'get',
       url: '/SendMailSearch.do',
       params : {
-        id : id,
+        id : id
       }
     })
     .then(res => {
@@ -113,6 +114,7 @@ function View(props) {
       url: '/SendResultSearch.do',
       params : {
         id : id,
+        login_group : auth
       }
     })
     .then(res => {

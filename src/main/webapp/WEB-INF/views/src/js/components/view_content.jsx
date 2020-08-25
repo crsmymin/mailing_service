@@ -14,6 +14,7 @@ function View(props) {
   const [contentName, setContentName] = useState("");
   const [contentHtml, setContentHtml] = useState("");
   const [contentMemo, setContentMemo] = useState("");
+  const [auth, setAuth] = useState(window.sessionStorage.getItem('auth'));
   
   useEffect(
     () => {
@@ -40,6 +41,7 @@ function View(props) {
         contents_name : contentName,
         contents_html: contentHtml,
         contents_memo : contentMemo,
+        login_group : auth
       }
     })
     .then(res => {

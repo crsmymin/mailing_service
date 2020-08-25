@@ -10,9 +10,8 @@
   <link rel="stylesheet" href="./dist/app.css">
 </head>
 <body>
-  <div id="app" class="receiver"></div>
+  <div id="app" class="account"></div>
   <script src="./dist/vendors.bundle.js"></script>
   <script src="./dist/index.bundle.js"></script>
- 
 </body>
 </html>

@@ -3,44 +3,55 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="contents">
-	<select id="getContentsList" parameterType="String" resultType="ContentsVO">
-               
-                SELECT contents_id,
-				    contents_name,
-				    contents_send_yn,
-				    req_date,
-				    delete_date,
-				    contents_html,
-				    contents_memo
-				FROM reverse_mail.mail_contents
-				WHERE delete_date is null
-				<if test='value != null'>
-					AND contents_id = #{0}
-				</if> 
-     </select>
-     
-     <insert id="insertContents" useGeneratedKeys="true" keyProperty="contents_id" parameterType="ContentsVO">
-     
-     			INSERT INTO reverse_mail.mail_contents
-						(contents_name,
-						contents_html,contents_memo)
-						VALUES	
-              			(#{contents_name}, #{contents_html}, #{contents_memo})
-     </insert>
-     
-     <update id="updateContents" parameterType="ContentsVO" >
-	  update reverse_mail.mail_contents set
-	    contents_name = #{contents_name},
-	    contents_send_yn = #{contents_send_yn},
-	    contents_html = #{contents_html},
-	    contents_memo = #{contents_memo}
-	  where contents_id = #{contents_id}
+	<select id="getContentsList" parameterType="java.util.HashMap"
+		resultType="ContentsVO">
+		SELECT contents_id,
+		contents_name,
+		contents_send_yn,
+		req_date,
+		delete_date,
+		contents_html,
+		contents_memo
+		FROM reverse_mail.mail_contents
+		WHERE delete_date is null
+		<if test="id != null and !id.equals('')">
+			AND contents_id = #{id}
+		</if>
+		<if test="login_group != null and !login_group.equals('')">
+			AND login_group = #{login_group}
+		</if>
+	</select>
+
+	<insert id="insertContents" useGeneratedKeys="true"
+		keyProperty="contents_id" parameterType="ContentsVO">
+
+		INSERT INTO
+		reverse_mail.mail_contents
+		(contents_name,
+		contents_html,contents_memo,login_group)
+		VALUES
+		(#{contents_name},
+		#{contents_html}, #{contents_memo}, #{login_group})
+	</insert>
+
+	<update id="updateContents" parameterType="ContentsVO">
+		update
+		reverse_mail.mail_contents set
+		contents_name = #{contents_name},
+		contents_send_yn = #{contents_send_yn},
+		contents_html =
+		#{contents_html},
+		contents_memo = #{contents_memo}
+		where contents_id =
+		#{contents_id} AND login_group = #{login_group}
 	</update>
-	
-	<update id="deleteContents" parameterType="String" >
-	  update reverse_mail.mail_contents set
-	    delete_date = now()
-	  where contents_id in (${value})
+
+	<update id="deleteContents" parameterType="String">
+		update
+		reverse_mail.mail_contents set
+		delete_date = now()
+		where contents_id in
+		(${id}) and login_group = #{login_group}
 	</update>
-     
+
 </mapper>

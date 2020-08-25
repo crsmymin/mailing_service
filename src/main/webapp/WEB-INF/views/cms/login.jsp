@@ -28,9 +28,12 @@ $(document).ready(function(){
 	   	     	contentType: 'application/json',
 	   	        success:function(data){
 	   	        	var id=data.id;
+	   	        	var auth=data.auth;
 	   	        	if(id=="undefined" || id=="" || id==null){
 	   	        		alert("입력한 계정정보가 존재하지 않습니다.");
 	   	        	}else{
+						window.sessionStorage.setItem("loginID", id);
+						window.sessionStorage.setItem("auth", auth);
 	   	        		window.location.href ="/receiver";	
 	   	        	}
 	   	        },
@@ -48,7 +51,7 @@ $(document).ready(function(){
 			<img class="logo" src="assets/images/cc_logo.png" style="width: 65%;padding: 35px 49px;">
 		</div>
 		<input type="text" class="signUpInput" name="id" placeholder="user name" autofocus required> 
-		<input type="password" class="signUpInput" name="password" id="password" placeholder="password" onkeyup="enterkey();" required> 
+		<input type="password" class="signUpInput" name="password" id="password" placeholder="password" required> 
 		<input type="button" value="Login" id="Login" class="signUpButton">
 	</form>
 </body>
