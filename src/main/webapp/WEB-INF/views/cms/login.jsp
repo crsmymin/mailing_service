@@ -8,7 +8,7 @@
   <style>
     .login-wrap {
       width: 900px;
-      margin: 300px auto 0;
+      margin: 6vh auto 0;
       box-shadow: 7.5px 10.6px 33.1px 4.9px rgba(225, 237, 242, 0.65);
       background-color: #ffffff;
     }
@@ -106,7 +106,7 @@
         <img src="assets/images/logo.png" alt="" class="logo">
         <form name="loginFrm" id="loginFrm">
           <label for="userName">
-            <input id="id" type="text" placeholder="User name">
+            <input id="userName" type="text" placeholder="User name">
             <div class="liner"></div>
           </label>
           <label for="password">
@@ -130,7 +130,7 @@
 
   function formSubmit() {
       var data = {
-        id: loginFrm.id.value,
+        id: loginFrm.userName.value,
         password: loginFrm.password.value
       }
       $.ajax({
