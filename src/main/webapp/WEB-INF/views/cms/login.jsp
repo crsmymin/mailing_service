@@ -106,7 +106,7 @@
         <img src="assets/images/logo.png" alt="" class="logo">
         <form name="loginFrm" id="loginFrm">
           <label for="userName">
-            <input id="userName" type="text" placeholder="User name">
+            <input id="id" type="text" placeholder="User name">
             <div class="liner"></div>
           </label>
           <label for="password">
