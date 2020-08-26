@@ -17,14 +17,14 @@ http://www.springframework.org/schema/task/spring-task.xsd">
 	<!-- Connection Pool DataSource -->
 	<bean id="dataSource"
 		class="org.apache.commons.dbcp.BasicDataSource">
-		<property name="driverClassName" value="net.sf.log4jdbc.sql.jdbcapi.DriverSpy" 
+		<!--<property name="driverClassName" value="net.sf.log4jdbc.sql.jdbcapi.DriverSpy" 
 			/> <property name="url" value="jdbc:log4jdbc:mysql://13.209.6.204:3306/reverse_mail?allowMultiQueries=true&amp;autoReconnection=true&amp;serverTimezone=Asia/Seoul&amp;characterEncoding=UTF-8&amp;useSSL=false" 
-			/> 
-		<!--<property name="driverClassName"
+			/>   -->
+		<property name="driverClassName"
 			value="com.mysql.jdbc.Driver" />
 		<property name="url"
 			value="jdbc:mysql://13.209.6.204:3306/reverse_mail?autoReconnection=true&amp;serverTimezone=Asia/Seoul&amp;characterEncoding=UTF-8&amp;useSSL=false" />
-		  -->
+		 
 		<property name="username" value="ccadmin" />
 		<property name="password" value="ccadmin1234!" />
 	</bean>
@@ -33,8 +33,8 @@ http://www.springframework.org/schema/task/spring-task.xsd">
 		class="org.springframework.mail.javamail.JavaMailSenderImpl">
 		<property name="host" value="smtp.gmail.com" />
 		<property name="port" value="587" />
-		<property name="username" value="master@conative-c.co.kr" />
-		<property name="password" value="cside9420#@!" />
+		<property name="username" value="mailing@conative-c.co.kr" />
+		<property name="password" value="cside0804!@#" />
 		<property name="javaMailProperties">
 			<props>
 				<prop key="mail.smtp.auth">true</prop>
