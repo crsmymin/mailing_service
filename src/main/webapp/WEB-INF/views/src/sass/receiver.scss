@@ -1,6 +1,15 @@
 .receiver-management {
   display: flex;
   .box {
+    padding: 16px;
+    border-radius: 8px;
+    box-shadow: 2.3px 3.3px 11.1px 2px rgba(209, 219, 225, 0.25);
+    background-color: #fff;
+    overflow: hidden;
+    -webkit-border-radius: 8px;
+    -moz-border-radius: 8px;
+    -ms-border-radius: 8px;
+    -o-border-radius: 8px;
     .top-line {
       strong {
         font-size: 1.2rem;
@@ -14,7 +23,7 @@
           width: 250px;
           border: 1px solid $main-color;
           border-radius: 5px;
-          box-shadow: 2px 2px 0 0 $main-color;
+          box-shadow: .5px .5px 0 0 $main-color;
           outline: none;
         }
       }
@@ -25,9 +34,6 @@
     }
     table {
       width: 100%;
-      box-shadow: 0px 3px 3px -2px rgba(0, 0, 0, 0.2),
-      0px 3px 4px 0px rgba(0, 0, 0, 0.14),
-      0px 1px 8px 0px rgba(0, 0, 0, 0.12);
       thead,
       tbody tr {
         display: table;
@@ -47,7 +53,7 @@
         }
         &::-webkit-scrollbar-thumb {
           border-radius: 4px;
-          background-color: rgba(0, 0, 0, .5);
+          background-color: rgba(0, 0, 0, .2);
           -webkit-box-shadow: 0 0 1px rgba(255, 255, 255, .7);
         }
         &::-webkit-scrollbar-track {
@@ -61,7 +67,7 @@
           padding: 5px;
           border: 0;
           font-size: .9rem;
-          border: 1px solid #ccc;
+          border: 1px solid $main-color;
           border-radius: 5px;
           -webkit-border-radius: 5px;
           -moz-border-radius: 5px;
@@ -87,13 +93,14 @@
       width: 33%;
       margin: 0 35px 0 0;
       table {
-        margin: 70px 0 0;
-        tr {
-          &:hover {
-            background-color: grey;
-          }
-          &.selected {
-            background-color: grey;
+        tbody{
+          tr {
+            &:hover {
+              background-color: #f4fcff;
+            }
+            &.selected {
+              background-color: #f4fcff;
+            }
           }
         }
         th {
@@ -131,6 +138,26 @@
     }
     &.member {
       width: 65%;
+      #uploadSheet {
+        display: inline;
+        overflow: hidden;
+        margin: 0 0 0 6px;
+        label {
+          padding: 9px 12px 10px;
+          font-size: .85rem;
+          border-radius: 10px;
+          -webkit-border-radius: 10px;
+          -moz-border-radius: 10px;
+          -ms-border-radius: 10px;
+          -o-border-radius: 10px;
+          color: $main-color;
+          border: 1px solid $main-color;
+          cursor: pointer;
+          input {
+            display: none;
+          }
+        }
+      }
       table {
         th {
           &:nth-child(1) {
@@ -168,31 +195,6 @@
           }
           &:nth-child(5) {
             width: 20%;
-          }
-        }
-      }
-      #uploadSheet {
-        margin: 0 0 15px;
-        width: 100%;
-        height: 40px;
-        overflow: hidden;
-        label {
-          float: right;
-          width: 27%;
-          height: 100%;
-          text-align: center;
-          color: #fff;
-          font-size: 13px;
-          background: -webkit-gradient(linear, left top, left bottom, from(#97c73d), to(#8fb65b));
-          border: 1px solid forestgreen;
-          border-radius: 10px;
-          -webkit-border-radius: 10px;
-          -moz-border-radius: 10px;
-          -ms-border-radius: 10px;
-          -o-border-radius: 10px;
-          cursor: pointer;
-          input {
-            display: none;
           }
         }
       }

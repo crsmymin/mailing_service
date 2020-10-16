@@ -142,7 +142,7 @@
             }
           }
           tr.checked {
-            background-color: #97b8f4;
+            background-color: #0099cb;
             color: #fff;
           }
         }
@@ -169,7 +169,7 @@
               padding: 2px 3px;
 
               &:checked {
-                background-color: cornflowerblue;
+                background-color: #0099cb;
                 color: #fff;
               }
             }
@@ -188,9 +188,10 @@
             -o-border-radius: 5px;
             width: 70px;
             color: #fff;
-
             &#btnAddList {
               margin: 140px auto 0;
+              border: solid 1px #0099cb;
+              background: #0099cb;
             }
 
             &#btnRemoveList {

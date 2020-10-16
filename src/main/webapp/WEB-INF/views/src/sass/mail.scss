@@ -1,12 +1,13 @@
 // list
 .list-mail-send {
   position: relative;
+  padding: 16px;
+  border-radius: 8px;
+  box-shadow: 2.3px 3.3px 11.1px 2px rgba(209, 219, 225, 0.25);
+  background-color: #ffffff;
   .box {
     table {
       width: 100%;
-      box-shadow: 0px 3px 3px -2px rgba(0, 0, 0, 0.2),
-        0px 3px 4px 0px rgba(0, 0, 0, 0.14),
-        0px 1px 8px 0px rgba(0, 0, 0, 0.12);
       th {
         &:nth-child(1) {
           border-left: 0;
@@ -77,6 +78,10 @@
 
 // view
 .view-mail-send {
+  padding: 16px;
+  border-radius: 8px;
+  box-shadow: 2.3px 3.3px 11.1px 2px rgba(209, 219, 225, 0.25);
+  background-color: #ffffff;
   .box {
     &.state-send {
       margin: 0 0 25px;
@@ -107,8 +112,9 @@
             overflow: hidden;
             .btn-download {
               margin: 0 10px 0 0;
-              background: -webkit-gradient(linear, left top, left bottom, from(#97c73d), to(#8fb65b));
-              border: 1px solid forestgreen;
+              border: 1px solid $main-color;
+              color: $main-color;
+              background-color: #fff;
             }
             #viewContent {
               color: #333;
@@ -145,9 +151,6 @@
     }
     table {
       width: 100%;
-      box-shadow: 0px 3px 3px -2px rgba(0, 0, 0, 0.2),
-      0px 3px 4px 0px rgba(0, 0, 0, 0.14),
-      0px 1px 8px 0px rgba(0, 0, 0, 0.12);
       th {
         &:nth-child(1) {
           width: 35%;
@@ -191,6 +194,10 @@
 
 // create
 .create-mail-send {
+  padding: 16px;
+  border-radius: 8px;
+  box-shadow: 2.3px 3.3px 11.1px 2px rgba(209, 219, 225, 0.25);
+  background-color: #ffffff;
   form {
     label {
       width: 100%;
@@ -228,7 +235,7 @@
       label {
         overflow: hidden;
         #sendMailList {
-          width: 90%;
+          width: 89.8%;
           float: left;
           font-size: 15px;
           color: #000;

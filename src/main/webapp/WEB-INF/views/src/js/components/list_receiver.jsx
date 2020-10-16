@@ -560,6 +560,17 @@ function RecieverList(props) {
           <strong className="fl">멤버</strong>
           <div className="btn-wrap fr">
             <button type="button" className="btn btn-add" onClick={addMember}>추가</button>
+            <div id="uploadSheet">
+              <label htmlFor="upFile" className="btn">
+                Excel 업로드
+                <input
+                  type="file"
+                  name="upFile"
+                  id="upFile"
+                  onChange={_fileHandler.bind(this)}
+                />
+              </label>
+            </div>
             <button type="button" className="btn btn-save" onClick={saveMember}>저장</button>
           </div>
           <input
@@ -571,17 +582,6 @@ function RecieverList(props) {
             onChange={e => setSearchWord(e.target.value)}
             onKeyPress={memberSearch()}
           />
-        </div>
-        <div id="uploadSheet">
-            <label htmlFor="upFile" className="btn">
-            Excel 업로드
-            <input 
-            type="file" 
-            name="upFile" 
-            id="upFile" 
-            onChange={_fileHandler.bind(this)}
-            />
-          </label>
         </div>
         <form>
           {loadingMember === true ? (
