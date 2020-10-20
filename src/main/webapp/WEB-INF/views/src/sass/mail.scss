@@ -36,6 +36,7 @@
         }
       }
       td {
+        border-bottom: 1px solid #f3f3f3;
         a {
           color: #333;
           &:hover {
@@ -120,7 +121,7 @@
               color: #333;
               font-size: 18px;
               font-weight: bold;
-              display: inline-block;
+              display: flex;
               padding: 3px;
             }
             span {
@@ -169,6 +170,7 @@
         }
       }
       td {
+        border-bottom: 1px solid #f3f3f3;
         &.result_fail{
           color: red;
         }

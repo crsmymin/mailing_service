@@ -4,7 +4,7 @@
 <head>
 <meta charset="UTF-8">
 <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.js"></script> 
-<title>수신거부</title>
+<title>Cview-M</title>
 <script type="text/javascript">
 $(document).ready(function(){
 	const stackContainer = document.querySelector('.stack-container');

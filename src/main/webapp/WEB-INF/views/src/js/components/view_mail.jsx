@@ -159,6 +159,7 @@ function View(props) {
                 <span><em>/</em></span>
                 <span>수신확인: <em>{mailCheck}</em></span>
                 <span>수신거부: <em>{mailReject}</em></span>
+                <a id="viewContent" href={"/view_content?id=" + content}>[ 컨텐츠 내용보기 ]</a>
                 <span className="fr">
                   <Workbook filename={title + ".xlsx"} element={<button className="btn btn-download">Excel 다운로드</button>}>
                     <Workbook.Sheet data={mailList} name="발송리스트">
@@ -179,7 +180,6 @@ function View(props) {
                       <Workbook.Column label="발송일시" value="send_date" />
                     </Workbook.Sheet>
                   </Workbook>
-                  <a id="viewContent" href={"/view_content?id=" + content}>[ 컨텐츠 내용보기 ]</a>
                 </span>
               </li>
             </ul>

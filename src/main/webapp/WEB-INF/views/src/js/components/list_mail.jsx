@@ -93,7 +93,7 @@ function List(props) {
   return (
     <Fragment>
       <h2 className="page-title">
-        메일 발송 리스트
+        메일 발송 관리
       </h2>
       <div className="list-mail-send">
         <div className="top-line cf">

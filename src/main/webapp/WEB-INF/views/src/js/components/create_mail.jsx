@@ -123,6 +123,8 @@ function Create(props) {
           inner +="<tr className='tr-members created'>"+tr[j].innerHTML+"</tr>";
         }
       }
+      $(".will-add-list .tr-members").removeClass("checked");
+      $( '.will-add-list input[name="chkMember"]' ).prop("checked", false);
       //console.log(data_array)
       $("#didMemberTbl").append(inner);
 
@@ -423,8 +425,8 @@ function Create(props) {
             </div>
             
             <div className="box indicator">
-              <button id="btnAddList" className="btn-save" type="button" onClick={addReceiverList}>추가</button>
-              <button id="btnRemoveList" className="btn-del" type="button" onClick={removeReceiverList}>제거</button>
+              <button id="btnAddList" className="btn-save" type="button" onClick={addReceiverList}>추가 {'>'}</button>
+              <button id="btnRemoveList" className="btn-del" type="button" onClick={removeReceiverList}>{'<'} 제거</button>
             </div>        
 
             <div className="box did-add-list">
