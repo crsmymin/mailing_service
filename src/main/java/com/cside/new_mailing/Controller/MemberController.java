@@ -115,7 +115,7 @@ public class MemberController {
 			String groupID = request.getParameter("groupID");
 			String login_group = request.getParameter("login_group");
 
-			System.out.println("??"+value+"  "+groupID+" "+login_group);
+			//System.out.println("??"+value+"  groupID:"+groupID+" login_group:"+login_group);
 			List<MemberVO> list = memberService.getMemberList(groupID, value, login_group);
 			json = new Gson().toJson(list);
 
@@ -181,7 +181,7 @@ public class MemberController {
 				vo.setPage("receiver");
 				vo.setEtc("MemberSave");
 				vo.setLogin_id(session.getAttribute("loginID").toString());
-				System.out.println("log:::" + session.getAttribute("loginID").toString());
+				//System.out.println("log:::" + session.getAttribute("loginID").toString());
 				adminService.insertLog(vo);
 			}
 
